@@ -19,6 +19,18 @@ jobs:
 
       - name: Run a one-line script
         run: echo Hello, world!
+        
+      #credentials to connect to AWS
+      - name: Configure AWS credentials from Production account
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+          profile_name: default
+          project_name: <your project name>
+          runtime: python3.7
+          s3_bucket: <your bucket name>
 
   deploy:
     runs-on: ubuntu-latest
