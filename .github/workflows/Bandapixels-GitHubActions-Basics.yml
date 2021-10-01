@@ -30,6 +30,7 @@ jobs:
 
 
   deploy:
+    
     runs-on: ubuntu-latest
 
     strategy:
@@ -44,6 +45,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - run: npm run build
     - run: npm i
     - run: npm run start
   
