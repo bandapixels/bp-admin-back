@@ -42,13 +42,12 @@ jobs:
 
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} &&
-          ls && pwd
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
           cd /var/www/html/prod/bp-admin-back &&
           git checkout main &&
           git fetch --all &&
           git reset --hard origin/master &&
-          git pull origin master
+          git pull origin master '
 
 
 
