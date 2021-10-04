@@ -1,6 +1,7 @@
-import {Body, Controller, Get} from '@nestjs/common';
+import {Body, Controller, Get, HttpException, Post} from '@nestjs/common';
 import { AppService } from '../Service/app.service';
-import CreateUserDto from "dto/reateUser.dto";
+import {UserDto} from "dto/createUser.dto";
+import {asyncFunctionWrapper} from "src/Helpers/async.function.wrapper";
 
 @Controller('users')
 export class AppController {
@@ -8,11 +9,29 @@ export class AppController {
 
   @Get('/all-users')
   allUsers(): any {
-    return this.appService.allUsers();
+    const getUsers = this.appService.allUsers();
+    if(!getUsers) {
+      throw new Error('User not exists');
+    }
+    return getUsers;
   }
 
-  @Get('/registration')
-  registration(@Body() createUserDto: CreateUserDto): any {
-    return this.appService.registration(createUserDto);
+  @Post('/registration')
+  registration(@Body() UserDto: UserDto): any {
+    const register = this.appService.registration(UserDto);
+    if(!register) {
+      throw new Error('You cannot register, enter other details later');
+    }
+    return register;
+  }
+
+  @Post('/login')
+  login(@Body() UserDto: UserDto): any {
+    const logined = this.appService.login(UserDto);
+
+    if(!logined) {
+      throw new Error('Error authorization, enter other details later');
+    }
+    return logined;
   }
 }
