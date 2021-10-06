@@ -2,5 +2,5 @@ export class UserDto {
   name: string;
   email: string;
   password: string;
-  token: string;
+  refreshToken: string;
 }
