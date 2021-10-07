@@ -1,12 +1,14 @@
-import {MiddlewareConsumer, Module, NestModule} from '@nestjs/common';
-import { LoggerMiddleware } from './Middlewares/logger.middleware'
-import {UserService} from 'src/Service/User/user.service';
+import {forwardRef, MiddlewareConsumer, Module, NestModule} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
-import {User} from 'entity/User';
-import {UserController} from 'src/Api-Router/User/user.controller';
+import {UsersModule} from "src/auth/Models/users.module";
+import {UserController} from "src/auth/Controllers/user.controller";
+import {UserService} from "src/auth/Service/User/user.service";
+import {LoggerMiddleware} from "src/auth/Middlewares/logger.middleware";
+import {User} from "src/auth/entity/User";
 
 @Module({
   imports: [
+    forwardRef(() => UsersModule),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',

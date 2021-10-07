@@ -1,4 +1,5 @@
 import {Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn} from 'typeorm';
+import {Role} from "src/auth/Models/role.enum";
 
 @Entity()
 export class User {
@@ -8,11 +9,14 @@ export class User {
   @Column()
   name: string;
 
-  @Column()
+  @Column({unique: true})
   email: string;
 
   @Column()
   password: string;
+
+  @Column({type:'enum', enum:Role, default:Role.USER})
+  role: Role;
 
   @Column()
   refreshToken: string;

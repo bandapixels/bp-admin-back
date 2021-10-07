@@ -1,13 +1,18 @@
-import {Headers, Body, Controller, Get, Post} from '@nestjs/common';
-import {UserService} from 'src/Service/User/user.service';
-import {UserDto} from 'dto/createUser.dto';
-import valid from 'src/Helpers/incoming.data.validator';
+import {Body, Controller, Get, Headers, Post, UseGuards} from '@nestjs/common';
+import {UserService} from "src/auth/Service/User/user.service";
+import valid from "src/auth/Helpers/incoming.data.validator";
+import {UserDto} from '../dto/createUser.dto'
+import {Roles} from "src/auth/decorators/roles.decorator";
+import {Role} from "src/auth/Models/role.enum";
+import {RolesGuard} from "src/auth/guards/roles.guard";
 
 @Controller('users')
 export class UserController {
   constructor(private readonly appService: UserService) {
   }
 
+  @Roles(Role.USER)
+  @UseGuards(RolesGuard)
   @Get('/all-users')
   allUsers(): any {
     const getUsers = this.appService.allUsers();

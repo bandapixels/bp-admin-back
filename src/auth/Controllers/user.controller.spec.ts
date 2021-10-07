@@ -1,6 +1,6 @@
 import {Test, TestingModule} from '@nestjs/testing';
-import {UserController} from 'src/Api-Router/User/user.controller';
-import {UserService} from '../../Service/User/user.service';
+import {UserController} from "src/auth/Controllers/user.controller";
+import {UserService} from "src/auth/Service/User/user.service";
 
 describe('AppController', () => {
   let appController: UserController;

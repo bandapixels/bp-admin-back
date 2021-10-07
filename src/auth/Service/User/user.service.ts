@@ -1,13 +1,16 @@
 import {Injectable} from '@nestjs/common';
-import {User} from '../../../entity/User'
 import {getConnection} from 'typeorm';
-import {UserDto} from 'dto/createUser.dto';
 import newTokenCreator from './utils/create.new.token'
+import {UserDto} from "src/auth/dto/createUser.dto";
+import {User} from "src/auth/entity/User";
+import { Role } from 'src/auth/Models/role.enum';
 
 @Injectable()
 export class UserService implements User {
   constructor() {
   }
+
+  role: Role;
 
   async registration(userData: UserDto): Promise<any> {
 
@@ -19,6 +22,8 @@ export class UserService implements User {
       return {status: false, error: 'user exists'};
 
     userData.refreshToken = 'inactive';
+    userData.role = 'user';
+
 
     const user = await getConnection().getRepository('user').create(userData);
     await getConnection().getRepository('user').save(user);
@@ -31,9 +36,9 @@ export class UserService implements User {
       attributes: ['name'],
     });
     if (user) {
-      user.refreshToken = newTokenCreator(user.name);
+      user.refreshToken = newTokenCreator(user.email);
       await getConnection().getRepository('user').save(user);
-      const jwtToken = newTokenCreator(user.name);
+      const jwtToken = newTokenCreator(user.email);
       return {user, jwtToken};
     } else {
       return {status: false, error: 'user not exists'}

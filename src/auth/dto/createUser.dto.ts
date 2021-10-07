@@ -3,4 +3,5 @@ export class UserDto {
   email: string;
   password: string;
   refreshToken: string;
+  role: string;
 }

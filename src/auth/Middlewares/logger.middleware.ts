@@ -17,7 +17,8 @@ export class LoggerMiddleware implements NestMiddleware {
     }
 
     if (!await tokenValidator(token))
-      res.status(403).json({status: 'jwtToken not valid, user not exists'});
+      // res.status(403).json({status: 'jwtToken not valid, user not exists'});
+      return false
     next();
   }
 }
