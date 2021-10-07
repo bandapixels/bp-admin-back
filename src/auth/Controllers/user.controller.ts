@@ -36,7 +36,7 @@ export class UserController {
 
   @Get('/login')
   @Render('auth/index.html')
- loggin(@Body() UserDto: UserDto): any {
+  loggin(@Body() UserDto: UserDto): any {
     // const logined = this.appService.login(UserDto);
     //
     // if (!logined) {
