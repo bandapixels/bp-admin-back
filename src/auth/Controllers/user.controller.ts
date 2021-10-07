@@ -1,10 +1,12 @@
-import {Body, Controller, Get, Headers, Post, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, Headers, Post, Render, UseGuards} from '@nestjs/common';
 import {UserService} from "src/auth/Service/User/user.service";
 import valid from "src/auth/Helpers/incoming.data.validator";
 import {UserDto} from '../dto/createUser.dto'
 import {Roles} from "src/auth/decorators/roles.decorator";
 import {Role} from "src/auth/Models/role.enum";
 import {RolesGuard} from "src/auth/guards/roles.guard";
+import { join } from 'path';
+
 
 @Controller('users')
 export class UserController {
@@ -32,8 +34,23 @@ export class UserController {
     return register;
   }
 
+  @Get('/login')
+  @Render('auth/index.html')
+ loggin(@Body() UserDto: UserDto): any {
+    // const logined = this.appService.login(UserDto);
+    //
+    // if (!logined) {
+    //   throw new Error('Error authorization, enter other details later');
+    // }
+    // return logined;
+  }
+
   @Post('/login')
+  // @Render('auth/index.html')
+
   login(@Body() UserDto: UserDto): any {
+    console.log(UserDto);
+
     const logined = this.appService.login(UserDto);
 
     if (!logined) {

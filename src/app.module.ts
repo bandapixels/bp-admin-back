@@ -5,10 +5,16 @@ import {UserController} from "src/auth/Controllers/user.controller";
 import {UserService} from "src/auth/Service/User/user.service";
 import {LoggerMiddleware} from "src/auth/Middlewares/logger.middleware";
 import {User} from "src/auth/entity/User";
+import {ServeStaticModule} from "@nestjs/serve-static";
+import { join } from 'path';
+
 
 @Module({
   imports: [
     forwardRef(() => UsersModule),
+    // ServeStaticModule.forRoot({
+    //   rootPath: join(__dirname, '../../', 'views'),   // <-- path to the static files
+    // }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',

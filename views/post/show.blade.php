@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BandaPixels Blog</title>
+    <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}" />
+    <link href="{{ asset('css/blog/styles.css') }}" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0"/>
+</head>
+<body>
+<header class="headerStyles">
+    <a class="logoWrapper" href="/">
+        <svg width="41" height="58" viewBox="0 0 41 58" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M24.1943 57.2554L26.173 57.2554L26.173 45.7919C27.69 47.5521 29.9325 48.6743 32.4389 48.6743C35.8247 48.6743 38.7267 46.628 40.0019 43.7236L37.7814 43.7236C36.6821 45.5058 34.7034 46.694 32.4609 46.694C30.2184 46.694 28.2397 45.5058 27.1404 43.7236L24.1943 43.7236L24.1943 57.2554ZM24.1943 37.1228L24.1943 32.1721L26.173 32.1721L26.173 35.0545C27.69 33.2943 29.9325 32.1721 32.4389 32.1721C35.8247 32.1721 38.7267 34.2184 40.0019 37.1228L37.7814 37.1228C36.6821 35.3405 34.7034 34.1524 32.4609 34.1524C30.2184 34.1524 28.2397 35.3405 27.1404 37.1228L24.1943 37.1228Z"
+                fill="#EFE314"/>
+            <path
+                d="M0.119141 0.0737305H2.09783V11.5372C3.61483 9.77699 5.85735 8.65484 8.3637 8.65484C11.7495 8.65484 14.6515 10.7011 15.9267 13.6055H13.7062C12.6069 11.8233 10.6282 10.6351 8.38568 10.6351C6.14316 10.6351 4.16447 11.8233 3.06519 13.6055H0.119141L0.119141 0.0737305ZM0.119141 20.2063V25.157H2.09783V22.2746C3.61483 24.0348 5.85735 25.157 8.3637 25.157C11.7495 25.157 14.6515 23.1107 15.9267 20.2063H13.7062C12.6069 21.9886 10.6282 23.1767 8.38568 23.1767C6.14316 23.1767 4.16447 21.9886 3.06519 20.2063H0.119141Z"
+                fill="#EFE314"/>
+            <ellipse cx="32.4465" cy="16.8414" rx="6.27702" ry="6.31037" fill="#EFE314"/>
+            <ellipse cx="8.32732" cy="40.4249" rx="6.27702" ry="6.31037" fill="#EFE314"/>
+        </svg>
+    </a>
+    <div class="headerRightPart">
+        <nav class="navBarMenu">
+            <ul class="menuList">
+                <li class="menuItem">
+                    <a
+                        class="linkStyles"
+                        href="/"
+                    >
+                        Main
+                    </a>
+                </li>
+                <li class="menuItem">
+                    <a
+                        class="linkStyles"
+                        href="/projects"
+                    >
+                        Projects
+                    </a>
+                </li>
+                <li class="menuItem">
+                    <a
+                        class="linkStyles activeLink"
+                        href="/blog"
+                    >
+                        Blog
+                    </a>
+                </li>
+                <li class="menuItem">
+                    <a
+                        class="linkStyles"
+                        href="/services"
+                    >
+                        Services
+                    </a>
+                </li>
+                <li class="menuItem">
+                    <a
+                        class="linkStyles"
+                        href="/contacts"
+                    >
+                        Contacts
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <a class="headerBtn" href="/form">
+            <span>discuss the project</span>
+            <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M1 7C0.447715 7 0 7.44772 0 8C0 8.55228 0.447715 9 1 9L1 7ZM16.7071 8.70711C17.0976 8.31658 17.0976 7.68342 16.7071 7.29289L10.3431 0.928932C9.95262 0.538408 9.31946 0.538408 8.92893 0.928932C8.53841 1.31946 8.53841 1.95262 8.92893 2.34315L14.5858 8L8.92893 13.6569C8.53841 14.0474 8.53841 14.6805 8.92893 15.0711C9.31946 15.4616 9.95262 15.4616 10.3431 15.0711L16.7071 8.70711ZM1 9H16V7L1 7L1 9Z"
+                    fill="#171718"/>
+            </svg>
+        </a>
+        <button class="menuSwitchBtn">
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
+                 class="openIcon">
+                <rect x="8" width="6" height="6" fill="#EFE314"/>
+                <rect width="6" height="6" fill="#EFE314"/>
+                <rect x="16" width="6" height="6" fill="#EFE314"/>
+                <rect x="24" width="6" height="6" fill="#EFE314"/>
+                <rect x="8" y="12" width="6" height="6" fill="#EFE314"/>
+                <rect x="16" y="12" width="6" height="6" fill="#EFE314"/>
+                <rect x="24" y="12" width="6" height="6" fill="#EFE314"/>
+                <rect x="8" y="24" width="6" height="6" fill="#EFE314"/>
+                <rect y="24" width="6" height="6" fill="#EFE314"/>
+                <rect x="16" y="24" width="6" height="6" fill="#EFE314"/>
+                <rect x="24" y="24" width="6" height="6" fill="#EFE314"/>
+            </svg>
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
+                 class="closeIcon">
+                <rect width="6" height="6" fill="#333333"/>
+                <rect x="24" width="6" height="6" fill="#333333"/>
+                <rect x="8" y="12" width="6" height="6" fill="#333333"/>
+                <rect x="16" y="12" width="6" height="6" fill="#333333"/>
+                <rect y="24" width="6" height="6" fill="#333333"/>
+                <rect x="24" y="24" width="6" height="6" fill="#333333"/>
+            </svg>
+        </button>
+    </div>
+</header>
+<main>
+    <section class="blog-main">
+        <img src="{{ $post->image }}" alt="blog page">
+        <div class="blog-main_info">
+{{--            <div class="blog-tags">--}}
+{{--                @foreach($post->tags as $tag)--}}
+{{--                    <span>#{{ $tag->name }}</span>--}}
+{{--                @endforeach--}}
+{{--            </div>--}}
+            <h1>{{ $post->head }}</h1>
+            <h3>{{ $post->subtitle }}</h3>
+            <span class="blog-date">{{ $post->created_at->format('d.m.Y') }}</span>
+            <p class="blog-timeToRead">read in {{ $post->mins_to_read }} @if($post->mins_to_read > 1) mins @else
+                    min @endif</p>
+        </div>
+    </section>
+    <section class="blog-content">
+        {!! $post->body !!}
+    </section>
+    <section class="blog-footer">
+        <div class="blog-socials">
+            <p>Share</p>
+            <div class="blog-social-list">
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ URL::current() }}" class="icon-wrapper">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M21 0H3C1.3455 0 0 1.3455 0 3V21C0 22.6545 1.3455 24 3 24H12V15.75H9V12H12V9C12 6.5145 14.0145 4.5 16.5 4.5H19.5V8.25H18C17.172 8.25 16.5 8.172 16.5 9V12H20.25L18.75 15.75H16.5V24H21C22.6545 24 24 22.6545 24 21V3C24 1.3455 22.6545 0 21 0Z"
+                            fill="#171718"/>
+                    </svg>
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ URL::current() }}" class="icon-wrapper">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0)">
+                            <path d="M5.367 7.50049H0V24.0005H5.367V7.50049Z" fill="#171718"/>
+                            <path
+                                d="M19.986 7.69399C19.929 7.67599 19.875 7.65649 19.815 7.63999C19.743 7.62349 19.671 7.60999 19.5975 7.59799C19.3125 7.54099 19.0005 7.50049 18.6345 7.50049C15.5055 7.50049 13.521 9.77599 12.867 10.655V7.50049H7.5V24.0005H12.867V15.0005C12.867 15.0005 16.923 9.35149 18.6345 13.5005C18.6345 17.204 18.6345 24.0005 18.6345 24.0005H24V12.866C24 10.373 22.2915 8.29549 19.986 7.69399Z"
+                                fill="#171718"/>
+                            <path
+                                d="M2.625 5.25C4.07475 5.25 5.25 4.07475 5.25 2.625C5.25 1.17525 4.07475 0 2.625 0C1.17525 0 0 1.17525 0 2.625C0 4.07475 1.17525 5.25 2.625 5.25Z"
+                                fill="#171718"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0">
+                                <rect width="24" height="24" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <div class="blog-arrows-wrapper">
+            @if($prevPost)
+            <a href="{{ route('blog.show', ['post' => $prevPost]) }}">
+              <div class="blog-preview">
+                <img class="blog-preview-img" src="{{ $prevPost->preview_image }}" alt="preview"/>
+                <div class="blog-preview-content">
+                  <h2 class="blog-preview-title">{{ $prevPost->head }}</h2>
+                  <p class="blog-preview-description">{{ $prevPost->excerpt }}</p>
+                  <span class="blog-preview-link">Read more</span>
+                </div>
+              </div>
+            </a>
+            @endif
+            @if($nextPost)
+            <a href="{{ route('blog.show', ['post' => $nextPost]) }}">
+              <div class="blog-preview">
+                <img class="blog-preview-img" src="{{ $nextPost->preview_image }}" alt="preview"/>
+                <div class="blog-preview-content">
+                  <h2 class="blog-preview-title">{{ $nextPost->head }}</h2>
+                  <span class="blog-preview-description">{{ $nextPost->excerpt }}</span>
+                  <span class="blog-preview-link">Read more</span>
+                </div>
+              </div>
+            </a>
+            @endif
+        </div>
+    </section>
+</main>
+<footer class="contactsWrapper">
+    <div class="contactsContent">
+        <h3 class="contactsTitle">
+            Lets make your service
+            <br/> the best choice for the users
+        </h3>
+        <p class="contactsText">
+            Let our team be the best choice for you
+            <br/>
+            Contact Us
+        </p>
+        <a href="mailto:team@bandapixels.com" class="mailBtn">
+            team@bandapixels.com
+        </a>
+    </div>
+    <div class="contactsSocial">
+        <div class="socialWrapper">
+            <ul class="socialList">
+                <li class="socialItem">
+                    <a
+                        href="https://www.behance.net/bandapixels"
+                        class="socialIcon"
+                        target="_blank"
+                        rel="noreferrer noopener"
+                    >
+                        <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip101)">
+                                <path
+                                    d="M11.695 13.3381C12.2771 13.0453 12.7172 12.7192 13.0188 12.3667C13.5554 11.732 13.8201 10.8903 13.8201 9.84705C13.8201 8.83181 13.5554 7.96385 13.0258 7.23618C12.1421 6.05085 10.6464 5.44416 8.53175 5.4126H0.153809V22.5139H7.96539C8.84561 22.5139 9.66096 22.4385 10.4149 22.2842C11.1689 22.1281 11.8212 21.8423 12.3735 21.425C12.8645 21.062 13.2748 20.6114 13.6009 20.0801C14.1165 19.277 14.3742 18.367 14.3742 17.3535C14.3742 16.3716 14.148 15.5352 13.6991 14.8479C13.245 14.1605 12.5787 13.6573 11.695 13.3381ZM3.60984 8.38293H7.38324C8.21262 8.38293 8.89646 8.47235 9.43302 8.64945C10.0537 8.9072 10.3641 9.43148 10.3641 10.2311C10.3641 10.9482 10.1274 11.4497 9.65921 11.732C9.18753 12.0143 8.57558 12.1563 7.82511 12.1563H3.60984V8.38293ZM9.5768 19.2455C9.15948 19.4471 8.57208 19.5471 7.81985 19.5471H3.60984V14.9864H7.87771C8.62117 14.9916 9.19981 15.0898 9.61362 15.2739C10.3501 15.6071 10.7165 16.2173 10.7165 17.1098C10.7165 18.1619 10.3378 18.8702 9.5768 19.2455Z"
+                                    fill="white"/>
+                                <path d="M25.5099 6.21094H18.0806V8.33961H25.5099V6.21094Z" fill="white"/>
+                                <path
+                                    d="M28.0912 14.6112C27.9369 13.6205 27.5967 12.749 27.0672 11.9968C26.4868 11.1446 25.7504 10.5204 24.8544 10.1259C23.9619 9.7296 22.9571 9.53146 21.8385 9.53321C19.9605 9.53321 18.435 10.1206 17.255 11.2867C16.0784 12.4562 15.4893 14.1377 15.4893 16.3295C15.4893 18.6669 16.1398 20.3554 17.4478 21.3917C18.7507 22.4297 20.2551 22.947 21.9629 22.947C24.0303 22.947 25.6382 22.3316 26.7867 21.1041C27.5213 20.3291 27.9369 19.5664 28.0281 18.8177H24.6054C24.4072 19.1876 24.1775 19.477 23.9145 19.6874C23.4376 20.0731 22.8169 20.266 22.0559 20.266C21.3317 20.266 20.718 20.1064 20.206 19.7891C19.3608 19.2806 18.919 18.3898 18.8629 17.1221H28.2034C28.2175 16.0297 28.1824 15.1898 28.0912 14.6112ZM18.947 14.9391C19.0698 14.1167 19.3679 13.4644 19.8413 12.9822C20.3147 12.5018 20.9845 12.2598 21.842 12.2581C22.6328 12.2581 23.2938 12.4843 23.8321 12.9384C24.3634 13.396 24.6632 14.0606 24.7246 14.9391H18.947Z"
+                                    fill="white"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip101">
+                                    <rect width="28.0527" height="28.0527" fill="white"
+                                          transform="translate(0.153809 0.15332)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </a>
+                </li>
+                <li class="socialItem">
+                    <a
+                        href="https://www.facebook.com/BandaPixels"
+                        class="socialIcon"
+                        target="_blank"
+                        rel="noreferrer noopener"
+                    >
+                        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0)">
+                                <path
+                                    d="M21.0395 0.131348H3.11865C1.47142 0.131348 0.131836 1.47093 0.131836 3.11816V21.039C0.131836 22.6863 1.47142 24.0259 3.11865 24.0259H12.0791V15.8121H9.09228V12.0786H12.0791V9.09179C12.0791 6.61721 14.0847 4.61157 16.5593 4.61157H19.5461V8.34508H18.0527C17.2284 8.34508 16.5593 8.26743 16.5593 9.09179V12.0786H20.2928L18.7994 15.8121H16.5593V24.0259H21.0395C22.6868 24.0259 24.0263 22.6863 24.0263 21.039V3.11816C24.0263 1.47093 22.6868 0.131348 21.0395 0.131348Z"
+                                    fill="white"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0">
+                                    <rect width="23.8945" height="23.8945" fill="white"
+                                          transform="translate(0.131836 0.131348)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </a>
+                </li>
+                <li class="socialItem">
+                    <a
+                        href="https://dribbble.com/bandapixels"
+                        class="socialIcon"
+                        target="_blank"
+                        rel="noreferrer noopener"
+                    >
+                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip10)">
+                                <path
+                                    d="M15.0392 0.494629C7.01942 0.494629 0.494141 7.0199 0.494141 15.0397C0.494141 23.0595 7.01942 29.5847 15.0392 29.5847C23.059 29.5847 29.5843 23.0595 29.5843 15.0397C29.5843 7.0199 23.059 0.494629 15.0392 0.494629ZM15.0392 27.7666C8.02121 27.7666 2.31227 22.0559 2.31227 15.0397C2.31227 8.0217 8.02121 2.31276 15.0392 2.31276C22.0554 2.31276 27.7661 8.0217 27.7661 15.0397C27.7661 22.0559 22.0554 27.7666 15.0392 27.7666Z"
+                                    fill="white"/>
+                                <path
+                                    d="M15.0396 4.13037C14.276 4.13037 13.5305 4.21037 12.8105 4.35946C14.1341 6.23577 15.3359 8.18844 16.3941 10.212C18.3958 9.27932 20.2794 8.07572 21.9994 6.63939C20.1103 5.07216 17.685 4.13037 15.0396 4.13037Z"
+                                    fill="white"/>
+                                <path
+                                    d="M23.2945 7.92334C21.4237 9.49966 19.3656 10.8069 17.1802 11.8287C17.6583 12.825 18.102 13.8341 18.5129 14.8595C20.9273 14.3632 23.44 14.3177 25.9308 14.7304C25.8581 12.1305 24.88 9.75965 23.2945 7.92334Z"
+                                    fill="white"/>
+                                <path
+                                    d="M10.9852 4.91797C7.71074 6.23066 5.22717 9.08149 4.41992 12.5814C7.95073 12.7323 11.4452 12.1432 14.6978 10.9014C13.6051 8.82695 12.367 6.82701 10.9852 4.91797Z"
+                                    fill="white"/>
+                                <path
+                                    d="M15.5119 12.5469C12.3629 13.7741 8.99933 14.4432 5.57942 14.4432C5.10853 14.4432 4.63581 14.4141 4.1631 14.3886C4.15037 14.605 4.13037 14.8195 4.13037 15.0395C4.13037 17.7176 5.09944 20.1685 6.70121 22.0666C9.32114 18.814 12.8429 16.4831 16.7409 15.3122C16.3609 14.3777 15.95 13.4578 15.5119 12.5469Z"
+                                    fill="white"/>
+                                <path
+                                    d="M19.1807 16.582C20.0479 19.0001 20.7279 21.4855 21.2261 24.02C23.6842 22.3237 25.4005 19.6456 25.8314 16.5511C23.6024 16.1566 21.3497 16.1748 19.1807 16.582Z"
+                                    fill="white"/>
+                                <path
+                                    d="M17.3951 17.0039C13.7297 18.0748 10.4189 20.2747 7.9917 23.3601C9.89346 24.9728 12.3498 25.9491 15.0388 25.9491C16.6533 25.9491 18.1823 25.5891 19.5605 24.9582C19.0605 22.2419 18.3332 19.5838 17.3951 17.0039Z"
+                                    fill="white"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip10">
+                                    <rect width="29.0901" height="29.0901" fill="white"
+                                          transform="translate(0.494141 0.494629)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </a>
+                </li>
+                <li class="socialItem">
+                    <a
+                        href="https://www.linkedin.com/organization-guest/company/bandapixels"
+                        class="socialIcon"
+                        target="_blank"
+                        rel="noreferrer noopener"
+                    >
+                        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0)">
+                                <path d="M5.47427 7.59863H0.130859V24.0261H5.47427V7.59863Z" fill="white"/>
+                                <path
+                                    d="M20.0288 7.79128C19.972 7.77336 19.9183 7.75395 19.8585 7.73752C19.7868 7.72109 19.7152 7.70765 19.642 7.6957C19.3582 7.63895 19.0476 7.59863 18.6832 7.59863C15.568 7.59863 13.5922 9.86413 12.9411 10.7393V7.59863H7.59766V24.0261H12.9411V15.0657C12.9411 15.0657 16.9792 9.4415 18.6832 13.5723C18.6832 17.2595 18.6832 24.0261 18.6832 24.0261H24.0251V12.9405C24.0251 10.4585 22.3241 8.39014 20.0288 7.79128Z"
+                                    fill="white"/>
+                                <path
+                                    d="M2.74432 5.35827C4.1877 5.35827 5.35778 4.18818 5.35778 2.74481C5.35778 1.30143 4.1877 0.131348 2.74432 0.131348C1.30095 0.131348 0.130859 1.30143 0.130859 2.74481C0.130859 4.18818 1.30095 5.35827 2.74432 5.35827Z"
+                                    fill="white"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0">
+                                    <rect width="23.8945" height="23.8945" fill="white"
+                                          transform="translate(0.130859 0.131348)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <a href="mailto:team@bandapixels.com" class="mailBtnMob">
+            team@bandapixels.com
+        </a>
+    </div>
+</footer>
+<div class="openedMobileWrapper closedMenu hideMenu">
+    <nav class="navBarMenu">
+        <ul class="menuList">
+            <li class="menuItem">
+                <a
+                    class="linkStyles"
+                    href="/"
+                >
+                    Main
+                </a>
+            </li>
+            <li class="menuItem">
+                <a
+                    class="linkStyles"
+                    href="/projects"
+                >
+                    Projects
+                </a>
+            </li>
+            <li class="menuItem">
+                <a
+                    class="linkStyles activeLink"
+                    href="/blog"
+                >
+                    Blog
+                </a>
+            </li>
+            <li class="menuItem">
+                <a
+                    class="linkStyles"
+                    href="/services"
+                >
+                    Services
+                </a>
+            </li>
+            <li class="menuItem">
+                <a
+                    class="linkStyles"
+                    href="/contacts"
+                >
+                    Contacts
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div>
+        <div class="socialWrapper">
+            <ul class="socialList">
+                <li class="socialItem">
+                    <a
+                        href="https://www.behance.net/bandapixels"
+                        class="socialIcon"
+                        target="_blank"
+                        rel="noreferrer noopener"
+                    >
+                        <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip100)">
+                                <path
+                                    d="M11.695 13.3381C12.2771 13.0453 12.7172 12.7192 13.0188 12.3667C13.5554 11.732 13.8201 10.8903 13.8201 9.84705C13.8201 8.83181 13.5554 7.96385 13.0258 7.23618C12.1421 6.05085 10.6464 5.44416 8.53175 5.4126H0.153809V22.5139H7.96539C8.84561 22.5139 9.66096 22.4385 10.4149 22.2842C11.1689 22.1281 11.8212 21.8423 12.3735 21.425C12.8645 21.062 13.2748 20.6114 13.6009 20.0801C14.1165 19.277 14.3742 18.367 14.3742 17.3535C14.3742 16.3716 14.148 15.5352 13.6991 14.8479C13.245 14.1605 12.5787 13.6573 11.695 13.3381ZM3.60984 8.38293H7.38324C8.21262 8.38293 8.89646 8.47235 9.43302 8.64945C10.0537 8.9072 10.3641 9.43148 10.3641 10.2311C10.3641 10.9482 10.1274 11.4497 9.65921 11.732C9.18753 12.0143 8.57558 12.1563 7.82511 12.1563H3.60984V8.38293ZM9.5768 19.2455C9.15948 19.4471 8.57208 19.5471 7.81985 19.5471H3.60984V14.9864H7.87771C8.62117 14.9916 9.19981 15.0898 9.61362 15.2739C10.3501 15.6071 10.7165 16.2173 10.7165 17.1098C10.7165 18.1619 10.3378 18.8702 9.5768 19.2455Z"
+                                    fill="white"/>
+                                <path d="M25.5099 6.21094H18.0806V8.33961H25.5099V6.21094Z" fill="white"/>
+                                <path
+                                    d="M28.0912 14.6112C27.9369 13.6205 27.5967 12.749 27.0672 11.9968C26.4868 11.1446 25.7504 10.5204 24.8544 10.1259C23.9619 9.7296 22.9571 9.53146 21.8385 9.53321C19.9605 9.53321 18.435 10.1206 17.255 11.2867C16.0784 12.4562 15.4893 14.1377 15.4893 16.3295C15.4893 18.6669 16.1398 20.3554 17.4478 21.3917C18.7507 22.4297 20.2551 22.947 21.9629 22.947C24.0303 22.947 25.6382 22.3316 26.7867 21.1041C27.5213 20.3291 27.9369 19.5664 28.0281 18.8177H24.6054C24.4072 19.1876 24.1775 19.477 23.9145 19.6874C23.4376 20.0731 22.8169 20.266 22.0559 20.266C21.3317 20.266 20.718 20.1064 20.206 19.7891C19.3608 19.2806 18.919 18.3898 18.8629 17.1221H28.2034C28.2175 16.0297 28.1824 15.1898 28.0912 14.6112ZM18.947 14.9391C19.0698 14.1167 19.3679 13.4644 19.8413 12.9822C20.3147 12.5018 20.9845 12.2598 21.842 12.2581C22.6328 12.2581 23.2938 12.4843 23.8321 12.9384C24.3634 13.396 24.6632 14.0606 24.7246 14.9391H18.947Z"
+                                    fill="white"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip100">
+                                    <rect width="28.0527" height="28.0527" fill="white"
+                                          transform="translate(0.153809 0.15332)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </a>
+                </li>
+                <li class="socialItem">
+                    <a
+                        href="https://www.facebook.com/BandaPixels"
+                        class="socialIcon"
+                        target="_blank"
+                        rel="noreferrer noopener"
+                    >
+                        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0)">
+                                <path
+                                    d="M21.0395 0.131348H3.11865C1.47142 0.131348 0.131836 1.47093 0.131836 3.11816V21.039C0.131836 22.6863 1.47142 24.0259 3.11865 24.0259H12.0791V15.8121H9.09228V12.0786H12.0791V9.09179C12.0791 6.61721 14.0847 4.61157 16.5593 4.61157H19.5461V8.34508H18.0527C17.2284 8.34508 16.5593 8.26743 16.5593 9.09179V12.0786H20.2928L18.7994 15.8121H16.5593V24.0259H21.0395C22.6868 24.0259 24.0263 22.6863 24.0263 21.039V3.11816C24.0263 1.47093 22.6868 0.131348 21.0395 0.131348Z"
+                                    fill="white"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0">
+                                    <rect width="23.8945" height="23.8945" fill="white"
+                                          transform="translate(0.131836 0.131348)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </a>
+                </li>
+                <li class="socialItem">
+                    <a
+                        href="https://dribbble.com/bandapixels"
+                        class="socialIcon"
+                        target="_blank"
+                        rel="noreferrer noopener"
+                    >
+                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip10)">
+                                <path
+                                    d="M15.0392 0.494629C7.01942 0.494629 0.494141 7.0199 0.494141 15.0397C0.494141 23.0595 7.01942 29.5847 15.0392 29.5847C23.059 29.5847 29.5843 23.0595 29.5843 15.0397C29.5843 7.0199 23.059 0.494629 15.0392 0.494629ZM15.0392 27.7666C8.02121 27.7666 2.31227 22.0559 2.31227 15.0397C2.31227 8.0217 8.02121 2.31276 15.0392 2.31276C22.0554 2.31276 27.7661 8.0217 27.7661 15.0397C27.7661 22.0559 22.0554 27.7666 15.0392 27.7666Z"
+                                    fill="white"/>
+                                <path
+                                    d="M15.0396 4.13037C14.276 4.13037 13.5305 4.21037 12.8105 4.35946C14.1341 6.23577 15.3359 8.18844 16.3941 10.212C18.3958 9.27932 20.2794 8.07572 21.9994 6.63939C20.1103 5.07216 17.685 4.13037 15.0396 4.13037Z"
+                                    fill="white"/>
+                                <path
+                                    d="M23.2945 7.92334C21.4237 9.49966 19.3656 10.8069 17.1802 11.8287C17.6583 12.825 18.102 13.8341 18.5129 14.8595C20.9273 14.3632 23.44 14.3177 25.9308 14.7304C25.8581 12.1305 24.88 9.75965 23.2945 7.92334Z"
+                                    fill="white"/>
+                                <path
+                                    d="M10.9852 4.91797C7.71074 6.23066 5.22717 9.08149 4.41992 12.5814C7.95073 12.7323 11.4452 12.1432 14.6978 10.9014C13.6051 8.82695 12.367 6.82701 10.9852 4.91797Z"
+                                    fill="white"/>
+                                <path
+                                    d="M15.5119 12.5469C12.3629 13.7741 8.99933 14.4432 5.57942 14.4432C5.10853 14.4432 4.63581 14.4141 4.1631 14.3886C4.15037 14.605 4.13037 14.8195 4.13037 15.0395C4.13037 17.7176 5.09944 20.1685 6.70121 22.0666C9.32114 18.814 12.8429 16.4831 16.7409 15.3122C16.3609 14.3777 15.95 13.4578 15.5119 12.5469Z"
+                                    fill="white"/>
+                                <path
+                                    d="M19.1807 16.582C20.0479 19.0001 20.7279 21.4855 21.2261 24.02C23.6842 22.3237 25.4005 19.6456 25.8314 16.5511C23.6024 16.1566 21.3497 16.1748 19.1807 16.582Z"
+                                    fill="white"/>
+                                <path
+                                    d="M17.3951 17.0039C13.7297 18.0748 10.4189 20.2747 7.9917 23.3601C9.89346 24.9728 12.3498 25.9491 15.0388 25.9491C16.6533 25.9491 18.1823 25.5891 19.5605 24.9582C19.0605 22.2419 18.3332 19.5838 17.3951 17.0039Z"
+                                    fill="white"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip10">
+                                    <rect width="29.0901" height="29.0901" fill="white"
+                                          transform="translate(0.494141 0.494629)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </a>
+                </li>
+                <li class="socialItem">
+                    <a
+                        href="https://www.linkedin.com/organization-guest/company/bandapixels"
+                        class="socialIcon"
+                        target="_blank"
+                        rel="noreferrer noopener"
+                    >
+                        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0)">
+                                <path d="M5.47427 7.59863H0.130859V24.0261H5.47427V7.59863Z" fill="white"/>
+                                <path
+                                    d="M20.0288 7.79128C19.972 7.77336 19.9183 7.75395 19.8585 7.73752C19.7868 7.72109 19.7152 7.70765 19.642 7.6957C19.3582 7.63895 19.0476 7.59863 18.6832 7.59863C15.568 7.59863 13.5922 9.86413 12.9411 10.7393V7.59863H7.59766V24.0261H12.9411V15.0657C12.9411 15.0657 16.9792 9.4415 18.6832 13.5723C18.6832 17.2595 18.6832 24.0261 18.6832 24.0261H24.0251V12.9405C24.0251 10.4585 22.3241 8.39014 20.0288 7.79128Z"
+                                    fill="white"/>
+                                <path
+                                    d="M2.74432 5.35827C4.1877 5.35827 5.35778 4.18818 5.35778 2.74481C5.35778 1.30143 4.1877 0.131348 2.74432 0.131348C1.30095 0.131348 0.130859 1.30143 0.130859 2.74481C0.130859 4.18818 1.30095 5.35827 2.74432 5.35827Z"
+                                    fill="white"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0">
+                                    <rect width="23.8945" height="23.8945" fill="white"
+                                          transform="translate(0.130859 0.131348)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <a href="mailto:team@bandapixels.com" class="mailBtnMob">
+            team@bandapixels.com
+        </a>
+    </div>
+</div>
+<script src="{{ asset('js/blog/script.js')  }}"></script>
+</body>
+</html>
