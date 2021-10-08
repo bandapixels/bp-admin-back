@@ -35,7 +35,7 @@ export class UserController {
   }
 
   @Get('/login')
-  @Render('auth/index.html')
+  @Render('auth/login.blade.html')
   loggin(@Body() UserDto: UserDto): any {
     // const logined = this.appService.login(UserDto);
     //
@@ -46,7 +46,7 @@ export class UserController {
   }
 
   @Post('/login')
-  // @Render('auth/index.html')
+  // @Render('auth/login.blade.html')
 
   login(@Body() UserDto: UserDto): any {
     console.log(UserDto);
