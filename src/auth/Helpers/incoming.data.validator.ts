@@ -1,18 +1,12 @@
-const Joi = require('joi');
+import * as Joi from 'joi';
 
 async function registrationLoginInputData(body) {
   const schema = Joi.object({
-    name: Joi.string()
-      .min(4)
-      .max(30),
+    name: Joi.string().min(4).max(30),
 
-    email: Joi.string()
-      .min(5)
-      .max(30),
+    email: Joi.string().min(5).max(30),
 
-    password: Joi.string()
-      .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
-
+    password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
   });
   const validatorParams = schema.validate(body);
   if (validatorParams.error) {
@@ -22,6 +16,6 @@ async function registrationLoginInputData(body) {
 
 const valid = {
   registrationLoginInputData,
-}
+};
 
 export default valid;

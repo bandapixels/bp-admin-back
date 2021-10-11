@@ -1,13 +1,11 @@
-import {Injectable, NestMiddleware} from '@nestjs/common';
-import {Request, Response, NextFunction} from 'express';
+import { Injectable, NestMiddleware } from '@nestjs/common';
+import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
-
-////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
   async use(req: Request, res: Response, next: NextFunction) {
-    let token: string = req.headers.authorization;
+    const token: string = req.headers.authorization;
 
     async function tokenValidator(token) {
       try {
@@ -18,9 +16,7 @@ export class LoggerMiddleware implements NestMiddleware {
       }
     }
 
-    if (!await tokenValidator(token))
-      // res.status(403).json({status: 'jwtToken not valid, user not exists'});
-      return false
+    if (!(await tokenValidator(token))) return false;
     next();
   }
 }

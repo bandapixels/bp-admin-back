@@ -1,10 +1,9 @@
-import {NestFactory} from '@nestjs/core';
-import {AppModule} from './app.module';
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
-import {NestExpressApplication} from "@nestjs/platform-express";
+dotenv.config({});
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
-
-import engines from 'consolidate';
 
 async function bootstrap() {
   dotenv.config({});
@@ -12,10 +11,9 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.set('view engine', 'html');
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  app.useStaticAssets(join(__dirname, '..', 'public'),{prefix: '/public'});
-  console.log('-----------', __dirname)
+  app.useStaticAssets(join(__dirname, '..', 'public'), { prefix: '/public' });
+  console.log('-----------', __dirname);
   app.engine('html', require('ejs').renderFile);
-
 
   await app.listen(3000);
 }

@@ -1,29 +1,27 @@
-import {Injectable} from '@nestjs/common';
-import {getConnection} from 'typeorm';
-import newTokenCreator from './utils/create.new.token'
-import {UserDto} from "src/auth/dto/createUser.dto";
-import {User} from "src/auth/entity/User";
+import { Injectable } from '@nestjs/common';
+import { getConnection } from 'typeorm';
+import newTokenCreator from './utils/create.new.token';
+import { UserDto } from 'src/auth/dto/createUser.dto';
+import { User } from 'src/auth/entity/User';
 import { Role } from 'src/auth/Models/role.enum';
 
 @Injectable()
 export class UserService implements User {
-  constructor() {
-  }
+  constructor() {}
 
   role: Role;
 
   async registration(userData: UserDto): Promise<any> {
+    const searchUser = await getConnection()
+      .getRepository('user')
+      .findOne({
+        where: { email: userData.email },
+      });
 
-    const searchUser = await getConnection().getRepository('user').findOne({
-      where: {email: userData.email}
-    });
-
-    if (searchUser)
-      return {status: false, error: 'user exists'};
+    if (searchUser) return { status: false, error: 'user exists' };
 
     userData.refreshToken = 'inactive';
-    userData.role = 'user';
-
+    userData.role = 'admin';
 
     const user = await getConnection().getRepository('user').create(userData);
     await getConnection().getRepository('user').save(user);
@@ -31,35 +29,38 @@ export class UserService implements User {
   }
 
   async login(userData: UserDto): Promise<any> {
-    const user: any = await getConnection().getRepository('user').findOne({
-      where: {email: userData.email, password: userData.password},
-      attributes: ['name'],
-    });
+    const user: any = await getConnection()
+      .getRepository('user')
+      .findOne({
+        where: { email: userData.email, password: userData.password },
+        attributes: ['name'],
+      });
     if (user) {
       user.refreshToken = newTokenCreator(user.email);
       await getConnection().getRepository('user').save(user);
       const jwtToken = newTokenCreator(user.email);
-      return {user, jwtToken};
+      return { user, jwtToken };
     } else {
-      return {status: false, error: 'user not exists'}
+      return { status: false, error: process.env.USER_NOT_EXISTS };
     }
   }
 
   async logout(UserDto): Promise<any> {
-    const searchUser: any = await getConnection().getRepository('user').findOne({
-      where: {email: UserDto.email}
-    });
+    const searchUser: any = await getConnection()
+      .getRepository('user')
+      .findOne({
+        where: { email: UserDto.email },
+      });
     if (searchUser) {
       searchUser.refreshToken = 'inactive';
       await getConnection().getRepository('user').save(searchUser);
-      return {status: true};
+      return { status: true };
     }
-    return {status: false};
-
+    return { status: false };
   }
 
   async allUsers(): Promise<any> {
-    const users = await getConnection().getRepository('user').find()
+    const users = await getConnection().getRepository('user').find();
     return users;
   }
 
