@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   Render,
   Res,
 } from '@nestjs/common';
@@ -16,7 +17,7 @@ export class AdminTagController {
 
   @Get('/')
   @Render('layouts/app.ejs')
-  public async getAllTags(@Param('skip') skip = 0, @Param('take') take = 30) {
+  public async getAllTags(@Query('skip') skip = 0, @Query('take') take = 30) {
     const tags = await this.adminTagService.getTags(skip, take);
     return { tags, body: '../admin/tag/index.ejs', guest: false };
   }
