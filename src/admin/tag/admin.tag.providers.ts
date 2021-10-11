@@ -1,10 +1,10 @@
 import { Connection } from 'typeorm';
-import { AdminTag } from './entity/admin.tag.entity';
+import { Tag } from './entity/admin.tag.entity';
 
 export const adminTagProviders = [
   {
     provide: 'ADMIN_TAG_REPOSITORY',
-    useFactory: (connection: Connection) => connection.getRepository(AdminTag),
+    useFactory: (connection: Connection) => connection.getRepository(Tag),
     inject: ['DATABASE_CONNECTION'],
   },
 ];

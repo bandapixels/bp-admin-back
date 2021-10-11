@@ -16,8 +16,8 @@ export class AdminTagController {
 
   @Get('/')
   @Render('layouts/app.ejs')
-  public async getAllTags() {
-    const tags = await this.adminTagService.getTags();
+  public async getAllTags(@Param('skip') skip = 0, @Param('take') take = 30) {
+    const tags = await this.adminTagService.getTags(skip, take);
     return { tags, body: '../admin/tag/index.ejs', guest: false };
   }
 

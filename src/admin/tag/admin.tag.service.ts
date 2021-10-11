@@ -1,17 +1,20 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { TagDto } from './dto/tag.dto';
-import { AdminTag } from './entity/admin.tag.entity';
+import { Tag } from './entity/admin.tag.entity';
 
 @Injectable()
 export default class AdminTagService {
   constructor(
     @Inject('ADMIN_TAG_REPOSITORY')
-    private adminTagRepository: Repository<AdminTag>,
+    private adminTagRepository: Repository<Tag>,
   ) {}
 
-  async getTags() {
-    return this.adminTagRepository.find();
+  async getTags(skipNum, takeNum) {
+    return this.adminTagRepository.find({
+      skip: skipNum,
+      take: takeNum,
+    });
   }
 
   async getTagsById(id) {
