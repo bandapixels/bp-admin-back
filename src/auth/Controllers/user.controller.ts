@@ -1,17 +1,22 @@
-import {Body, Controller, Get, Headers, Post, Render, UseGuards} from '@nestjs/common';
-import {UserService} from "src/auth/Service/User/user.service";
-import valid from "src/auth/Helpers/incoming.data.validator";
-import {UserDto} from '../dto/createUser.dto'
-import {Roles} from "src/auth/decorators/roles.decorator";
-import {Role} from "src/auth/Models/role.enum";
-import {RolesGuard} from "src/auth/guards/roles.guard";
-import { join } from 'path';
-
+import {
+  Body,
+  Controller,
+  Get,
+  Headers,
+  Post,
+  Render,
+  UseGuards,
+} from '@nestjs/common';
+import { UserService } from 'src/auth/Service/User/user.service';
+import valid from 'src/auth/Helpers/incoming.data.validator';
+import { UserDto } from '../dto/createUser.dto';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/auth/Models/role.enum';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly appService: UserService) {
-  }
+  constructor(private readonly appService: UserService) {}
 
   @Roles(Role.USER)
   @UseGuards(RolesGuard)
@@ -35,19 +40,10 @@ export class UserController {
   }
 
   @Get('/login')
-  @Render('auth/login.blade.html')
-  loggin(@Body() UserDto: UserDto): any {
-    // const logined = this.appService.login(UserDto);
-    //
-    // if (!logined) {
-    //   throw new Error('Error authorization, enter other details later');
-    // }
-    // return logined;
-  }
+  @Render('auth/login.blade.ejs')
+  loggin(@Body() UserDto: UserDto): any {}
 
   @Post('/login')
-  // @Render('auth/login.blade.html')
-
   login(@Body() UserDto: UserDto): any {
     console.log(UserDto);
 
@@ -58,6 +54,10 @@ export class UserController {
     }
     return logined;
   }
+
+  @Get('/admin/home')
+  @Render('admin/home.blade.ejs')
+  home(): any {}
 
   @Get('/auth/logout')
   logout(@Body() UserDto: UserDto): any {

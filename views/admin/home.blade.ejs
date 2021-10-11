@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body>
+<header>
+    <%- include('../layouts/header'); %>
+</header>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Dashboard</div>
+                <div class="card-body">
+                    <div class="alert alert-success" role="alert">
+                    </div>
+                    <a class="btn btn-primary" href="/users/admin/posts">Post CMS</a>
+                    <a class="btn btn-primary" href="/users/admin/tags">Tag Management</a>
+                    <a class="btn btn-warning" href="/users/admin/password">Change Password</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
