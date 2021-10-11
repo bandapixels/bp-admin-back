@@ -1,0 +1,51 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 14.x ]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm i
+      - run: npm run build
+  #    - run: npm test
+
+  Deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy in EC2
+        env:
+          PRIVATE_KEY: ${{ secrets.AWS_SECRET_KEY }}
+          HOSTNAME: ${{ secrets.AWS_HOSTNAME }}
+          USER_NAME: ${{ secrets.AWS_USERNAME }}
+
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+          cd /var/www/html/prod/bp-admin-back &&
+          git checkout main &&
+          git fetch --all &&
+          git reset --hard origin/main &&
+          git pull origin main '
