@@ -1,5 +1,5 @@
 import { Connection } from 'typeorm';
-import { AdminTag } from './tag/entity/admin.tag.entity';
+import { AdminTag } from './entity/admin.tag.entity';
 
 export const adminTagProviders = [
   {

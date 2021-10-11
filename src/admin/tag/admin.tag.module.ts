@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AdminTagController } from './admin.tag.controller';
 import AdminTagService from './admin.tag.service';
 import { DatabaseModule } from '../../Config/database.module';
-import { adminTagProviders } from '../admin.tag.providers';
+import { adminTagProviders } from './admin.tag.providers';
 
 @Module({
   imports: [DatabaseModule],
