@@ -4,29 +4,11 @@ import newTokenCreator from './utils/create.new.token';
 import { UserDto } from 'src/auth/dto/createUser.dto';
 import { User } from 'src/auth/entity/User';
 import { Role } from 'src/auth/Models/role.enum';
+import {ERRORS_AUTH} from "src/constants/errors";
 
 @Injectable()
 export class UserService implements User {
   constructor() {}
-
-  role: Role;
-
-  async registration(userData: UserDto): Promise<any> {
-    const searchUser = await getConnection()
-      .getRepository('user')
-      .findOne({
-        where: { email: userData.email },
-      });
-
-    if (searchUser) return { status: false, error: 'user exists' };
-
-    userData.refreshToken = 'inactive';
-    userData.role = 'admin';
-
-    const user = await getConnection().getRepository('user').create(userData);
-    await getConnection().getRepository('user').save(user);
-    return true;
-  }
 
   async login(userData: UserDto): Promise<any> {
     const user: any = await getConnection()
@@ -41,7 +23,7 @@ export class UserService implements User {
       const jwtToken = newTokenCreator(user.email);
       return { user, jwtToken };
     } else {
-      return { status: false, error: process.env.USER_NOT_EXISTS };
+      return { status: false, error: ERRORS_AUTH.USER_NOT_EXISTS };
     }
   }
 
@@ -76,4 +58,5 @@ export class UserService implements User {
   password: string;
   updated_at: Date;
   refreshToken: string;
+  role: Role;
 }

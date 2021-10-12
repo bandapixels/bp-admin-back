@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from 'src/auth/Service/User/user.service';
 import valid from 'src/auth/Helpers/incoming.data.validator';
+import { ERRORS_AUTH } from '../../constants/errors';
 import { UserDto } from '../dto/createUser.dto';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/Models/role.enum';
@@ -26,19 +27,9 @@ export class UserController {
   allUsers(): Promise<void> {
     const getUsers = this.appService.allUsers();
     if (!getUsers) {
-      throw new Error(process.env.USER_NOT_EXISTS);
+      throw new Error(ERRORS_AUTH.USER_NOT_EXISTS);
     }
     return getUsers;
-  }
-
-  @Post('/registration')
-  async registration(@Body() UserDto: UserDto): Promise<any> {
-    await valid.registrationLoginInputData(UserDto);
-    const register = this.appService.registration(UserDto);
-    if (!register) {
-      throw new Error(process.env.REGISTRATED_ERROR);
-    }
-    return register;
   }
 
   @Get('/login')
@@ -52,7 +43,7 @@ export class UserController {
     const logined = this.appService.login(UserDto);
 
     if (!logined) {
-      throw new Error(process.env.AUTHORIZATION_ERROR);
+      throw new Error(ERRORS_AUTH.AUTHORIZATION_ERROR);
     }
     return logined;
   }
@@ -65,7 +56,7 @@ export class UserController {
   logout(@Body() UserDto: UserDto): Promise<void> {
     const loggingOut = this.appService.logout(UserDto);
     if (!loggingOut) {
-      throw new Error(process.env.USER_NOT_EXISTS);
+      throw new Error(ERRORS_AUTH.USER_NOT_EXISTS);
     }
     return loggingOut;
   }
@@ -74,7 +65,7 @@ export class UserController {
   newJwtByRefresh(@Headers() headers, @Body() UserDto: UserDto): Promise<void> {
     const createdToken = this.appService.newJwtByRefresh(headers, UserDto);
     if (!createdToken) {
-      throw new Error(process.env.USER_NOT_EXISTS);
+      throw new Error(ERRORS_AUTH.USER_NOT_EXISTS);
     }
     return createdToken;
   }
