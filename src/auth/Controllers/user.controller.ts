@@ -8,7 +8,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from 'src/auth/Service/User/user.service';
-import valid from 'src/auth/Helpers/incoming.data.validator';
 import { ERRORS_AUTH } from '../../constants/errors';
 import { UserDto } from '../dto/createUser.dto';
 import { Roles } from 'src/auth/decorators/roles.decorator';
