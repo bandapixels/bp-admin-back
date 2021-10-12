@@ -12,6 +12,8 @@ import { LoggerMiddleware } from 'src/auth/Middlewares/logger.middleware';
 import AdminTagModule from './admin/tag/admin.tag.module';
 import { User } from './auth/entity/User';
 import { Tag } from './admin/tag/entity/admin.tag.entity';
+import { Post } from './admin/post/entities/admin.post.entity';
+import AdminPostModule from './admin/post/admin.post.module';
 
 @Module({
   imports: [
@@ -24,9 +26,10 @@ import { Tag } from './admin/tag/entity/admin.tag.entity';
       password: 'password',
       database: 'banda',
       synchronize: true,
-      entities: [User, Tag],
+      entities: [User, Tag, Post],
     }),
     AdminTagModule,
+    AdminPostModule,
   ],
   controllers: [UserController],
   providers: [UserService],
