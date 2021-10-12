@@ -11,6 +11,8 @@ import { UserService } from 'src/auth/Service/User/user.service';
 import { LoggerMiddleware } from 'src/auth/Middlewares/logger.middleware';
 import { User } from 'src/auth/entity/User';
 import * as dotenv from 'dotenv';
+import { Tag } from 'src/admin/tag/entity/admin.tag.entity';
+import AdminTagModule from 'src/admin/tag/admin.tag.module';
 dotenv.config({});
 
 @Module({
@@ -23,18 +25,17 @@ dotenv.config({});
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DATABASE,
-      entities: [User],
+      entities: [User, Tag],
       synchronize: true,
     }),
+    AdminTagModule,
   ],
   controllers: [UserController],
   providers: [UserService],
 })
-
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(LoggerMiddleware)
-      .forRoutes('/users/auth/');
-  }
-}
+export class AppModule {}
+//   implements NestModule {
+//   configure(consumer: MiddlewareConsumer) {
+//     consumer.apply(LoggerMiddleware).forRoutes('/users/auth/');
+//   }
+// }

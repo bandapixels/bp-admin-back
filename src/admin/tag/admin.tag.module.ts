@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AdminTagController } from './admin.tag.controller';
 import AdminTagService from './admin.tag.service';
-import { DatabaseModule } from '../../Config/database.module';
-import { adminTagProviders } from './admin.tag.providers';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Tag } from 'src/admin/tag/entity/admin.tag.entity';
 
 @Module({
-  imports: [DatabaseModule],
   controllers: [AdminTagController],
-  providers: [...adminTagProviders, AdminTagService],
+  providers: [AdminTagService],
+  imports: [TypeOrmModule.forFeature([Tag])],
+
 })
 export default class AdminTagModule {}
