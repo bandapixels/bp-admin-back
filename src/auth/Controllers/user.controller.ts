@@ -14,6 +14,7 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/Models/role.enum';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import * as dotenv from 'dotenv';
+import valid from "src/auth/Helpers/incoming.data.validator";
 dotenv.config({ path: '../../../.errors.env' });
 
 @Controller('users')
@@ -36,9 +37,9 @@ export class UserController {
   loginPage(@Body() UserDto: UserDto): void {};
 
   @Post('/login')
-  login(@Body() UserDto: UserDto): Promise<void> {
+  async login(@Body() UserDto: UserDto): Promise<void> {
     console.log(UserDto);
-
+    const val = await valid.loginInputData(UserDto);
     const logined = this.appService.login(UserDto);
 
     if (!logined) {
@@ -51,7 +52,7 @@ export class UserController {
   @Render('admin/home.ejs')
   home(): void {}
 
-  @Get('/auth/logout')
+  @Post('/auth/logout')
   logout(@Body() UserDto: UserDto): Promise<void> {
     const loggingOut = this.appService.logout(UserDto);
     if (!loggingOut) {
