@@ -1,12 +1,13 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { TagDto } from './dto/tag.dto';
 import { Tag } from './entity/admin.tag.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export default class AdminTagService {
   constructor(
-    @Inject('ADMIN_TAG_REPOSITORY')
+    @InjectRepository(Tag)
     private adminTagRepository: Repository<Tag>,
   ) {}
 
@@ -17,8 +18,16 @@ export default class AdminTagService {
     });
   }
 
+  async getAllTags() {
+    return this.adminTagRepository.find();
+  }
+
   async getTagsById(id) {
     return this.adminTagRepository.findOne(id);
+  }
+
+  async getTagsByIds(ids) {
+    return this.adminTagRepository.findByIds(ids);
   }
 
   async createTag(newTag: TagDto) {
