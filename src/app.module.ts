@@ -15,7 +15,8 @@ import { Tag } from 'src/admin/tag/entity/admin.tag.entity';
 import AdminTagModule from 'src/admin/tag/admin.tag.module';
 dotenv.config({});
 import { Post } from './admin/post/entities/admin.post.entity';
-import AdminPostModule from "src/admin/post/admin.post.module";
+import AdminPostModule from 'src/admin/post/admin.post.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -32,6 +33,10 @@ import AdminPostModule from "src/admin/post/admin.post.module";
     }),
     AdminTagModule,
     AdminPostModule,
+
+    MulterModule.register({
+      dest: './uploads',
+    }),
   ],
   controllers: [UserController],
   providers: [UserService],
