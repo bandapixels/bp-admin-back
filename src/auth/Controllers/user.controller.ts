@@ -14,7 +14,7 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/Models/role.enum';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import * as dotenv from 'dotenv';
-import valid from "src/auth/Helpers/incoming.data.validator";
+import valid from 'src/auth/Helpers/incoming.data.validator';
 dotenv.config({ path: '../../../.errors.env' });
 
 @Controller('users')

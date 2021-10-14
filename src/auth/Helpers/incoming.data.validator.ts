@@ -8,7 +8,8 @@ async function loginInputData(body) {
   });
   const validatorParams = schema.validate(body);
   if (validatorParams.error) {
-    throw new HttpException({
+    throw new HttpException(
+      {
         status: HttpStatus.FORBIDDEN,
         error: validatorParams.error.details[0].message,
       },
