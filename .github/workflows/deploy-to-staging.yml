@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [ 14.x ]
+        node-version: [14.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -38,8 +38,8 @@ jobs:
       - name: Deploy in EC2
         env:
           PRIVATE_KEY: ${{ secrets.AWS_SECRET_KEY }}
-          HOSTNAME: ${{ secrets.AWS_HOSTNAME }}
-          USER_NAME: ${{ secrets.AWS_USERNAME }}
+          HOSTNAME : ${{ secrets.AWS_HOSTNAME }}
+          USER_NAME : ${{ secrets.AWS_USERNAME }}
 
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key

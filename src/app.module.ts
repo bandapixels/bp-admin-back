@@ -2,38 +2,37 @@ import {
   forwardRef,
   MiddlewareConsumer,
   Module,
-  NestModule
-} from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { UsersModule } from "src/auth/Models/users.module";
-import { UserController } from "src/auth/Controllers/user.controller";
-import { UserService } from "src/auth/Service/User/user.service";
-import { LoggerMiddleware } from "src/auth/Middlewares/logger.middleware";
-import AdminTagModule from "./admin/tag/admin.tag.module";
-import { User } from "./auth/entity/User";
-import { Tag } from "./admin/tag/entity/admin.tag.entity";
-import { Post } from "./admin/post/entities/admin.post.entity";
+  NestModule,
+} from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from 'src/auth/Models/users.module';
+import { UserController } from 'src/auth/Controllers/user.controller';
+import { UserService } from 'src/auth/Service/User/user.service';
+import { LoggerMiddleware } from 'src/auth/Middlewares/logger.middleware';
+import { User } from 'src/auth/entity/User';
+import * as dotenv from 'dotenv';
+import { Tag } from 'src/admin/tag/entity/admin.tag.entity';
+import AdminTagModule from 'src/admin/tag/admin.tag.module';
+dotenv.config({});
+import { Post } from './admin/post/entities/admin.post.entity';
+
 
 @Module({
   imports: [
     forwardRef(() => UsersModule),
     TypeOrmModule.forRoot({
-      type: "mysql",
-      host: "localhost",
-      port: 3306,
-      username: "newuser",
-      password: "password",
-      database: "banda",
+      type: 'mysql',
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DATABASE,
+      entities: [User, Tag, Post],
       synchronize: true,
-      entities: [User, Tag, Post]
     }),
-    AdminTagModule
+    AdminTagModule,
   ],
   controllers: [UserController],
-  providers: [UserService]
+  providers: [UserService],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes("/users/auth/");
-  }
-}
+export class AppModule {}
