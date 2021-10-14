@@ -1,24 +1,23 @@
-import { Injectable } from "@nestjs/common";
-import { Post } from "./entities/admin.post.entity";
-import { Repository } from "typeorm";
-import { PostDto } from "./dto/post.dto";
-import { InjectRepository } from "@nestjs/typeorm";
-import AdminTagService from "../tag/admin.tag.service";
+import { Injectable } from '@nestjs/common';
+import { Post } from './entities/admin.post.entity';
+import { Repository } from 'typeorm';
+import { PostDto } from './dto/post.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import AdminTagService from '../tag/admin.tag.service';
 
 @Injectable()
 export default class AdminPostService {
   constructor(
     @InjectRepository(Post)
     private adminPostRepository: Repository<Post>,
-    private readonly adminTagService: AdminTagService
-  ) {
-  }
+    private readonly adminTagService: AdminTagService,
+  ) {}
 
   public async getAllPosts(skipNum, takeNum) {
     return this.adminPostRepository.find({
       skip: skipNum,
       take: takeNum,
-      relations: ["tags"]
+      relations: ['tags'],
     });
   }
 

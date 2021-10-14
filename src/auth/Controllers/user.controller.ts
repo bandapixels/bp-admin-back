@@ -34,7 +34,7 @@ export class UserController {
 
   @Get('/login')
   @Render('auth/login.ejs')
-  loginPage(@Body() UserDto: UserDto): void {};
+  loginPage(@Body() UserDto: UserDto): void {}
 
   @Post('/login')
   async login(@Body() UserDto: UserDto): Promise<void> {

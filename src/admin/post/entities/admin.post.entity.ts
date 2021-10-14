@@ -1,5 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-import { Tag } from "../../tag/entity/admin.tag.entity";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Tag } from '../../tag/entity/admin.tag.entity';
 
 @Entity()
 export class Post {

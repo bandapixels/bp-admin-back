@@ -4,7 +4,7 @@ import newTokenCreator from './utils/create.new.token';
 import { UserDto } from 'src/auth/dto/createUser.dto';
 import { User } from 'src/auth/entity/User';
 import { Role } from 'src/auth/Models/role.enum';
-import {ERRORS_AUTH} from "src/constants/errors";
+import { ERRORS_AUTH } from 'src/constants/errors';
 
 @Injectable()
 export class UserService implements User {
