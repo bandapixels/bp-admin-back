@@ -1,7 +1,11 @@
 import {
   Body,
+  UseInterceptors,
+  UploadedFiles,
   Controller,
   Get,
+  HttpException,
+  HttpStatus,
   Post,
   Query,
   Render,
@@ -13,6 +17,11 @@ import { PostDto } from './dto/post.dto';
 import AdminTagService from '../tag/admin.tag.service';
 import { JoiValidationPipe } from '../../filter/joi.validation.pipe';
 import { CreatePostSchema } from './schema/create.post.schema';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { editFileName } from 'src/admin/post/Helpers/edit.file.name';
+import { imageFileFilter } from 'src/admin/post/Helpers/image.file.filter';
+import { ERRORS_POST } from 'src/constants/errors';
 import { Roles } from '../../auth/decorators/roles.decorator';
 import { Role } from '../../auth/Models/role.enum';
 
@@ -40,6 +49,44 @@ export class AdminPostController {
 
   @Post('/create')
   @UsePipes(new JoiValidationPipe(CreatePostSchema))
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      [
+        { name: 'image', maxCount: 1 },
+        { name: 'previewImage', maxCount: 1 },
+      ],
+      {
+        storage: diskStorage({
+          destination: './uploads',
+          filename: editFileName,
+        }),
+        fileFilter: imageFileFilter,
+      },
+    ),
+  )
+  uploadFile(
+    @UploadedFiles()
+    files: {
+      image?: Express.Multer.File[];
+      previewImage?: Express.Multer.File[];
+    },
+  ) {
+    if (!files.image || !files.previewImage) {
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: ERRORS_POST.COUNT_IMAGE,
+        },
+        HttpStatus.FORBIDDEN,
+      );
+    }
+    const response = {
+      originalNameAvatar: files.image,
+      filenameBackground: files.previewImage,
+    };
+    return response;
+  }
+
   public async createPost(@Body() newPost: PostDto, @Res() res) {
     await this.adminPostService.createPost(newPost);
     res.redirect('/admin/posts');
