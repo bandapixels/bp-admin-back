@@ -47,7 +47,7 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
-                    <% if(guest === true) { %>
+                    <% if(!isAuthorized) { %>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Login</a>
                         </li>

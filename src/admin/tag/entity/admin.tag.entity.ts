@@ -1,5 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Post } from '../../post/entities/admin.post.entity';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Tag {
@@ -7,6 +6,4 @@ export class Tag {
   id: number;
   @Column()
   name: string;
-  @ManyToOne(() => Post)
-  post?: Post;
 }

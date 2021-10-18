@@ -10,8 +10,11 @@ import {
 } from '@nestjs/common';
 import AdminTagService from './admin.tag.service';
 import { TagDto } from './dto/tag.dto';
+import { Roles } from '../../auth/decorators/roles.decorator';
+import { Role } from '../../auth/Models/role.enum';
 
 @Controller('admin/tags')
+@Roles(Role.ADMIN)
 export class AdminTagController {
   constructor(private readonly adminTagService: AdminTagService) {}
 
@@ -19,13 +22,13 @@ export class AdminTagController {
   @Render('layouts/app.ejs')
   public async getAllTags(@Query('skip') skip = 0, @Query('take') take = 30) {
     const tags = await this.adminTagService.getTags(skip, take);
-    return { tags, body: '../admin/tag/index.ejs', guest: false };
+    return { tags, body: '../admin/tag/index.ejs', isAuthorized: true };
   }
 
   @Get('/create')
   @Render('layouts/app.ejs')
   public async creatingTag() {
-    return { body: '../admin/tag/create.ejs', guest: false };
+    return { body: '../admin/tag/create.ejs', isAuthorized: true };
   }
 
   @Post('/create')
@@ -38,7 +41,7 @@ export class AdminTagController {
   @Render('layouts/app.ejs')
   public async editingTag(@Param('id') tagId) {
     const tag = await this.adminTagService.getTagsById(tagId);
-    return { tag, body: '../admin/tag/edit.ejs', guest: false };
+    return { tag, body: '../admin/tag/edit.ejs', isAuthorized: true };
   }
 
   @Post('/:id/edit')
