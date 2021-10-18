@@ -45,7 +45,7 @@ export class AdminPostController {
   }
 
   @Post('/create')
-  // @UsePipes(new JoiValidationPipe(CreatePostSchema))
+  @UsePipes(new JoiValidationPipe(CreatePostSchema))
   @UseInterceptors(
     FileFieldsInterceptor(
       [
@@ -80,20 +80,9 @@ export class AdminPostController {
         HttpStatus.FORBIDDEN,
       );
     }
-    const response = {
-      originalNameAvatar: files.image,
-      filenameBackground: files.previewImage,
-    };
-    console.log(response);
-    newPost.image = response.originalNameAvatar[0].filename;
-    newPost.preview_image = response.filenameBackground[0].filename;
+    newPost.image = files.image[0].filename;
+    newPost.preview_image = files.previewImage[0].filename;
     await this.adminPostService.createPost(newPost);
     res.redirect('/admin/posts');
-    return response;
   }
-
-  // public async createPost(@Body() newPost: PostDto, @Res() res) {
-  //   await this.adminPostService.createPost(newPost);
-  //   res.redirect('/admin/posts');
-  // }
 }
