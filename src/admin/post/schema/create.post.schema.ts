@@ -9,5 +9,5 @@ export const CreatePostSchema = Joi.object({
   tags: Joi.array().items(Joi.string()),
   mins_to_read: Joi.number().min(0).required(),
   body: Joi.string().max(4294967294).required(),
-  files: Joi.any(),
+  // files: Joi.any(),
 });

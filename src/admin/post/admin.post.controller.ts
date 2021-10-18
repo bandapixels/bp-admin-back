@@ -34,18 +34,18 @@ export class AdminPostController {
   @Render('layouts/app.ejs')
   public async getPosts(@Query('skip') skip = 0, @Query('take') take = 30) {
     const posts = await this.adminPostService.getAllPosts(skip, take);
-    return { posts, body: '../admin/post/index.ejs', guest: false };
+    return { posts, body: '../admin/post/index.ejs', isAuthorized: true };
   }
 
   @Get('/create')
   @Render('layouts/app.ejs')
   public async creatingPost() {
     const tags = await this.adminTagService.getAllTags();
-    return { tags, body: '../admin/post/create.ejs', guest: false };
+    return { tags, body: '../admin/post/create.ejs', isAuthorized: true };
   }
 
   @Post('/create')
-  @UsePipes(new JoiValidationPipe(CreatePostSchema))
+  // @UsePipes(new JoiValidationPipe(CreatePostSchema))
   @UseInterceptors(
     FileFieldsInterceptor(
       [
@@ -61,13 +61,16 @@ export class AdminPostController {
       },
     ),
   )
-  uploadFile(
+  public async uploadFile(
     @UploadedFiles()
     files: {
       image?: Express.Multer.File[];
       previewImage?: Express.Multer.File[];
     },
+    @Body() newPost: PostDto,
+    @Res() res,
   ) {
+    console.log(files);
     if (!files.image || !files.previewImage) {
       throw new HttpException(
         {
@@ -81,11 +84,16 @@ export class AdminPostController {
       originalNameAvatar: files.image,
       filenameBackground: files.previewImage,
     };
+    console.log(response);
+    newPost.image = response.originalNameAvatar[0].filename;
+    newPost.preview_image = response.filenameBackground[0].filename;
+    await this.adminPostService.createPost(newPost);
+    res.redirect('/admin/posts');
     return response;
   }
 
-  public async createPost(@Body() newPost: PostDto, @Res() res) {
-    await this.adminPostService.createPost(newPost);
-    res.redirect('/admin/posts');
-  }
+  // public async createPost(@Body() newPost: PostDto, @Res() res) {
+  //   await this.adminPostService.createPost(newPost);
+  //   res.redirect('/admin/posts');
+  // }
 }

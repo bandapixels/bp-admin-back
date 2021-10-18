@@ -19,13 +19,13 @@ export class AdminTagController {
   @Render('layouts/app.ejs')
   public async getAllTags(@Query('skip') skip = 0, @Query('take') take = 30) {
     const tags = await this.adminTagService.getTags(skip, take);
-    return { tags, body: '../admin/tag/index.ejs', guest: false };
+    return { tags, body: '../admin/tag/index.ejs', isAuthorized: true };
   }
 
   @Get('/create')
   @Render('layouts/app.ejs')
   public async creatingTag() {
-    return { body: '../admin/tag/create.ejs', guest: false };
+    return { body: '../admin/tag/create.ejs', isAuthorized: true };
   }
 
   @Post('/create')

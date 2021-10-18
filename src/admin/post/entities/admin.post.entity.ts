@@ -27,6 +27,6 @@ export class Post {
   body: string;
   @Column({ default: null })
   url: string;
-  @Column()
-  files: string;
+  // @Column()
+  // files: string;
 }
