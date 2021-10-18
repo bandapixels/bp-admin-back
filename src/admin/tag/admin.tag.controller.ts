@@ -10,8 +10,11 @@ import {
 } from '@nestjs/common';
 import AdminTagService from './admin.tag.service';
 import { TagDto } from './dto/tag.dto';
+import { Roles } from '../../auth/decorators/roles.decorator';
+import { Role } from '../../auth/Models/role.enum';
 
 @Controller('admin/tags')
+@Roles(Role.ADMIN)
 export class AdminTagController {
   constructor(private readonly adminTagService: AdminTagService) {}
 
@@ -38,7 +41,7 @@ export class AdminTagController {
   @Render('layouts/app.ejs')
   public async editingTag(@Param('id') tagId) {
     const tag = await this.adminTagService.getTagsById(tagId);
-    return { tag, body: '../admin/tag/edit.ejs', guest: false };
+    return { tag, body: '../admin/tag/edit.ejs', isAuthorized: true };
   }
 
   @Post('/:id/edit')

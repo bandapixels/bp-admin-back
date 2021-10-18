@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  JoinTable,
+  ManyToMany,
+} from 'typeorm';
 import { Tag } from '../../tag/entity/admin.tag.entity';
 
 @Entity()
@@ -9,7 +15,8 @@ export class Post {
   head!: string;
   @Column({ default: 0 })
   views: number;
-  @OneToMany(() => Tag, (tag) => tag.post, { cascade: true })
+  @ManyToMany(() => Tag, { cascade: true })
+  @JoinTable()
   tags?: Tag[];
   @Column({ default: false })
   public: boolean;

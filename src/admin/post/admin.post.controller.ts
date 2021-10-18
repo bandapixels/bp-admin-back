@@ -22,8 +22,11 @@ import { diskStorage } from 'multer';
 import { editFileName } from 'src/admin/post/Helpers/edit.file.name';
 import { imageFileFilter } from 'src/admin/post/Helpers/image.file.filter';
 import { ERRORS_POST } from 'src/constants/errors';
+import { Roles } from '../../auth/decorators/roles.decorator';
+import { Role } from '../../auth/Models/role.enum';
 
 @Controller('admin/posts')
+@Roles(Role.ADMIN)
 export class AdminPostController {
   constructor(
     private readonly adminPostService: AdminPostService,
