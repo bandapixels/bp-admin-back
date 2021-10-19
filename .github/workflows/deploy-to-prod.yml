@@ -29,6 +29,7 @@ jobs:
       - run: npm run build
   #    - run: npm test
 
+
   Deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -40,6 +41,7 @@ jobs:
           PRIVATE_KEY: ${{ secrets.AWS_SECRET_KEY }}
           HOSTNAME : ${{ secrets.AWS_HOSTNAME }}
           USER_NAME : ${{ secrets.AWS_USERNAME }}
+
 
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
