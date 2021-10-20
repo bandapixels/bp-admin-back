@@ -29,6 +29,7 @@ export class UserController {
 
   async login(@Body() UserDto: UserDto): Promise<void> {
     console.log(UserDto);
+
     UserDto.password = encode(UserDto.password);
     const logined = this.appService.login(UserDto);
 
