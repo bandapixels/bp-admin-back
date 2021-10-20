@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { getConnection } from 'typeorm';
-import newTokenCreator from './utils/create.new.token';
 import { UserDto } from 'src/auth/dto/createUser.dto';
 import { User } from 'src/auth/entity/User';
 import { Role } from 'src/auth/Models/role.enum';
@@ -36,11 +35,6 @@ export class UserService implements User {
       return { status: true };
     }
     return { status: false };
-  }
-
-  async newJwtByRefresh(headers, user): Promise<any> {
-    const jwtToken = newTokenCreator(user.name);
-    return jwtToken;
   }
 
   created_at: Date;

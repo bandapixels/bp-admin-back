@@ -2,13 +2,12 @@ import {
   Body,
   Controller,
   Get,
-  Headers,
   Post,
   Render, Req, Res,
   UsePipes,
 } from '@nestjs/common';
 import {UserService} from 'src/auth/Service/User/user.service';
-import {ERRORS_AUTH} from '../../constants/errors';
+import {ERRORS_AUTH} from 'src/constants/errors';
 import {UserDto} from '../dto/createUser.dto';
 import * as dotenv from 'dotenv';
 import {CreateUserSchema} from 'src/auth/Helpers/incoming.data.validator';
@@ -57,12 +56,4 @@ export class UserController {
     return loggingOut;
   }
 
-  @Get('/auth/new-jwt')
-  newJwtByRefresh(@Headers() headers, @Body() UserDto: UserDto): Promise<void> {
-    const createdToken = this.appService.newJwtByRefresh(headers, UserDto);
-    if (!createdToken) {
-      throw new Error(ERRORS_AUTH.USER_NOT_EXISTS);
-    }
-    return createdToken;
-  }
 }
