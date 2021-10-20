@@ -144,7 +144,7 @@ export class InitTables1634654126916 implements MigrationInterface {
           },
           {
             name: 'body',
-            type: 'varchar',
+            type: 'longtext',
             isNullable: false,
           },
           {
