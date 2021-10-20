@@ -18,10 +18,7 @@ export class UserService implements User {
         attributes: ['name'],
       });
     if (user) {
-      user.refreshToken = newTokenCreator(user.email);
-      await getConnection().getRepository('user').save(user);
-      const jwtToken = newTokenCreator(user.email);
-      return { user, jwtToken };
+      return { user  };
     } else {
       return { status: false, error: ERRORS_AUTH.USER_NOT_EXISTS };
     }
@@ -39,11 +36,6 @@ export class UserService implements User {
       return { status: true };
     }
     return { status: false };
-  }
-
-  async allUsers(): Promise<any> {
-    const users = await getConnection().getRepository('user').find();
-    return users;
   }
 
   async newJwtByRefresh(headers, user): Promise<any> {

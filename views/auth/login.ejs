@@ -20,8 +20,7 @@
     }));
     xhr.onload = function () {
       const data = JSON.parse(this.responseText);
-      console.log(data.jwtToken);
-      if (!data.jwtToken) {
+      if (!data.user) {
         document.getElementById('loginError').innerHTML = 'These credentials do not match our records.';
         document.getElementById('passwordError').innerHTML = 'These credentials do not match our records.';
       } else {

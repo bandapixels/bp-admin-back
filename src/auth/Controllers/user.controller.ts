@@ -4,44 +4,49 @@ import {
   Get,
   Headers,
   Post,
-  Render,
+  Render, Req, Res,
   UsePipes,
 } from '@nestjs/common';
-import { UserService } from 'src/auth/Service/User/user.service';
-import { ERRORS_AUTH } from '../../constants/errors';
-import { UserDto } from '../dto/createUser.dto';
+import {UserService} from 'src/auth/Service/User/user.service';
+import {ERRORS_AUTH} from '../../constants/errors';
+import {UserDto} from '../dto/createUser.dto';
 import * as dotenv from 'dotenv';
-import { CreateUserSchema } from 'src/auth/Helpers/incoming.data.validator';
-import { JoiValidationPipe } from "src/filter/joi.validation.pipe";
+import {CreateUserSchema} from 'src/auth/Helpers/incoming.data.validator';
+import {JoiValidationPipe} from "src/filter/joi.validation.pipe";
 import {encode} from "src/auth/Helpers/hash.password";
-dotenv.config({ path: '../../../.errors.env' });
+
+dotenv.config({path: '../../../.errors.env'});
+import {Request} from "express";
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly appService: UserService) {}
+  constructor(private readonly appService: UserService) {
+  }
 
   @Get('/login')
   @Render('auth/login.ejs')
-  loginPage(@Body() UserDto: UserDto): void {}
+  async loginPage(@Body() UserDto: UserDto, @Req() request: Request, @Res() res) {
+    if (request.cookies.password && request.cookies.email) {
+      request.cookies.password = encode(request.cookies.password);
+      if (await this.appService.login(request.cookies))
+        res.redirect('/users/admin/home')
+    }
+  }
 
   @Post('/login')
   @UsePipes(new JoiValidationPipe(CreateUserSchema))
-
   async login(@Body() UserDto: UserDto): Promise<void> {
-    console.log(UserDto);
-
     UserDto.password = encode(UserDto.password);
-    const logined = this.appService.login(UserDto);
+    const logined = await this.appService.login(UserDto);
 
-    if (!logined) {
-      throw new Error(ERRORS_AUTH.AUTHORIZATION_ERROR);
-    }
+    if (!logined) throw new Error(ERRORS_AUTH.AUTHORIZATION_ERROR);
     return logined;
   }
 
   @Get('/admin/home')
   @Render('admin/home.ejs')
-  home(): void {}
+  home(): void {
+  }
 
   @Post('/auth/logout')
   logout(@Body() UserDto: UserDto): Promise<void> {
