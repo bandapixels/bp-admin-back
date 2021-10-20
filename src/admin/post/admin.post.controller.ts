@@ -19,7 +19,6 @@ import { JoiValidationPipe } from '../../filter/joi.validation.pipe';
 import { CreatePostSchema } from './schema/create.post.schema';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { editFileName } from 'src/admin/post/Helpers/edit.file.name';
 import { imageFileFilter } from 'src/admin/post/Helpers/image.file.filter';
 import { ERRORS_POST } from 'src/constants/errors';
 import { Roles } from '../../auth/decorators/roles.decorator';
@@ -58,7 +57,6 @@ export class AdminPostController {
       {
         storage: diskStorage({
           destination: './uploads',
-          filename: editFileName,
         }),
         fileFilter: imageFileFilter,
       },
