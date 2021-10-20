@@ -8,6 +8,6 @@ export const CreatePostSchema = Joi.object({
   preview_image: Joi.any().required(),
   tags: Joi.array().items(Joi.string()),
   mins_to_read: Joi.number().min(0).required(),
-  body: Joi.string().max(4294967294).required(),
+  body: Joi.string().max(Number(process.env.MAX_LENGHT_BODY_POST)).required(),
   files: Joi.any(),
 });

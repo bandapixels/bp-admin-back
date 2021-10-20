@@ -22,9 +22,11 @@ export default class AdminPostService {
   }
 
   public async createPost(newPost: PostDto) {
-    newPost.tags = newPost?.tags?.length
-      ? await this.adminTagService.getTagsByIds(newPost.tags)
-      : [];
+    if(newPost.tags) {
+      newPost.tags = await this.adminTagService.getTagsByIds(newPost.tags)
+    }
+    else
+      newPost.tags = [];
     const post = await this.adminPostRepository.create(newPost);
     return this.adminPostRepository.save(post);
   }

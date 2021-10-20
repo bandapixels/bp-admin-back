@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'app1',
+      name: 'bp-api',
       script: './src/main.ts',
     },
   ],

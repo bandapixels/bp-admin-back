@@ -5,41 +5,31 @@ import {
   Headers,
   Post,
   Render,
-  UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 import { UserService } from 'src/auth/Service/User/user.service';
 import { ERRORS_AUTH } from '../../constants/errors';
 import { UserDto } from '../dto/createUser.dto';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-import { Role } from 'src/auth/Models/role.enum';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
 import * as dotenv from 'dotenv';
-import valid from 'src/auth/Helpers/incoming.data.validator';
+import { CreateUserSchema } from 'src/auth/Helpers/incoming.data.validator';
+import { JoiValidationPipe } from "src/filter/joi.validation.pipe";
+import {encode} from "src/auth/Helpers/hash.password";
 dotenv.config({ path: '../../../.errors.env' });
 
 @Controller('users')
 export class UserController {
   constructor(private readonly appService: UserService) {}
 
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @Get('/all-users')
-  allUsers(): Promise<void> {
-    const getUsers = this.appService.allUsers();
-    if (!getUsers) {
-      throw new Error(ERRORS_AUTH.USER_NOT_EXISTS);
-    }
-    return getUsers;
-  }
-
   @Get('/login')
   @Render('auth/login.ejs')
   loginPage(@Body() UserDto: UserDto): void {}
 
   @Post('/login')
+  @UsePipes(new JoiValidationPipe(CreateUserSchema))
+
   async login(@Body() UserDto: UserDto): Promise<void> {
     console.log(UserDto);
-    const val = await valid.loginInputData(UserDto);
+    UserDto.password = encode(UserDto.password);
     const logined = this.appService.login(UserDto);
 
     if (!logined) {
