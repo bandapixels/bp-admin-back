@@ -2,10 +2,14 @@ import {
   Body,
   Controller,
   Get,
+  HttpException,
+  HttpStatus,
   Post,
   Query,
   Render,
   Res,
+  UploadedFiles,
+  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import AdminPostService from './admin.post.service';
@@ -13,6 +17,10 @@ import { PostDto } from './dto/post.dto';
 import AdminTagService from '../tag/admin.tag.service';
 import { JoiValidationPipe } from '../../filter/joi.validation.pipe';
 import { CreatePostSchema } from './schema/create.post.schema';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { imageFileFilter } from 'src/admin/post/Helpers/image.file.filter';
+import { ERRORS_POST } from 'src/constants/errors';
 import { Roles } from '../../auth/decorators/roles.decorator';
 import { Role } from '../../auth/Models/role.enum';
 
@@ -40,7 +48,41 @@ export class AdminPostController {
 
   @Post('/create')
   @UsePipes(new JoiValidationPipe(CreatePostSchema))
-  public async createPost(@Body() newPost: PostDto, @Res() res) {
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      [
+        { name: 'image', maxCount: 1 },
+        { name: 'previewImage', maxCount: 1 },
+      ],
+      {
+        storage: diskStorage({
+          destination: './uploads',
+        }),
+        fileFilter: imageFileFilter,
+      },
+    ),
+  )
+  public async uploadFile(
+    @UploadedFiles()
+    files: {
+      image?: Express.Multer.File[];
+      previewImage?: Express.Multer.File[];
+    },
+    @Body() newPost: PostDto,
+    @Res() res,
+  ) {
+    console.log(files);
+    if (!files.image || !files.previewImage) {
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: ERRORS_POST.COUNT_IMAGE,
+        },
+        HttpStatus.FORBIDDEN,
+      );
+    }
+    newPost.image = files.image[0].filename;
+    newPost.preview_image = files.previewImage[0].filename;
     await this.adminPostService.createPost(newPost);
     res.redirect('/admin/posts');
   }

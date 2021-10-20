@@ -8,7 +8,7 @@
             <div class="d-flex justify-content-center">
                 <h4>Create Post</h4>
             </div>
-            <form action="create" method="post">
+            <form action="create" method="post" enctype="multipart/form-data">
                 <div class="form-group row">
                     <label for="head" class="col-md-4 col-form-label text-md-right">Title</label>
                     <div class="col-md-6">
@@ -57,7 +57,7 @@
                     <label for="preview_image" class="col-md-4 col-form-label text-md-right">Preview Image</label>
                     <div class="col-md-6">
                         <input class="form-control-file" type="file"
-                               name="preview_image" id="preview_image" required>
+                               name="previewImage" id="preview_image" required>
                         <span id="preview_image-error-message" class="invalid-feedback" role="alert">
                                             <strong></strong>
                                         </span>
@@ -99,7 +99,7 @@
 
                 <div class="form-group row mb-0">
                     <div class="col-md-6 offset-md-4">
-                        <button type="submit" class="btn btn-primary" onclick="create(); return false;">Create</button>
+                        <button type="submit" class="btn btn-primary">Create</button>
                     </div>
                 </div>
             </form>
