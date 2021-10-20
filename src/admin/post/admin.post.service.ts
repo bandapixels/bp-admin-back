@@ -30,4 +30,31 @@ export default class AdminPostService {
     const post = await this.adminPostRepository.create(newPost);
     return this.adminPostRepository.save(post);
   }
+
+  public async getPostById(id) {
+    return this.adminPostRepository.findOne(id, { relations: ['tags'] });
+  }
+
+  public async updatePost(id, updatePost: PostDto) {
+    const tags = updatePost.tags.length
+      ? await this.adminTagService.getTagsByIds(updatePost.tags)
+      : [];
+    delete updatePost.tags;
+    if (!updatePost.image) delete updatePost.image;
+    if (!updatePost.preview_image) delete updatePost.preview_image;
+    await this.adminPostRepository.update(id, { ...updatePost });
+    const post = await this.adminPostRepository.findOne(id);
+    post.tags = tags;
+    return this.adminPostRepository.save(post);
+  }
+
+  public async changePublishValue(id) {
+    const post = await this.adminPostRepository.findOne(id);
+    post.public = !post.public;
+    return this.adminPostRepository.save(post);
+  }
+
+  public async deletePost(id) {
+    return this.adminPostRepository.delete(id);
+  }
 }

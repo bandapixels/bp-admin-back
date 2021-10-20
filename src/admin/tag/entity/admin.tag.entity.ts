@@ -4,6 +4,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 export class Tag {
   @PrimaryGeneratedColumn()
   id: number;
+
   @Column()
   name: string;
 }
