@@ -8,7 +8,8 @@
             <div class="d-flex justify-content-center">
                 <h4>Update Post</h4>
             </div>
-            <form action="edit" method="post">
+            <form action="http://localhost:3000/admin/posts/<%= post.id %>/edit" method="post"
+                  enctype="multipart/form-data">
                 <div class="form-group row">
                     <label for="head" class="col-md-4 col-form-label text-md-right">Title</label>
                     <div class="col-md-6">
@@ -47,7 +48,7 @@
                     <label for="image" class="col-md-4 col-form-label text-md-right">Image</label>
                     <div class="col-md-6">
                         <input class="form-control-file" type="file"
-                               name="image" id="image">
+                               name="image" id="image" accept=".png, .jpg, .jpeg">
                         <span class="invalid-feedback" role="alert">
                                             <strong></strong>
                                         </span>
@@ -58,7 +59,7 @@
                     <label for="preview_image" class="col-md-4 col-form-label text-md-right">Preview Image</label>
                     <div class="col-md-6">
                         <input class="form-control-file" type="file"
-                               name="preview_image" id="preview_image">
+                               name="previewImage" id="preview_image" accept=".png, .jpg, .jpeg">
                         <span class="invalid-feedback" role="alert">
                                             <strong></strong>
                                         </span>

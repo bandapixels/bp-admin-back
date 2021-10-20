@@ -2,11 +2,15 @@ import {
   Body,
   Controller,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
   Query,
   Render,
   Res,
+  UploadedFiles,
+  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import AdminPostService from './admin.post.service';
@@ -17,6 +21,11 @@ import { CreatePostSchema } from './schema/create.post.schema';
 import { Roles } from '../../auth/decorators/roles.decorator';
 import { Role } from '../../auth/Models/role.enum';
 import { UpdatePostSchema } from './schema/update.post.schema';
+import { ERRORS_POST } from '../../constants/errors';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { imageFileFilter } from './Helpers/image.file.filter';
+import { editFileName } from './Helpers/edit.file.name';
 
 @Controller('admin/posts')
 @Roles(Role.ADMIN)
@@ -42,7 +51,41 @@ export class AdminPostController {
 
   @Post('/create')
   @UsePipes(new JoiValidationPipe(CreatePostSchema))
-  public async createPost(@Body() newPost: PostDto, @Res() res) {
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      [
+        { name: 'image', maxCount: 1 },
+        { name: 'previewImage', maxCount: 1 },
+      ],
+      {
+        storage: diskStorage({
+          destination: './uploads',
+        }),
+        fileFilter: imageFileFilter,
+      },
+    ),
+  )
+  public async uploadFile(
+    @UploadedFiles()
+    files: {
+      image?: Express.Multer.File[];
+      previewImage?: Express.Multer.File[];
+    },
+    @Body() newPost: PostDto,
+    @Res() res,
+  ) {
+    console.log(files);
+    if (!files.image || !files.previewImage) {
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: ERRORS_POST.COUNT_IMAGE,
+        },
+        HttpStatus.FORBIDDEN,
+      );
+    }
+    newPost.image = files.image[0].filename;
+    newPost.preview_image = files.previewImage[0].filename;
     await this.adminPostService.createPost(newPost);
     res.redirect('/admin/posts');
   }
@@ -57,11 +100,35 @@ export class AdminPostController {
 
   @Post('/:id/edit')
   @UsePipes(new JoiValidationPipe(UpdatePostSchema))
-  public async editPost(
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      [
+        { name: 'image', maxCount: 1 },
+        { name: 'previewImage', maxCount: 1 },
+      ],
+      {
+        storage: diskStorage({
+          destination: './uploads',
+          filename: editFileName,
+        }),
+        fileFilter: imageFileFilter,
+      },
+    ),
+  )
+  public async uploadFileAndEditPost(
+    @UploadedFiles()
+    files: {
+      image?: Express.Multer.File[];
+      previewImage?: Express.Multer.File[];
+    },
     @Body() editPost: PostDto,
     @Param('id') id,
     @Res() res,
   ) {
+    editPost.image = files.image ? files.image[0].filename : null;
+    editPost.preview_image = files.previewImage
+      ? files.previewImage[0].filename
+      : null;
     await this.adminPostService.updatePost(id, editPost);
     res.redirect('/admin/posts');
   }
