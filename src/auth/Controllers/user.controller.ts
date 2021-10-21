@@ -12,8 +12,6 @@ import {UserDto} from '../dto/createUser.dto';
 import * as dotenv from 'dotenv';
 import {CreateUserSchema} from 'src/auth/Helpers/incoming.data.validator';
 import {JoiValidationPipe} from "src/filter/joi.validation.pipe";
-import {encode} from "src/auth/Helpers/hash.password";
-
 dotenv.config({path: '../../../.errors.env'});
 import {Request} from "express";
 
@@ -25,9 +23,13 @@ export class UserController {
   @Get('/login')
   @Render('auth/login.ejs')
   async loginPage(@Body() UserDto: UserDto, @Req() request: Request, @Res() res) {
-    if (request.cookies.password && request.cookies.email) {
-      request.cookies.password = encode(request.cookies.password);
-      if (await this.appService.login(request.cookies))
+    if (
+      request &&
+      request.cookies &&
+      request.cookies.password &&
+      request.cookies.email &&
+      await this.appService.login(request.cookies))
+    {
         res.redirect('/users/admin/home')
     }
   }
@@ -35,10 +37,9 @@ export class UserController {
   @Post('/login')
   @UsePipes(new JoiValidationPipe(CreateUserSchema))
   async login(@Body() UserDto: UserDto): Promise<void> {
-    UserDto.password = encode(UserDto.password);
     const logined = await this.appService.login(UserDto);
-
     if (!logined) throw new Error(ERRORS_AUTH.AUTHORIZATION_ERROR);
+
     return logined;
   }
 

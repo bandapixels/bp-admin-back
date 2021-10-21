@@ -32,6 +32,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/serve-static": "^2.2.2",
     "@nestjs/typeorm": "^8.0.2",
+    "bcrypt": "^5.0.1",
     "bootstrap": "^5.1.2",
     "consolidate": "^0.16.0",
     "cookie-parser": "^1.4.5",
