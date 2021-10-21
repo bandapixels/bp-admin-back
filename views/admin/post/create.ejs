@@ -1,0 +1,116 @@
+<!-- include summernote css/js -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-center">
+                <h4>Create Post</h4>
+            </div>
+            <form action="http://localhost:3000/admin/posts/create" method="post" enctype="multipart/form-data">
+                <div class="form-group row">
+                    <label for="head" class="col-md-4 col-form-label text-md-right">Title</label>
+                    <div class="col-md-6">
+                        <input class="form-control" type="text" name="head"
+                               id="head" required max="255">
+                        <span id="head-error-message" class="invalid-feedback" role="alert">
+                                            <strong></strong>
+                                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="head" class="col-md-4 col-form-label text-md-right">Subtitle</label>
+                    <div class="col-md-6">
+                        <input class="form-control" type="text" name="subtitle"
+                               id="subtitle" maxlength="255">
+                        <span id="subtitle-error-message" class="invalid-feedback" role="alert">
+                                    <strong></strong>
+                                </span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="excerpt" class="col-md-4 col-form-label text-md-right">Excerpt</label>
+                    <div class="col-md-6">
+                        <textarea class="form-control" type="text" name="excerpt"
+                                  id="excerpt" required maxlength="2048"></textarea>
+                        <span id="excerpt-error-message" class="invalid-feedback" role="alert">
+                                            <strong></strong>
+                                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="image" class="col-md-4 col-form-label text-md-right">Image</label>
+                    <div class="col-md-6">
+                        <input class="form-control-file" type="file" name="image"
+                               id="image" required accept=".png, .jpg, .jpeg">
+                        <span id="image-error-message" class="invalid-feedback" role="alert">
+                                            <strong></strong>
+                                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="preview_image" class="col-md-4 col-form-label text-md-right">Preview Image</label>
+                    <div class="col-md-6">
+                        <input class="form-control-file" type="file"
+                               name="previewImage" id="preview_image" required accept=".png, .jpg, .jpeg">
+                        <span id="preview_image-error-message" class="invalid-feedback" role="alert">
+                                            <strong></strong>
+                                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="tags" class="col-md-4 col-form-label text-md-right">Tags</label>
+                    <div class="col-md-6">
+                        <select class="selectpicker" multiple title="Choose tags"
+                                name="tags[]" id="tags">
+                            <% tags.map((tag) => { %>
+                                <option value="<%= tag.id; %>"><%= tag.name; %></option>
+                            <% }); %>
+                        </select>
+                        <span id="tags-error-message" class="invalid-feedback" role="alert">
+                                            <strong></strong>
+                                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="mins_to_read" class="col-md-4 col-form-label text-md-right">Minutes To Read</label>
+                    <div class="col-md-6">
+                        <input class="form-control" type="number"
+                               name="mins_to_read" id="mins_to_read" required min="0">
+                        <span id="mins_to_read-error-message" class="invalid-feedback" role="alert">
+                                            <strong></strong>
+                                        </span>
+                    </div>
+                </div>
+
+                <textarea class="form-control" type="text" name="body" id="body" required
+                          maxlength="4294967294"></textarea>
+                <span id="body-error-message" class="invalid-feedback" role="alert">
+                                            <strong></strong>
+                                        </span>
+                <br>
+
+                <div class="form-group row mb-0">
+                    <div class="col-md-6 offset-md-4">
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $("#body").summernote({
+      height: 450
+    });
+  });
+</script>

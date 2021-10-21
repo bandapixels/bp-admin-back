@@ -1,6 +1,8 @@
 module.exports = {
-  apps : [{
-    name   : "app1",
-    script : "./src/main.ts"
-  }]
-}
+  apps: [
+    {
+      name: 'bp-api',
+      script: './src/main.ts',
+    },
+  ],
+};
