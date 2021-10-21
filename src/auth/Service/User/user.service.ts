@@ -4,7 +4,7 @@ import { UserDto } from 'src/auth/dto/createUser.dto';
 import { User } from 'src/auth/entity/User';
 import { Role } from 'src/auth/Models/role.enum';
 import { ERRORS_AUTH } from 'src/constants/errors';
-import {deHash} from "src/auth/Helpers/hash.password";
+import { deHash } from 'src/auth/Helpers/hash.password';
 
 @Injectable()
 export class UserService implements User {
@@ -18,7 +18,7 @@ export class UserService implements User {
         attributes: ['name'],
       });
     if (user && deHash(userData.password, user.password)) {
-      return { user  };
+      return { user };
     } else {
       return { status: false, error: ERRORS_AUTH.USER_NOT_EXISTS };
     }
