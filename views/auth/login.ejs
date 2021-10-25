@@ -2,37 +2,8 @@
 <html lang="en">
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-  function setCookies(name, value, props) {
-    props = props || {};
-    let exp = props.expires;
-    if (typeof exp == 'number' && exp) {
-      let d = new Date();
-      d.setTime(d.getTime() + exp * 1000);
-      exp = props.expires = d;
-    }
-    if (exp && exp.toUTCString) {
-      props.expires = exp.toUTCString();
-    }
-
-    value = encodeURIComponent(value);
-    let updatedCookie = name + '=' + value;
-    for (let propName in props) {
-      updatedCookie += '; ' + propName;
-      let propValue = props[propName];
-      if (propValue !== true) {
-        updatedCookie += '=' + propValue;
-      }
-    }
-    document.cookie = updatedCookie;
-  }
 
   async function login() {
-    const expiresTime = 432000;
-    const emailValue = document.getElementById('email').value;
-    const passwordValue = document.getElementById('password').value;
-    setCookies('email', emailValue, { expires: expiresTime })
-    setCookies('password', passwordValue, { expires: expiresTime })
-
     axios.post('/users/login', {
       email: document.getElementById('email').value,
       password: document.getElementById('password').value,
@@ -42,14 +13,11 @@
       }
     })
       .then((res) => {
-          if (!res.data.user) {
-            document.getElementById('loginError').innerHTML = 'These credentials do not match our records.';
-            document.getElementById('passwordError').innerHTML = 'These credentials do not match our records.';
-          } else {
             window.location.href = "/users/admin/home";
-          }
       })
-
+    .catch((err) => {
+      document.getElementById('loginError').innerHTML = 'These credentials do not match our records.';
+      document.getElementById('passwordError').innerHTML = 'These credentials do not match our records.';    })
   }
 </script>
 

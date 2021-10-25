@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { getConnection } from 'typeorm';
 import { UserDto } from 'src/auth/dto/createUser.dto';
-import { ERRORS_AUTH } from 'src/constants/errors';
 import { isCorrectPassword } from 'src/auth/Helpers/hash.password';
 
 @Injectable()
@@ -18,7 +17,7 @@ export class UserService {
     if (user && isCorrectPassword(userData.password, user.password)) {
       return { user };
     } else {
-      return { status: false, error: ERRORS_AUTH.USER_NOT_EXISTS };
+      return false;
     }
   }
 

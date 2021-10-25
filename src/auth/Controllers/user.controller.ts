@@ -41,11 +41,22 @@ export class UserController {
 
   @Post('/login')
   @UsePipes(new JoiValidationPipe(CreateUserSchema))
-  async login(@Body() UserDto: UserDto): Promise<void> {
+  async login(@Body() UserDto: UserDto, @Res() res): Promise<void> {
     const logined = await this.appService.login(UserDto);
     if (!logined) throw new Error(ERRORS_AUTH.AUTHORIZATION_ERROR);
 
-    return logined;
+    res.cookie('email', UserDto.email, {
+      expires: new Date(new Date().getTime() + process.env.EXPIRERS_TIME),
+      sameSite: 'strict',
+      httpOnly: true,
+    });
+    res
+      .cookie('password', UserDto.password, {
+        expires: new Date(new Date().getTime() + process.env.EXPIRERS_TIME),
+        sameSite: 'strict',
+        httpOnly: true,
+      })
+      .send(logined);
   }
 
   @Get('/admin/home')
