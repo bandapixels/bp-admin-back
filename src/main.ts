@@ -17,7 +17,7 @@ async function bootstrap() {
     session({
       secret: process.env.SECRET_KEY_SESSION,
       resave: false,
-      saveUninitialized: false,
+      saveUninitialized: true,
     }),
   );
   app.setBaseViewsDir(join(__dirname, '../..', 'views'));

@@ -31,9 +31,7 @@ export class UserController {
     if (
       request &&
       request.cookies &&
-      request.cookies.password &&
-      request.cookies.email &&
-      (await this.appService.login(request.cookies))
+      request.sessionID === request.cookies.sessionID
     ) {
       res.redirect('/users/admin/home');
     }
@@ -41,18 +39,16 @@ export class UserController {
 
   @Post('/login')
   @UsePipes(new JoiValidationPipe(CreateUserSchema))
-  async login(@Body() UserDto: UserDto, @Res() res): Promise<void> {
+  async login(
+    @Body() UserDto: UserDto,
+    @Res() res,
+    @Req() request: Request,
+  ): Promise<void> {
     const logined = await this.appService.login(UserDto);
     if (!logined) throw new Error(ERRORS_AUTH.AUTHORIZATION_ERROR);
-
-    res.cookie('email', UserDto.email, {
-      expires: new Date(new Date().getTime() + process.env.EXPIRERS_TIME),
-      sameSite: 'strict',
-      httpOnly: true,
-    });
     res
-      .cookie('password', UserDto.password, {
-        expires: new Date(new Date().getTime() + process.env.EXPIRERS_TIME),
+      .cookie('sessionID', request.sessionID, {
+        expires: new Date(new Date().getTime() + process.env.EXPIRES_TIME),
         sameSite: 'strict',
         httpOnly: true,
       })
