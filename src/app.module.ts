@@ -13,6 +13,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Post } from 'src/admin/post/entity/admin.post.entity';
+import { MailModule } from 'src/mail/mail/mail.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { Post } from 'src/admin/post/entity/admin.post.entity';
     MulterModule.register({
       dest: './uploads',
     }),
+    MailModule,
   ],
   controllers: [UserController],
   providers: [

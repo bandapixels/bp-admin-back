@@ -14,12 +14,17 @@ import { UserDto } from '../dto/createUser.dto';
 import * as dotenv from 'dotenv';
 import { CreateUserSchema } from 'src/auth/Helpers/incoming.data.validator';
 import { JoiValidationPipe } from 'src/filter/joi.validation.pipe';
+
 dotenv.config({ path: '../../../.errors.env' });
 import { Request } from 'express';
+import { MailService } from 'src/mail/mail/mail.service';
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly appService: UserService) {}
+  constructor(
+    private readonly appService: UserService,
+    private readonly mailService: MailService,
+  ) {}
 
   @Get('/login')
   @Render('auth/login.ejs')
@@ -31,7 +36,9 @@ export class UserController {
     if (
       request &&
       request.cookies &&
-      request.sessionID === request.cookies.sessionID
+      request.cookies.password &&
+      request.cookies.email &&
+      (await this.appService.login(request.cookies))
     ) {
       res.redirect('/users/admin/home');
     }

@@ -40,7 +40,7 @@ export class Post {
   @Column()
   mins_to_read: number;
 
-  @Column()
+  @Column({ type: 'longtext' })
   body: string;
 
   @Column({ default: null })
