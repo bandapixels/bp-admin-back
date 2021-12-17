@@ -1,16 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { getConnection } from 'typeorm';
 import { UserDto } from 'src/auth/dto/createUser.dto';
-import { User } from 'src/auth/entity/User';
-import { Role } from 'src/auth/Models/role.enum';
 import { ERRORS_AUTH } from 'src/constants/errors';
-import { deHash } from 'src/auth/Helpers/hash.password';
 import { isCorrectPassword } from 'src/auth/Helpers/hash.password';
 
 @Injectable()
 export class UserService {
-  constructor() {}
-
   async login(userData: UserDto): Promise<any> {
     const user: any = await getConnection()
       .getRepository('user')
