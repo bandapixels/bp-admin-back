@@ -1,33 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+
   async function login() {
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", '/users/login', true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    const emailValue = document.getElementById('email').value;
-    const passwordValue = document.getElementById('password').value;
-    const cookieEmail = `email=${emailValue}`;
-    const cookiePass = `password=${passwordValue}`;
-
-    document.cookie = cookieEmail;
-    document.cookie = cookiePass;
-
-    xhr.send(JSON.stringify({
-      email: emailValue,
-      password: passwordValue,
-    }));
-    xhr.onload = function () {
-      const data = JSON.parse(this.responseText);
-      if (!data.user) {
-        document.getElementById('loginError').innerHTML = 'These credentials do not match our records.';
-        document.getElementById('passwordError').innerHTML = 'These credentials do not match our records.';
-      } else {
-        window.location.href = "/users/admin/home";
+    axios.post('/users/login', {
+      email: document.getElementById('email').value,
+      password: document.getElementById('password').value,
+    }, {
+      headers: {
+        "Content-Type": "application/json"
       }
-    };
-
+    })
+      .then((res) => {
+            window.location.href = "/users/admin/home";
+      })
+    .catch((err) => {
+      document.getElementById('loginError').innerHTML = 'These credentials do not match our records.';
+      document.getElementById('passwordError').innerHTML = 'These credentials do not match our records.';    })
   }
 </script>
 

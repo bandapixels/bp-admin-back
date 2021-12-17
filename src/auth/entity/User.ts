@@ -24,9 +24,6 @@ export class User {
   @Column({ type: 'enum', enum: Role, default: Role.ADMIN })
   role: Role;
 
-  @Column()
-  refreshToken: string;
-
   @CreateDateColumn()
   created_at: Date;
 

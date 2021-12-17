@@ -15,9 +15,9 @@ async function bootstrap() {
   app.use(cookieParser());
   app.use(
     session({
-      secret: 'my-secret',
+      secret: process.env.SECRET_KEY_SESSION,
       resave: false,
-      saveUninitialized: false,
+      saveUninitialized: true,
     }),
   );
   app.setBaseViewsDir(join(__dirname, '../..', 'views'));

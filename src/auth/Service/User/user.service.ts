@@ -1,15 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { getConnection } from 'typeorm';
 import { UserDto } from 'src/auth/dto/createUser.dto';
-import { User } from 'src/auth/entity/User';
-import { Role } from 'src/auth/Models/role.enum';
 import { ERRORS_AUTH } from 'src/constants/errors';
-import { deHash } from 'src/auth/Helpers/hash.password';
+import { isCorrectPassword } from 'src/auth/Helpers/hash.password';
 
 @Injectable()
-export class UserService implements User {
-  constructor() {}
-
+export class UserService {
   async login(userData: UserDto): Promise<any> {
     const user: any = await getConnection()
       .getRepository('user')
@@ -17,7 +13,7 @@ export class UserService implements User {
         where: { email: userData.email },
         attributes: ['name'],
       });
-    if (user && deHash(userData.password, user.password)) {
+    if (user && isCorrectPassword(userData.password, user.password)) {
       return { user };
     } else {
       return { status: false, error: ERRORS_AUTH.USER_NOT_EXISTS };
@@ -36,13 +32,4 @@ export class UserService implements User {
     }
     return { status: false };
   }
-
-  created_at: Date;
-  email: string;
-  id: number;
-  name: string;
-  password: string;
-  updated_at: Date;
-  refreshToken: string;
-  role: Role;
 }

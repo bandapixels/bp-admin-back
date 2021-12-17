@@ -6,8 +6,7 @@ export function hash(password): string {
   return hash;
 }
 
-export function deHash(password, hash) {
+export function isCorrectPassword(password, hash) {
   const result = bcrypt.compareSync(password, hash);
-  console.log(result);
   return result;
 }
