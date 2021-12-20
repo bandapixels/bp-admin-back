@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { ERRORS_POST } from 'src/constants/errors';
+import { ERRORS_POST } from '../../../common/constants/errors';
 
 export const imageFileFilter = (req, file, callback) => {
   if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {

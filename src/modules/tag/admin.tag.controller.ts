@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 import AdminTagService from './admin.tag.service';
 import { TagDto } from './dto/tag.dto';
-import { Roles } from '../../auth/decorators/roles.decorator';
-import { Role } from '../../auth/Models/role.enum';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/Models/role.enum';
 
 @Controller('admin/tags')
 @Roles(Role.ADMIN)

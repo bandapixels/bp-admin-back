@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { getConnection } from 'typeorm';
-import { UserDto } from 'src/auth/dto/createUser.dto';
-import { ERRORS_AUTH } from 'src/constants/errors';
-import { isCorrectPassword } from 'src/auth/Helpers/hash.password';
+import { UserDto } from './dto/createUser.dto';
+import { ERRORS_AUTH } from '../../common/constants/errors';
+import { isCorrectPassword } from './Helpers/hash.password';
 
 @Injectable()
 export class UserService {

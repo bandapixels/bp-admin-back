@@ -1,13 +1,15 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserController } from 'src/auth/Controllers/user.controller';
-import { UserService } from 'src/auth/Service/User/user.service';
-import { User } from 'src/auth/entity/User';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { MailModule } from 'src/mail/mail/mail.module';
+import { UserController } from './user.controller';
+import { UserService } from './user.service';
+import { User } from './entity/User';
+import { RolesGuard } from './guards/roles.guard';
+import { MailModule } from '../mail/mail.module';
+import { AppConfigModule } from '../config/app.config.module';
 
 @Module({
   imports: [
+    AppConfigModule,
     forwardRef(() => UsersModule),
     TypeOrmModule.forFeature([User]),
     MailModule,

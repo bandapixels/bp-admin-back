@@ -16,12 +16,12 @@ import {
 import AdminPostService from './admin.post.service';
 import { PostDto } from './dto/post.dto';
 import AdminTagService from '../tag/admin.tag.service';
-import { JoiValidationPipe } from '../../filter/joi.validation.pipe';
+import { JoiValidationPipe } from '../../common/pipes/joi.validation.pipe';
 import { CreatePostSchema } from './schema/create.post.schema';
-import { Roles } from '../../auth/decorators/roles.decorator';
-import { Role } from '../../auth/Models/role.enum';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/Models/role.enum';
 import { UpdatePostSchema } from './schema/update.post.schema';
-import { ERRORS_POST } from '../../constants/errors';
+import { ERRORS_POST } from '../../common/constants/errors';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { imageFileFilter } from './Helpers/image.file.filter';
