@@ -8,12 +8,10 @@ import { Role } from '../modules/auth/Models/role.enum';
 define(User, (faker: Faker.FakerStatic, context): Partial<User> => {
   const user: Partial<User> = new User();
 
-  user.email = faker.internet.email();
+  user.email = 'bandapixels@bandapixels.com';
   user.name = faker.name.firstName();
   user.password = hash('secret');
   user.role = Role.ADMIN;
-
-  console.log(user);
 
   return user;
 });
