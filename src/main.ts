@@ -10,7 +10,9 @@ import { AuthConfig } from './modules/config/models/auth.config';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
   const appConfig = app.get(AppConfig);
+
   const authConfig = app.get(AuthConfig);
 
   app.set('view engine', 'html');

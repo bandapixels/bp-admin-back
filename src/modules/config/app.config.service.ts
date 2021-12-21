@@ -10,7 +10,7 @@ export class AppConfigService {
 
     if (!value) {
       throw new InternalServerErrorException(
-        `${name} parameter does not specified in .env file`,
+        `${name} parameter does not specified in current environment`,
       );
     }
 
