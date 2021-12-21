@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+
 import { TagDto } from './dto/tag.dto';
 import { Tag } from './entity/admin.tag.entity';
-import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export default class AdminTagService {
@@ -11,7 +12,7 @@ export default class AdminTagService {
     private adminTagRepository: Repository<Tag>,
   ) {}
 
-  async getTags(skipNum, takeNum) {
+  async getTags(skipNum: number, takeNum: number) {
     return this.adminTagRepository.find({
       skip: skipNum,
       take: takeNum,
@@ -35,11 +36,11 @@ export default class AdminTagService {
     return this.adminTagRepository.save(tag);
   }
 
-  async updateTag(editTag: TagDto, tagId) {
+  async updateTag(editTag: TagDto, tagId: number) {
     return this.adminTagRepository.update(tagId, editTag);
   }
 
-  async delete(tagId) {
+  async delete(tagId: number) {
     return this.adminTagRepository.delete(tagId);
   }
 }

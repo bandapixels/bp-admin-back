@@ -1,12 +1,11 @@
 import * as bcrypt from 'bcrypt';
+
 const saltRounds = bcrypt.genSaltSync(10);
 
 export function hash(password): string {
-  const hash: string = bcrypt.hashSync(password, saltRounds);
-  return hash;
+  return bcrypt.hashSync(password, saltRounds);
 }
 
-export function isCorrectPassword(password, hash) {
-  const result = bcrypt.compareSync(password, hash);
-  return result;
+export function isCorrectPassword(password, hash): boolean {
+  return bcrypt.compareSync(password, hash);
 }

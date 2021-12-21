@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
+
 import { ERRORS_POST } from '../../../common/constants/errors';
 
 export const imageFileFilter = (req, file, callback) => {
