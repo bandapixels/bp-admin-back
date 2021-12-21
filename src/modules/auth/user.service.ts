@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { getConnection } from 'typeorm';
 
 import { UserDto } from './dto/createUser.dto';
@@ -15,9 +15,9 @@ export class UserService {
         attributes: ['name'],
       });
     if (user && isCorrectPassword(userData.password, user.password)) {
-      return { user };
+      return user;
     }
-    return { status: false, error: ERRORS_AUTH.USER_NOT_EXISTS };
+    throw new UnauthorizedException(ERRORS_AUTH.WRONG_CREDENTIALS_SUPPLIED);
   }
 
   async logout(UserDto): Promise<any> {
