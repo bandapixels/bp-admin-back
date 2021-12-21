@@ -16,6 +16,7 @@ import { Post } from './modules/post/entity/admin.post.entity';
 import { MailModule } from './modules/mail/mail.module';
 import { AppConfigModule } from './modules/config/app.config.module';
 import { DbConfig } from './modules/config/models/db.config';
+import { HurmaModule } from './modules/hurma/hurma.module';
 
 @Module({
   imports: [
@@ -41,11 +42,11 @@ import { DbConfig } from './modules/config/models/db.config';
     AdminTagModule,
     AdminPostModule,
     User,
-
     MulterModule.register({
       dest: './uploads',
     }),
     MailModule,
+    HurmaModule,
   ],
   controllers: [UserController],
   providers: [
