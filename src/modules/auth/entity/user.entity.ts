@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
 import { Role } from '../Models/role.enum';
 
 @Entity()

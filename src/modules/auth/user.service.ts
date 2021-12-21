@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { getConnection } from 'typeorm';
+
 import { UserDto } from './dto/createUser.dto';
 import { ERRORS_AUTH } from '../../common/constants/errors';
 import { isCorrectPassword } from './Helpers/hash.password';
@@ -15,9 +16,8 @@ export class UserService {
       });
     if (user && isCorrectPassword(userData.password, user.password)) {
       return { user };
-    } else {
-      return { status: false, error: ERRORS_AUTH.USER_NOT_EXISTS };
     }
+    return { status: false, error: ERRORS_AUTH.USER_NOT_EXISTS };
   }
 
   async logout(UserDto): Promise<any> {

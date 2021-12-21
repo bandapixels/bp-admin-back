@@ -8,12 +8,13 @@ import {
   Res,
   UsePipes,
 } from '@nestjs/common';
+import { Request } from 'express';
+
 import { UserService } from './user.service';
 import { ERRORS_AUTH } from '../../common/constants/errors';
 import { UserDto } from './dto/createUser.dto';
 import { CreateUserSchema } from './Helpers/incoming.data.validator';
 import { JoiValidationPipe } from '../../common/pipes/joi.validation.pipe';
-import { Request } from 'express';
 import { MailService } from '../mail/mail.service';
 import { AuthConfig } from '../config/models/auth.config';
 
