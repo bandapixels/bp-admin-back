@@ -10,7 +10,7 @@ define(User, (faker: Faker.FakerStatic, context): Partial<User> => {
 
   user.email = 'bandapixels@bandapixels.com';
   user.name = faker.name.firstName();
-  user.password = hash('secret');
+  user.password = hash('Secret1!');
   user.role = Role.ADMIN;
 
   return user;
