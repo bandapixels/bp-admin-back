@@ -39,7 +39,7 @@ export class Post {
   preview_image: string;
 
   @Column()
-  mins_to_read: number;
+  minutes_to_read: number;
 
   @Column({ type: 'longtext' })
   body: string;
