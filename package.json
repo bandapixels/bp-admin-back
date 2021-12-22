@@ -31,12 +31,16 @@
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^1.0.2",
     "@nestjs/core": "^8.0.0",
+    "@nestjs/jwt": "^8.0.0",
     "@nestjs/passport": "^8.0.1",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/serve-static": "^2.2.2",
+    "@nestjs/swagger": "^5.1.5",
     "@nestjs/typeorm": "^8.0.2",
     "bcrypt": "^5.0.1",
     "bootstrap": "^5.1.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
     "consolidate": "^0.16.0",
     "cookie-parser": "^1.4.5",
     "dotenv": "^10.0.0",
@@ -51,8 +55,8 @@
     "passport": "^0.5.0",
     "passport-jwt": "^4.0.0",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.37",
-    "typeorm-seeding": "^1.6.1"
+    "swagger-ui-express": "^4.3.0",
+    "typeorm": "^0.2.37"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
