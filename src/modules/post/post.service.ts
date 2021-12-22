@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Post } from './entity/admin.post.entity';
+import { Post } from './entity/post.entity';
 import { PostDto } from './dto/post.dto';
 import AdminTagService from '../tag/admin.tag.service';
+import { CreatePostDto } from './dto/createPost.dto';
 
 @Injectable()
-export default class AdminPostService {
+export default class PostService {
   constructor(
     @InjectRepository(Post)
     private adminPostRepository: Repository<Post>,
@@ -22,11 +23,16 @@ export default class AdminPostService {
     });
   }
 
-  public async createPost(newPost: PostDto) {
-    if (newPost.tags) {
-      newPost.tags = await this.adminTagService.getTagsByIds(newPost.tags);
-    } else newPost.tags = [];
-    const post = await this.adminPostRepository.create(newPost);
+  public async createPost(createPostDto: CreatePostDto) {
+    const tags = await this.adminTagService.getTagsByIds(createPostDto.tagsIds);
+
+    delete createPostDto.tagsIds;
+
+    const post = await this.adminPostRepository.create({
+      ...createPostDto,
+      tags,
+    });
+
     return this.adminPostRepository.save(post);
   }
 

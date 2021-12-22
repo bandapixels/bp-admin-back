@@ -3,9 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './modules/user/user.entity';
 import { Tag } from './modules/tag/entity/admin.tag.entity';
 import AdminTagModule from './modules/tag/admin.tag.module';
-import AdminPostModule from './modules/post/admin.post.module';
+import PostModule from './modules/post/post.module';
 import { MulterModule } from '@nestjs/platform-express';
-import { Post } from './modules/post/entity/admin.post.entity';
+import { Post } from './modules/post/entity/post.entity';
 import { MailModule } from './modules/mail/mail.module';
 import { AppConfigModule } from './modules/config/app.config.module';
 import { ConfigModule } from '@nestjs/config';
@@ -18,7 +18,7 @@ import { HurmaModule } from './modules/hurma/hurma.module';
     AppConfigModule,
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
-      imports: [AppConfigModule, AdminPostModule, AdminTagModule],
+      imports: [AppConfigModule, PostModule, AdminTagModule],
       inject: [DbConfig],
       useFactory: async (dbConfig: DbConfig) => {
         const { database, password, username, port, host } = dbConfig;
@@ -35,7 +35,7 @@ import { HurmaModule } from './modules/hurma/hurma.module';
       },
     }),
     AdminTagModule,
-    AdminPostModule,
+    PostModule,
     UserModule,
     MulterModule.register({
       dest: './uploads',

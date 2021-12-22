@@ -1,21 +1,24 @@
+import { Response } from 'express';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
+  Patch,
   Post,
-  Query,
-  Render,
   Res,
   UseGuards,
+  NotFoundException,
 } from '@nestjs/common';
 
 import AdminTagService from './admin.tag.service';
-import { TagDto } from './dto/tag.dto';
-import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '../../common/constants/role';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { TagDto } from './dto/tag.dto';
 import { RolesGuard } from '../auth/guards/jwt-auth.roles.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { Tag } from './entity/admin.tag.entity';
 
 @Controller('admin/tags')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -23,39 +26,30 @@ import { RolesGuard } from '../auth/guards/jwt-auth.roles.guard';
 export class AdminTagController {
   constructor(private readonly adminTagService: AdminTagService) {}
 
-  @Get('/')
-  @Render('layouts/app.ejs')
-  public async getAllTags(@Query('skip') skip = 0, @Query('take') take = 30) {
-    const tags = await this.adminTagService.getTags(skip, take);
-    return { tags, body: '../admin/tag/index.ejs', isAuthorized: true };
+  @Get('/:id')
+  public async findOneTag(@Param('id') id: string): Promise<Tag> {
+    const tag = await this.adminTagService.getTagsById(id);
+
+    if (!tag) {
+      throw new NotFoundException();
+    }
+
+    return tag;
   }
 
-  @Get('/create')
-  @Render('layouts/app.ejs')
-  public async creatingTag() {
-    return { body: '../admin/tag/create.ejs', isAuthorized: true };
-  }
-
-  @Post('/create')
-  public async createTag(@Body() newTag: TagDto, @Res() res) {
+  @Post('/')
+  public async createTag(@Body() newTag: TagDto, @Res() res: Response) {
     await this.adminTagService.createTag(newTag);
-    res.redirect('/admin/tags');
+    return res.status(200).end();
   }
 
-  @Get('/:id/edit')
-  @Render('layouts/app.ejs')
-  public async editingTag(@Param('id') tagId) {
-    const tag = await this.adminTagService.getTagsById(tagId);
-    return { tag, body: '../admin/tag/edit.ejs', isAuthorized: true };
-  }
-
-  @Post('/:id/edit')
+  @Patch('/edit/:id')
   public async editTag(@Body() tag: TagDto, @Res() res, @Param('id') tagId) {
     await this.adminTagService.updateTag(tag, tagId);
     res.redirect('/admin/tags');
   }
 
-  @Post('/delete/:id')
+  @Delete('/delete/:id')
   public async deleteTag(@Param('id') tagId, @Res() res) {
     await this.adminTagService.delete(tagId);
     res.redirect('/admin/tags');

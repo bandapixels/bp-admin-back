@@ -1,5 +1,3 @@
-import * as cookieParser from 'cookie-parser';
-import { join } from 'path';
 import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -32,15 +30,7 @@ async function bootstrap(): Promise<void> {
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
-  app.set('view engine', 'html');
-
-  app.use(cookieParser());
-
-  app.setBaseViewsDir(join(__dirname, '../', 'views'));
-
-  app.useStaticAssets(join(__dirname, '../', 'public'), {
-    prefix: '/public',
-  });
+  app.setGlobalPrefix('/api');
 
   await app.listen(appConfig.port);
 }

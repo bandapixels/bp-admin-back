@@ -1,9 +1,18 @@
-import { Entity, Column } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Role } from '../../common/constants/role';
 import { BaseMysqlModel } from '../../common/db/base-mysql.model';
 
 @Entity()
 export class User extends BaseMysqlModel {
+  @PrimaryGeneratedColumn()
+  id: number;
+
   @Column()
   name: string;
 
@@ -15,4 +24,10 @@ export class User extends BaseMysqlModel {
 
   @Column({ type: 'enum', enum: Role, default: Role.ADMIN })
   role: Role;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

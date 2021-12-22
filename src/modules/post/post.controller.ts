@@ -6,56 +6,43 @@ import {
   HttpStatus,
   Param,
   Post,
-  Query,
-  Render,
   Res,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
-  UsePipes,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 
-import AdminPostService from './admin.post.service';
+import PostService from './post.service';
 import { PostDto } from './dto/post.dto';
 import AdminTagService from '../tag/admin.tag.service';
-import { JoiValidationPipe } from '../../common/pipes/joi.validation.pipe';
-import { CreatePostSchema } from './schema/create.post.schema';
-import { UpdatePostSchema } from './schema/update.post.schema';
 import { ERRORS_POST } from '../../common/constants/errors';
-import { imageFileFilter } from './Helpers/image.file.filter';
-import { editFileName } from './Helpers/edit.file.name';
+import { imageFileFilter } from './helpers/image.file.filter';
+import { editFileName } from './helpers/edit.file.name';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/jwt-auth.roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '../../common/constants/role';
+import { CreatePostDto } from './dto/createPost.dto';
 
 @Controller('admin/posts')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(Role.ADMIN)
-export class AdminPostController {
+export class PostController {
   constructor(
-    private readonly adminPostService: AdminPostService,
+    private readonly adminPostService: PostService,
     private readonly adminTagService: AdminTagService,
   ) {}
 
-  @Get('/')
-  @Render('layouts/app.ejs')
-  public async getPosts(@Query('skip') skip = 0, @Query('take') take = 30) {
-    const posts = await this.adminPostService.getAllPosts(skip, take);
-    return { posts, body: '../admin/post/index.ejs', isAuthorized: true };
-  }
+  @Get('/:id')
+  public async getPost(@Param('id') id: string): Promise<any> {
+    const post = await this.adminPostService.getPostById(+id);
 
-  @Get('/create')
-  @Render('layouts/app.ejs')
-  public async creatingPost() {
-    const tags = await this.adminTagService.getAllTags();
-    return { tags, body: '../admin/post/create.ejs', isAuthorized: true };
+    return post;
   }
 
   @Post('/create')
-  @UsePipes(new JoiValidationPipe(CreatePostSchema))
   @UseInterceptors(
     FileFieldsInterceptor(
       [
@@ -76,7 +63,7 @@ export class AdminPostController {
       image?: Express.Multer.File[];
       previewImage?: Express.Multer.File[];
     },
-    @Body() newPost: PostDto,
+    @Body() newPost: CreatePostDto,
     @Res() res,
   ) {
     if (!files.image || !files.previewImage) {
@@ -88,22 +75,22 @@ export class AdminPostController {
         HttpStatus.FORBIDDEN,
       );
     }
+
     newPost.image = files.image[0].filename;
+
     newPost.preview_image = files.previewImage[0].filename;
+
     await this.adminPostService.createPost(newPost);
+
     res.redirect('/admin/posts');
   }
 
-  @Get('/:id/edit')
-  @Render('layouts/app.ejs')
-  public async editingPost(@Param('id') id) {
-    const post = await this.adminPostService.getPostById(id);
-    const tags = await this.adminTagService.getAllTags();
-    return { post, tags, body: '../admin/post/edit.ejs', isAuthorized: true };
+  @Post('/')
+  public async createPost(@Body() body: CreatePostDto) {
+    return this.adminPostService.createPost(body);
   }
 
   @Post('/:id/edit')
-  @UsePipes(new JoiValidationPipe(UpdatePostSchema))
   @UseInterceptors(
     FileFieldsInterceptor(
       [

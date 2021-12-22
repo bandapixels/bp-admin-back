@@ -32,10 +32,10 @@ export class Post {
   @Column()
   excerpt: string;
 
-  @Column()
+  @Column({ nullable: true, default: null })
   image: string;
 
-  @Column()
+  @Column({ nullable: true, default: null })
   preview_image: string;
 
   @Column()
