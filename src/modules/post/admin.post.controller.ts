@@ -10,6 +10,7 @@ import {
   Render,
   Res,
   UploadedFiles,
+  UseGuards,
   UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
@@ -21,14 +22,17 @@ import { PostDto } from './dto/post.dto';
 import AdminTagService from '../tag/admin.tag.service';
 import { JoiValidationPipe } from '../../common/pipes/joi.validation.pipe';
 import { CreatePostSchema } from './schema/create.post.schema';
-import { Roles } from '../auth/decorators/roles.decorator';
-import { Role } from '../auth/Models/role.enum';
 import { UpdatePostSchema } from './schema/update.post.schema';
 import { ERRORS_POST } from '../../common/constants/errors';
 import { imageFileFilter } from './Helpers/image.file.filter';
 import { editFileName } from './Helpers/edit.file.name';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/jwt-auth.roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../../common/constants/role';
 
 @Controller('admin/posts')
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(Role.ADMIN)
 export class AdminPostController {
   constructor(
@@ -75,7 +79,6 @@ export class AdminPostController {
     @Body() newPost: PostDto,
     @Res() res,
   ) {
-    console.log(files);
     if (!files.image || !files.previewImage) {
       throw new HttpException(
         {
