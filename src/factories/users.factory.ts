@@ -2,8 +2,8 @@ import Faker from 'faker';
 import { define } from 'typeorm-seeding';
 
 import { User } from '../modules/auth/entity/user.entity';
-import { hash } from '../modules/auth/Helpers/hash.password';
-import { Role } from '../modules/auth/Models/role.enum';
+import { Role } from '../common/constants/role';
+import { hash } from '../modules/auth/helpers/bcrypt';
 
 define(User, (faker: Faker.FakerStatic, context): Partial<User> => {
   const user: Partial<User> = new User();

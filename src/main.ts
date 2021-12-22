@@ -1,12 +1,12 @@
-import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
 import * as cookieParser from 'cookie-parser';
+import { join } from 'path';
+import { ValidationPipe } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
 import { AppModule } from './app.module';
 import { AppConfig } from './modules/config/models/app.config';
-import { ValidationPipe } from '@nestjs/common';
-import { AuthConfig } from './modules/config/models/auth.config';
+import { NestFactory } from '@nestjs/core';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -21,14 +21,15 @@ async function bootstrap(): Promise<void> {
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
-  const authConfig = app.get(AuthConfig);
+  SwaggerModule.setup('api', app, document);
+
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
   app.set('view engine', 'html');
 
   app.use(cookieParser());
+
   app.setBaseViewsDir(join(__dirname, '../', 'views'));
 
   app.useStaticAssets(join(__dirname, '../', 'public'), {
