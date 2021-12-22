@@ -7,14 +7,18 @@ import {
   Query,
   Render,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 
 import AdminTagService from './admin.tag.service';
 import { TagDto } from './dto/tag.dto';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { Role } from '../auth/Models/role.enum';
+import { Role } from '../../common/constants/role';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/jwt-auth.roles.guard';
 
 @Controller('admin/tags')
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(Role.ADMIN)
 export class AdminTagController {
   constructor(private readonly adminTagService: AdminTagService) {}
