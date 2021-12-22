@@ -56,7 +56,8 @@
     "passport-jwt": "^4.0.0",
     "reflect-metadata": "^0.1.13",
     "swagger-ui-express": "^4.3.0",
-    "typeorm": "^0.2.37"
+    "typeorm": "^0.2.37",
+    "typeorm-seeding": "^1.6.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",

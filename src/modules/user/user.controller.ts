@@ -54,9 +54,11 @@ export class UserController {
     @Body() userData: UserLoginDto,
   ): Promise<{ access_token: string }> {
     const reqUser = await this.userService.finUserByEmail(userData.email);
+
     if (!reqUser) {
       throw new UnauthorizedException('Wrong email or password');
     }
+
     return this.authService.login(reqUser, userData.password);
   }
 

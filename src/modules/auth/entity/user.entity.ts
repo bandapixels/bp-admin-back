@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Role } from '../Models/role.enum';
+import { Role } from '../../../common/constants/role';
 
 @Entity()
 export class User {
