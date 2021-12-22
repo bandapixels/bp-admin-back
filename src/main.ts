@@ -24,6 +24,12 @@ async function bootstrap(): Promise<void> {
 
   SwaggerModule.setup('api', app, document);
 
+  app.enableCors({
+    origin: '*', // TODO: replace with client url
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+  });
+
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
   app.set('view engine', 'html');
