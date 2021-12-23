@@ -1,30 +1,41 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import * as dotenv from 'dotenv';
-import * as session from 'express-session';
-import * as cookieParser from 'cookie-parser';
-
-dotenv.config({});
+import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-async function bootstrap() {
-  dotenv.config({});
+import { AppModule } from './app.module';
+import { AppConfig } from './modules/config/models/app.config';
+import { NestFactory } from '@nestjs/core';
+import { TypeormExceptionFilter } from './common/filters/typeormException.filter';
+
+async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.set('view engine', 'html');
-  app.use(cookieParser());
-  app.use(
-    session({
-      secret: process.env.SECRET_KEY_SESSION,
-      resave: false,
-      saveUninitialized: true,
-    }),
-  );
-  app.setBaseViewsDir(join(__dirname, '../..', 'views'));
-  app.useStaticAssets(join(__dirname, '../..', 'public'), {
-    prefix: '/public',
+
+  const appConfig = app.get(AppConfig);
+
+  const options = new DocumentBuilder()
+    .setTitle('Nest banda-admin api')
+    .setDescription('Nest API description')
+    .setVersion('1.0')
+    .addTag('nest')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, options);
+
+  SwaggerModule.setup('api', app, document);
+
+  app.enableCors({
+    origin: '*', // TODO: replace with client url
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
   });
-  await app.listen(process.env.PORT);
+
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+
+  app.useGlobalFilters(new TypeormExceptionFilter());
+
+  app.setGlobalPrefix('/api');
+
+  await app.listen(appConfig.port);
 }
 
 bootstrap();
