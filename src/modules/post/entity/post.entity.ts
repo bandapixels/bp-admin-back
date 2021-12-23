@@ -7,9 +7,10 @@ import {
 } from 'typeorm';
 
 import { Tag } from '../../tag/entity/admin.tag.entity';
+import { BaseMysqlModel } from '../../../common/db/base-mysql.model';
 
 @Entity()
-export class Post {
+export class Post extends BaseMysqlModel {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -46,4 +47,10 @@ export class Post {
 
   @Column({ default: null })
   url: string;
+
+  @Column({ type: 'timestamp', nullable: true, default: null })
+  publishedAt: Date | null;
+
+  @Column({ type: 'boolean', default: false })
+  published: boolean;
 }

@@ -1,7 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseMysqlModel } from '../../../common/db/base-mysql.model';
 
 @Entity()
-export class Tag {
+export class Tag extends BaseMysqlModel {
   @PrimaryGeneratedColumn()
   id: number;
 

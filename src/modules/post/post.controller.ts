@@ -1,12 +1,13 @@
 import {
-  Body,
-  Delete,
   Get,
-  Param,
   Post,
-  Res,
+  Body,
+  Param,
+  Delete,
+  HttpCode,
   UseGuards,
   Controller,
+  Query,
 } from '@nestjs/common';
 
 import PostService from './post.service';
@@ -16,21 +17,18 @@ import { RolesGuard } from '../auth/guards/jwt-auth.roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '../../common/constants/role';
 import { CreatePostDto } from './dto/createPost.dto';
+import { PublishOrDeletePostDto } from './dto/publishOrDeletePost.dto';
+import { PublishPostQueryDto } from './dto/publishPostQuery.dto';
 
 @Controller('admin/posts')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(Role.ADMIN)
 export class PostController {
-  constructor(
-    private readonly adminPostService: PostService,
-    private readonly adminTagService: AdminTagService,
-  ) {}
+  constructor(private readonly adminPostService: PostService) {}
 
   @Get('/:id')
   public async getPost(@Param('id') id: string): Promise<any> {
-    const post = await this.adminPostService.getPostById(+id);
-
-    return post;
+    return this.adminPostService.getPostById(+id);
   }
 
   // @Post('/create')
@@ -115,14 +113,19 @@ export class PostController {
   //   res.redirect('/admin/posts');
   // }
 
+  @HttpCode(204)
   @Post('/:id/publish')
-  public async changePublish(@Param('id') id, @Res() res) {
-    await this.adminPostService.changePublishValue(id);
-    res.redirect('/admin/posts');
+  public async changePublish(
+    @Param() params: PublishOrDeletePostDto,
+    @Query() query: PublishPostQueryDto,
+  ) {
+    return query.publish
+      ? this.adminPostService.publishPosh(params.id)
+      : this.adminPostService.unpublishPost(params.id);
   }
 
   @Delete('/:id/delete')
-  public async deletePost(@Param('id') id) {
-    return this.adminPostService.deletePost(id);
+  public async deletePost(@Param() params: PublishOrDeletePostDto) {
+    return this.adminPostService.deletePost(params.id);
   }
 }

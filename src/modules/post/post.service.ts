@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Not, Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Post } from './entity/post.entity';
@@ -64,10 +64,32 @@ export default class PostService {
     return this.adminPostRepository.save(post);
   }
 
-  public async changePublishValue(id) {
-    const post = await this.adminPostRepository.findOne(id);
-    post.public = !post.public;
-    return this.adminPostRepository.save(post);
+  public async publishPosh(id): Promise<UpdateResult> {
+    return this.adminPostRepository.update(
+      {
+        id,
+        published: false,
+        publishedAt: null,
+      },
+      {
+        published: true,
+        publishedAt: new Date().toISOString(),
+      },
+    );
+  }
+
+  public async unpublishPost(id: number): Promise<UpdateResult> {
+    return this.adminPostRepository.update(
+      {
+        id,
+        published: true,
+        publishedAt: Not(null),
+      },
+      {
+        published: false,
+        publishedAt: null,
+      },
+    );
   }
 
   public async deletePost(id) {

@@ -6,6 +6,7 @@ import { AppConfig } from './models/app.config';
 import { AuthConfig } from './models/auth.config';
 import { DbConfig } from './models/db.config';
 import { MailerConfig } from './models/mailer.config';
+import { AwsConfig } from './models/aws.config';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { MailerConfig } from './models/mailer.config';
     AuthConfig,
     DbConfig,
     MailerConfig,
+    AwsConfig,
     AppConfigService,
     ConfigService,
   ],

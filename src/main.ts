@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { AppConfig } from './modules/config/models/app.config';
 import { NestFactory } from '@nestjs/core';
+import { TypeormExceptionFilter } from './common/filters/typeormException.filter';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -29,6 +30,8 @@ async function bootstrap(): Promise<void> {
   });
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+
+  app.useGlobalFilters(new TypeormExceptionFilter());
 
   app.setGlobalPrefix('/api');
 
