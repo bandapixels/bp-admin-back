@@ -14,6 +14,7 @@ export default class AdminTagService {
 
   async getTags(skipNum: number, takeNum: number) {
     return this.adminTagRepository.find({
+      select: ['id', 'name'],
       skip: skipNum,
       take: takeNum,
     });
@@ -24,7 +25,9 @@ export default class AdminTagService {
   }
 
   async getTagsById(id) {
-    return this.adminTagRepository.findOne(id);
+    return this.adminTagRepository.findOne(id, {
+      select: ['id', 'name'],
+    });
   }
 
   async getTagsByIds(ids) {
