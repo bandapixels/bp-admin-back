@@ -1,4 +1,3 @@
-import { Response } from 'express';
 import {
   Body,
   Controller,
@@ -7,10 +6,10 @@ import {
   Param,
   Patch,
   Post,
-  Res,
   UseGuards,
   NotFoundException,
   Query,
+  HttpCode,
 } from '@nestjs/common';
 
 import AdminTagService from './admin.tag.service';
@@ -45,20 +44,19 @@ export class AdminTagController {
   }
 
   @Post('/')
-  public async createTag(@Body() newTag: TagDto, @Res() res: Response) {
-    await this.adminTagService.createTag(newTag);
-    return res.status(200).end();
+  public async createTag(@Body() newTag: TagDto) {
+    return this.adminTagService.createTag(newTag);
   }
 
+  @HttpCode(204)
   @Patch('/:id')
-  public async editTag(@Body() tag: TagDto, @Res() res, @Param('id') tagId) {
-    await this.adminTagService.updateTag(tag, tagId);
-    res.redirect('/admin/tags');
+  public async editTag(@Body() tag: TagDto, @Param('id') tagId) {
+    return this.adminTagService.updateTag(tag, tagId);
   }
 
+  @HttpCode(204)
   @Delete('/:id')
-  public async deleteTag(@Param('id') tagId, @Res() res) {
-    await this.adminTagService.delete(tagId);
-    res.redirect('/admin/tags');
+  public async deleteTag(@Param('id') tagId) {
+    return this.adminTagService.delete(tagId);
   }
 }
