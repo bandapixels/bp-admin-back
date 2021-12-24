@@ -50,13 +50,13 @@ export class AdminTagController {
     return res.status(200).end();
   }
 
-  @Patch('/edit/:id')
+  @Patch('/:id')
   public async editTag(@Body() tag: TagDto, @Res() res, @Param('id') tagId) {
     await this.adminTagService.updateTag(tag, tagId);
     res.redirect('/admin/tags');
   }
 
-  @Delete('/delete/:id')
+  @Delete('/:id')
   public async deleteTag(@Param('id') tagId, @Res() res) {
     await this.adminTagService.delete(tagId);
     res.redirect('/admin/tags');

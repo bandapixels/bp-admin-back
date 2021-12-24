@@ -124,7 +124,7 @@ export class PostController {
       : this.adminPostService.unpublishPost(params.id);
   }
 
-  @Delete('/:id/delete')
+  @Delete('/:id')
   public async deletePost(@Param() params: PublishOrDeletePostDto) {
     return this.adminPostService.deletePost(params.id);
   }
