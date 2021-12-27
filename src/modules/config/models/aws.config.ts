@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { AppConfigService } from '../app.config.service';
 
 @Injectable()
 export class AwsConfig {
@@ -7,8 +7,14 @@ export class AwsConfig {
 
   readonly secretKey: string;
 
-  constructor(private readonly configService: ConfigService) {
-    this.accessKey = configService.get('AWS_ACCESS_KEY');
-    this.secretKey = configService.get('AWS_SECRET_KEY');
+  readonly s3Region: string;
+
+  readonly s3Bucket: string;
+
+  constructor(private readonly configService: AppConfigService) {
+    this.accessKey = this.configService.get('AWS_ACCESS_KEY');
+    this.secretKey = this.configService.get('AWS_SECRET_KEY');
+    this.s3Region = this.configService.get('AWS_S3_REGION');
+    this.s3Bucket = this.configService.get('AWS_S3_BUCKET');
   }
 }

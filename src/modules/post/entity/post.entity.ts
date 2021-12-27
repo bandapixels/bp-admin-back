@@ -8,6 +8,7 @@ import {
 
 import { Tag } from '../../tag/entity/admin.tag.entity';
 import { BaseMysqlModel } from '../../../common/db/base-mysql.model';
+import { File } from '../../files/entity/file.entity';
 
 @Entity()
 export class Post extends BaseMysqlModel {
@@ -19,10 +20,6 @@ export class Post extends BaseMysqlModel {
 
   @Column({ default: 0 })
   views: number;
-
-  @ManyToMany(() => Tag, { cascade: true })
-  @JoinTable()
-  tags?: Tag[];
 
   @Column({ default: false })
   public: boolean;
@@ -53,4 +50,8 @@ export class Post extends BaseMysqlModel {
 
   @Column({ type: 'boolean', default: false })
   published: boolean;
+
+  @ManyToMany(() => Tag, { cascade: true })
+  @JoinTable()
+  tags?: Tag[];
 }
