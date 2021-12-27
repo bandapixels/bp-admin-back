@@ -1,7 +1,7 @@
 import { IsInt, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreatePostDto {
+export class CreateOrUpdatePostDto {
   @ApiProperty({
     example: 'post header',
     description: 'header for post',

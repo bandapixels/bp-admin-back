@@ -3,9 +3,8 @@ import { Not, Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Post } from './entity/post.entity';
-import { PostDto } from './dto/post.dto';
 import AdminTagService from '../tag/admin.tag.service';
-import { CreatePostDto } from './dto/createPost.dto';
+import { CreateOrUpdatePostDto } from './dto/createOrUpdatePost.dto';
 
 @Injectable()
 export default class PostService {
@@ -23,7 +22,7 @@ export default class PostService {
     });
   }
 
-  public async createPost(createPostDto: CreatePostDto) {
+  public async createPost(createPostDto: CreateOrUpdatePostDto) {
     const tags = await this.adminTagService.getTagsByIds(createPostDto.tagsIds);
 
     delete createPostDto.tagsIds;
@@ -40,12 +39,12 @@ export default class PostService {
     return this.adminPostRepository.findOne(id, { relations: ['tags'] });
   }
 
-  public async updatePost(id: number, updatePost: PostDto) {
-    const tags = updatePost.tags
-      ? await this.adminTagService.getTagsByIds(updatePost.tags)
+  public async updatePost(id: number, updatePost: CreateOrUpdatePostDto) {
+    const tags = updatePost.tagsIds
+      ? await this.adminTagService.getTagsByIds(updatePost.tagsIds)
       : [];
 
-    delete updatePost.tags;
+    delete updatePost.tagsIds;
 
     if (!updatePost.image) {
       delete updatePost.image;

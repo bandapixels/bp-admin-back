@@ -8,17 +8,19 @@ import {
   UseGuards,
   Controller,
   Query,
+  Patch,
 } from '@nestjs/common';
 
 import PostService from './post.service';
-import AdminTagService from '../tag/admin.tag.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/jwt-auth.roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '../../common/constants/role';
-import { CreatePostDto } from './dto/createPost.dto';
+import { CreateOrUpdatePostDto } from './dto/createOrUpdatePost.dto';
 import { PublishOrDeletePostDto } from './dto/publishOrDeletePost.dto';
 import { PublishPostQueryDto } from './dto/publishPostQuery.dto';
+import { Post as PostEntity } from './entity/post.entity';
+import { GetPostsListQueryDto } from './dto/getPostsListQuery.dto';
 
 @Controller('admin/posts')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -26,9 +28,45 @@ import { PublishPostQueryDto } from './dto/publishPostQuery.dto';
 export class PostController {
   constructor(private readonly adminPostService: PostService) {}
 
+  @Get('/all')
+  public async getPostsList(
+    @Query() query: GetPostsListQueryDto,
+  ): Promise<PostEntity[]> {
+    return this.adminPostService.getAllPosts(query.skip, query.take);
+  }
+
   @Get('/:id')
   public async getPost(@Param('id') id: string): Promise<any> {
     return this.adminPostService.getPostById(+id);
+  }
+
+  @Post('/')
+  public async createPost(@Body() body: CreateOrUpdatePostDto) {
+    return this.adminPostService.createPost(body);
+  }
+
+  @HttpCode(204)
+  @Post('/:id/publish')
+  public async changePublish(
+    @Param() params: PublishOrDeletePostDto,
+    @Query() query: PublishPostQueryDto,
+  ) {
+    return query.publish
+      ? this.adminPostService.publishPosh(params.id)
+      : this.adminPostService.unpublishPost(params.id);
+  }
+
+  @Patch('/:id')
+  public async updatePost(
+    @Param() params: PublishOrDeletePostDto,
+    @Body() body: CreateOrUpdatePostDto,
+  ): Promise<any> {
+    return this.adminPostService.updatePost(params.id, body);
+  }
+
+  @Delete('/:id')
+  public async deletePost(@Param() params: PublishOrDeletePostDto) {
+    return this.adminPostService.deletePost(params.id);
   }
 
   // @Post('/create')
@@ -74,11 +112,6 @@ export class PostController {
   //   res.redirect('/admin/posts');
   // }
 
-  @Post('/')
-  public async createPost(@Body() body: CreatePostDto) {
-    return this.adminPostService.createPost(body);
-  }
-
   // @Post('/:id/edit')
   // @UseInterceptors(
   //   FileFieldsInterceptor(
@@ -112,20 +145,4 @@ export class PostController {
   //   await this.adminPostService.updatePost(id, editPost);
   //   res.redirect('/admin/posts');
   // }
-
-  @HttpCode(204)
-  @Post('/:id/publish')
-  public async changePublish(
-    @Param() params: PublishOrDeletePostDto,
-    @Query() query: PublishPostQueryDto,
-  ) {
-    return query.publish
-      ? this.adminPostService.publishPosh(params.id)
-      : this.adminPostService.unpublishPost(params.id);
-  }
-
-  @Delete('/:id')
-  public async deletePost(@Param() params: PublishOrDeletePostDto) {
-    return this.adminPostService.deletePost(params.id);
-  }
 }
