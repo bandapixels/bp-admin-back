@@ -6,9 +6,16 @@ import { AppModule } from './app.module';
 import { AppConfig } from './modules/config/models/app.config';
 import { NestFactory } from '@nestjs/core';
 import { TypeormExceptionFilter } from './common/filters/typeormException.filter';
+import { json } from 'body-parser';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  app.use(
+    json({
+      limit: '50mb',
+    }),
+  );
 
   const appConfig = app.get(AppConfig);
 
