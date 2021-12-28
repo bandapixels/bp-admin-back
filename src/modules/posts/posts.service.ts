@@ -66,21 +66,21 @@ export default class PostService {
       ? await this.adminTagService.getTagsByIds(updatePost.tagsIds)
       : [];
 
-    delete updatePost.tagsIds;
+    const files = await this.filesService.findFiles([
+      updatePost.imageId,
+      updatePost.previewImageId,
+    ]);
 
-    // if (!updatePost.image) {
-    //   delete updatePost.image;
-    // }
-    //
-    // if (!updatePost.preview_image) {
-    //   delete updatePost.preview_image;
-    // }
+    delete updatePost.tagsIds;
+    delete updatePost.imageId;
+    delete updatePost.previewImageId;
 
     await this.adminPostRepository.update(id, { ...updatePost });
 
     const post = await this.adminPostRepository.findOne(id);
 
     post.tags = tags;
+    post.files = files;
 
     return this.adminPostRepository.save(post);
   }
