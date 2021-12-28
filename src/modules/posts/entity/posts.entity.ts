@@ -54,7 +54,9 @@ export class Posts extends BaseMysqlModel {
   @Exclude({
     toPlainOnly: true,
   })
-  @OneToMany(() => Files, (file) => file.post)
+  @OneToMany(() => Files, (file) => file.post, {
+    cascade: true,
+  })
   @JoinColumn()
   files: Files[];
 
@@ -70,5 +72,12 @@ export class Posts extends BaseMysqlModel {
   })
   previewImageId(): number | null {
     return this.files.filter((file) => file?.type === 'PREVIEW')[0]?.id || null;
+  }
+
+  @Expose({
+    name: 'tagsIds',
+  })
+  tagsIds(): number[] {
+    return this.tags.map((tag) => tag.id);
   }
 }

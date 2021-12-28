@@ -17,6 +17,7 @@ import { AwsSdkModule } from 'nest-aws-sdk';
 import { S3 } from 'aws-sdk';
 import { AwsConfig } from './modules/config/models/aws.config';
 import { Files } from './modules/files/entity/files.entity';
+import { ContactUsModule } from './modules/contact-us/contact-us.module';
 
 @Module({
   imports: [
@@ -70,6 +71,7 @@ import { Files } from './modules/files/entity/files.entity';
     HurmaModule,
     FilesModule,
     S3ManagerModule,
+    ContactUsModule,
   ],
 })
 export class AppModule {}
