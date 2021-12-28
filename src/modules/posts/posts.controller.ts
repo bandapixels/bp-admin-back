@@ -8,6 +8,7 @@ import {
   UseGuards,
   Controller,
   Query,
+  Patch,
 } from '@nestjs/common';
 
 import PostService from './posts.service';
@@ -15,9 +16,11 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/jwt-auth.roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '../../common/constants/role';
-import { CreatePostDto } from './dto/createPost.dto';
+import { CreateOrUpdatePostDto } from './dto/createOrUpdatePost.dto';
 import { PublishOrDeletePostDto } from './dto/publishOrDeletePost.dto';
 import { PublishPostQueryDto } from './dto/publishPostQuery.dto';
+import { GetPostsListQueryDto } from './dto/getPostsListQuery.dto';
+import { Posts } from './entity/posts.entity';
 
 @Controller('admin/posts')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -25,13 +28,20 @@ import { PublishPostQueryDto } from './dto/publishPostQuery.dto';
 export class PostsController {
   constructor(private readonly adminPostService: PostService) {}
 
+  @Get('/')
+  public async getPostsList(
+    @Query() query: GetPostsListQueryDto,
+  ): Promise<Posts[]> {
+    return this.adminPostService.getAllPosts(query.skip, query.take);
+  }
+
   @Get('/:id')
   public async getPost(@Param('id') id: string): Promise<any> {
     return this.adminPostService.getPostById(+id);
   }
 
   @Post('/')
-  public async createPost(@Body() body: CreatePostDto) {
+  public async createPost(@Body() body: CreateOrUpdatePostDto) {
     return this.adminPostService.createPost(body);
   }
 
@@ -44,6 +54,14 @@ export class PostsController {
     return query.publish
       ? this.adminPostService.publishPosh(params.id)
       : this.adminPostService.unpublishPost(params.id);
+  }
+
+  @Patch('/:id')
+  public async updatePost(
+    @Param() params: PublishOrDeletePostDto,
+    @Body() body: CreateOrUpdatePostDto,
+  ): Promise<any> {
+    return this.adminPostService.updatePost(params.id, body);
   }
 
   @Delete('/:id')

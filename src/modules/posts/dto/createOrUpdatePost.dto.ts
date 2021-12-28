@@ -2,7 +2,7 @@ import { IsInt, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsExistInDb } from '../../../validation/isExistInDb';
 
-export class CreatePostDto {
+export class CreateOrUpdatePostDto {
   @ApiProperty({
     example: 'posts header',
     description: 'header for posts',
