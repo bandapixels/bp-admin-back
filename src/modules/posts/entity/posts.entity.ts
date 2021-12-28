@@ -10,6 +10,7 @@ import {
 import { Tags } from '../../tags/entity/admin.tags.entity';
 import { BaseMysqlModel } from '../../../common/db/base-mysql.model';
 import { Files } from '../../files/entity/files.entity';
+import { Exclude, Expose } from 'class-transformer';
 
 @Entity()
 export class Posts extends BaseMysqlModel {
@@ -28,12 +29,6 @@ export class Posts extends BaseMysqlModel {
   @Column()
   excerpt: string;
 
-  @Column({ nullable: true, default: null })
-  image: string;
-
-  @Column({ nullable: true, default: null })
-  preview_image: string;
-
   @Column()
   minutes_to_read: number;
 
@@ -49,11 +44,31 @@ export class Posts extends BaseMysqlModel {
   @Column({ type: 'boolean', default: false })
   published: boolean;
 
+  @Exclude({
+    toPlainOnly: true,
+  })
   @ManyToMany(() => Tags, { cascade: true })
   @JoinTable()
   tags?: Tags[];
 
+  @Exclude({
+    toPlainOnly: true,
+  })
   @OneToMany(() => Files, (file) => file.post)
   @JoinColumn()
   files: Files[];
+
+  @Expose({
+    name: 'imageId',
+  })
+  imageId(): number | null {
+    return this.files.filter((file) => file?.type === 'IMAGE')[0]?.id || null;
+  }
+
+  @Expose({
+    name: 'previewImageId',
+  })
+  previewImageId(): number | null {
+    return this.files.filter((file) => file?.type === 'PREVIEW')[0]?.id || null;
+  }
 }

@@ -21,6 +21,7 @@ import { PublishOrDeletePostDto } from './dto/publishOrDeletePost.dto';
 import { PublishPostQueryDto } from './dto/publishPostQuery.dto';
 import { GetPostsListQueryDto } from './dto/getPostsListQuery.dto';
 import { Posts } from './entity/posts.entity';
+import { instanceToPlain } from 'class-transformer';
 
 @Controller('admin/posts')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -31,13 +32,15 @@ export class PostsController {
   @Get('/')
   public async getPostsList(
     @Query() query: GetPostsListQueryDto,
-  ): Promise<Posts[]> {
+  ): Promise<{ posts: Posts[]; totalCount: number }> {
     return this.adminPostService.getAllPosts(query.skip, query.take);
   }
 
   @Get('/:id')
-  public async getPost(@Param('id') id: string): Promise<any> {
-    return this.adminPostService.getPostById(+id);
+  public async getPost(@Param('id') id: string): Promise<Posts> {
+    return instanceToPlain(
+      await this.adminPostService.getPostById(+id),
+    ) as Posts;
   }
 
   @Post('/')

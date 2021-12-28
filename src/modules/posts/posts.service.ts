@@ -17,11 +17,18 @@ export default class PostService {
   ) {}
 
   public async getAllPosts(skipNum, takeNum) {
-    return this.adminPostRepository.find({
+    const totalCount = await this.adminPostRepository.count();
+
+    const posts = await this.adminPostRepository.find({
       skip: skipNum,
       take: takeNum,
       relations: ['tags', 'files'],
     });
+
+    return {
+      posts,
+      totalCount,
+    };
   }
 
   public async createPost(createPostDto: CreateOrUpdatePostDto) {
@@ -49,7 +56,9 @@ export default class PostService {
   }
 
   public async getPostById(id) {
-    return this.adminPostRepository.findOne(id, { relations: ['tags'] });
+    return this.adminPostRepository.findOneOrFail(id, {
+      relations: ['tags', 'files'],
+    });
   }
 
   public async updatePost(id: number, updatePost: CreateOrUpdatePostDto) {
