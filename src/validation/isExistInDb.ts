@@ -6,6 +6,7 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 import { getConnection } from 'typeorm';
+import { EntityNames } from '../common/constants/entityNames';
 
 @ValidatorConstraint({ async: true })
 export class IsExistInDbConstraint implements ValidatorConstraintInterface {
@@ -36,7 +37,7 @@ export class IsExistInDbConstraint implements ValidatorConstraintInterface {
 }
 
 export function IsExistInDb(
-  entity: string,
+  entity: EntityNames,
   overrideProperty?: string,
   options?: ValidationOptions,
 ) {
