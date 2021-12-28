@@ -28,7 +28,9 @@ export class AdminTagsController {
   constructor(private readonly adminTagService: AdminTagsService) {}
 
   @Get('/')
-  public async getTags(@Query() query: GetTagsListQueryDto): Promise<Tags[]> {
+  public async getTags(
+    @Query() query: GetTagsListQueryDto,
+  ): Promise<{ tags: Tags[]; totalCount: number }> {
     return this.adminTagService.getTags(query.skip, query.take);
   }
 
