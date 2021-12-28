@@ -13,11 +13,18 @@ export default class AdminTagsService {
   ) {}
 
   async getTags(skipNum: number, takeNum: number) {
-    return this.adminTagRepository.find({
+    const tags = await this.adminTagRepository.find({
       select: ['id', 'name'],
       skip: skipNum,
       take: takeNum,
     });
+
+    const totalCount = await this.adminTagRepository.count();
+
+    return {
+      tags,
+      totalCount,
+    };
   }
 
   async getAllTags() {
