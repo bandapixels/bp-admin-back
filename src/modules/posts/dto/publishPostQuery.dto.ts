@@ -1,8 +1,6 @@
-import { IsBoolean } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { IsBooleanString } from 'class-validator';
 
 export class PublishPostQueryDto {
-  @Transform(({ value }) => value.toLowerCase() === 'true')
-  @IsBoolean()
+  @IsBooleanString()
   publish: boolean;
 }
