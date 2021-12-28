@@ -1,9 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { Role } from '../../common/constants/role';
-import { BaseMysqlModel } from '../../common/db/base-mysql.model';
+import { Role } from '../../../common/constants/role';
+import { BaseMysqlModel } from '../../../common/db/base-mysql.model';
 
 @Entity()
-export class User extends BaseMysqlModel {
+export class Users extends BaseMysqlModel {
   @PrimaryGeneratedColumn()
   id: number;
 

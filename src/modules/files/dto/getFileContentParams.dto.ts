@@ -5,6 +5,6 @@ import { IsExistInDb } from '../../../validation/isExistInDb';
 export class GetFileContentParamsDto {
   @Transform(({ value }) => +value)
   @IsInt()
-  @IsExistInDb('file')
+  @IsExistInDb('file', 'id')
   id: number;
 }

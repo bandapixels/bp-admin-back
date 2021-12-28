@@ -13,13 +13,13 @@ export class IsExistInDbConstraint implements ValidatorConstraintInterface {
     value: string,
     { constraints, property }: ValidationArguments,
   ): Promise<boolean> {
-    const [entity] = constraints;
+    const [entity, overrideProperty] = constraints;
 
     return !!(await getConnection()
       .getRepository(entity)
       .count({
         where: {
-          [property]: value,
+          [overrideProperty || property]: value,
         },
       }));
   }
@@ -35,13 +35,18 @@ export class IsExistInDbConstraint implements ValidatorConstraintInterface {
   }
 }
 
-export function IsExistInDb(entity: string, options?: ValidationOptions) {
-  return function (object: Object, propertyName: string) {
+export function IsExistInDb(
+  entity: string,
+  overrideProperty?: string,
+  options?: ValidationOptions,
+) {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  return function (object: Object, property: string) {
     registerDecorator({
       target: object.constructor,
-      propertyName,
+      propertyName: property,
       options,
-      constraints: [entity],
+      constraints: [entity, overrideProperty],
       validator: IsExistInDbConstraint,
     });
   };

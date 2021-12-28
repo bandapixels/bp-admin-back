@@ -3,13 +3,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { TagDto } from './dto/tag.dto';
-import { Tag } from './entity/admin.tag.entity';
+import { Tags } from './entity/admin.tags.entity';
 
 @Injectable()
-export default class AdminTagService {
+export default class AdminTagsService {
   constructor(
-    @InjectRepository(Tag)
-    private adminTagRepository: Repository<Tag>,
+    @InjectRepository(Tags)
+    private adminTagRepository: Repository<Tags>,
   ) {}
 
   async getTags(skipNum: number, takeNum: number) {

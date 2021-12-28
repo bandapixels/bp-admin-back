@@ -22,8 +22,8 @@ import { AWSError } from 'aws-sdk';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FilesService } from './files.service';
 import { UploadFileQueryDto } from './dto/uploadFileQuery.dto';
-import { File } from './entity/file.entity';
 import { GetFileContentParamsDto } from './dto/getFileContentParams.dto';
+import { Files } from './entity/files.entity';
 
 @Controller('admin/files')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -35,7 +35,7 @@ export class FilesController {
   ) {}
 
   @Get('/')
-  private async getFilesList(): Promise<File[]> {
+  private async getFilesList(): Promise<Files[]> {
     return this.filesService.findFiles();
   }
 
@@ -76,7 +76,7 @@ export class FilesController {
   private async upload(
     @UploadedFile() file: Express.Multer.File,
     @Query() query: UploadFileQueryDto = { type: 'IMAGE' },
-  ): Promise<File> {
+  ): Promise<Files> {
     if (!file) {
       throw new BadRequestException('provide file');
     }

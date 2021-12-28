@@ -1,10 +1,11 @@
 import { IsInt, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsExistInDb } from '../../../validation/isExistInDb';
 
 export class CreatePostDto {
   @ApiProperty({
-    example: 'post header',
-    description: 'header for post',
+    example: 'posts header',
+    description: 'header for posts',
     required: true,
     type: 'string',
   })
@@ -13,7 +14,7 @@ export class CreatePostDto {
 
   @ApiProperty({
     example: 'subtitle example',
-    description: 'post subtitle',
+    description: 'posts subtitle',
     required: true,
     type: 'string',
   })
@@ -22,18 +23,20 @@ export class CreatePostDto {
 
   @ApiProperty({
     example: 'qwe',
-    description: 'post excerpt',
+    description: 'posts excerpt',
     required: true,
     type: 'string',
   })
   @IsString()
   excerpt: string;
 
-  @IsString()
-  image: string;
+  @IsInt()
+  @IsExistInDb('file', 'id')
+  imageId: number;
 
-  @IsString()
-  preview_image: string;
+  @IsInt()
+  @IsExistInDb('file', 'id')
+  previewImageId: number;
 
   @IsInt({ each: true })
   tagsIds: number[];

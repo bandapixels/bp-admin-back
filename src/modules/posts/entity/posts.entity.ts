@@ -1,20 +1,18 @@
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
   JoinTable,
   ManyToMany,
+  OneToMany,
+  JoinColumn,
 } from 'typeorm';
 
-import { Tag } from '../../tag/entity/admin.tag.entity';
+import { Tags } from '../../tags/entity/admin.tags.entity';
 import { BaseMysqlModel } from '../../../common/db/base-mysql.model';
-import { File } from '../../files/entity/file.entity';
+import { Files } from '../../files/entity/files.entity';
 
 @Entity()
-export class Post extends BaseMysqlModel {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Posts extends BaseMysqlModel {
   @Column()
   head!: string;
 
@@ -51,7 +49,11 @@ export class Post extends BaseMysqlModel {
   @Column({ type: 'boolean', default: false })
   published: boolean;
 
-  @ManyToMany(() => Tag, { cascade: true })
+  @ManyToMany(() => Tags, { cascade: true })
   @JoinTable()
-  tags?: Tag[];
+  tags?: Tags[];
+
+  @OneToMany(() => Files, (file) => file.post)
+  @JoinColumn()
+  files: Files[];
 }
