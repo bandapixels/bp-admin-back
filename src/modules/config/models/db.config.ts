@@ -14,11 +14,14 @@ export class DbConfig {
 
   readonly database: string;
 
+  readonly entities: string;
+
   constructor(private readonly configService: AppConfigService) {
     this.host = this.configService.get('TYPEORM_HOST');
     this.port = +this.configService.get('TYPEORM_PORT');
     this.username = this.configService.get('TYPEORM_USERNAME');
     this.password = this.configService.get('TYPEORM_PASSWORD');
     this.database = this.configService.get('TYPEORM_DATABASE');
+    this.entities = this.configService.get('TYPEORM_ENTITIES');
   }
 }

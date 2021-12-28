@@ -2,35 +2,48 @@ import { Injectable } from '@nestjs/common';
 import { Not, Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Post } from './entity/post.entity';
+import { Posts } from './entity/posts.entity';
 import { PostDto } from './dto/post.dto';
-import AdminTagService from '../tag/admin.tag.service';
+import AdminTagsService from '../tags/admin.tags.service';
 import { CreatePostDto } from './dto/createPost.dto';
+import { FilesService } from '../files/files.service';
 
 @Injectable()
 export default class PostService {
   constructor(
-    @InjectRepository(Post)
-    private adminPostRepository: Repository<Post>,
-    private readonly adminTagService: AdminTagService,
+    @InjectRepository(Posts)
+    private adminPostRepository: Repository<Posts>,
+    private readonly adminTagService: AdminTagsService,
+    private readonly filesService: FilesService,
   ) {}
 
   public async getAllPosts(skipNum, takeNum) {
     return this.adminPostRepository.find({
       skip: skipNum,
       take: takeNum,
-      relations: ['tags'],
+      relations: ['tags', 'files'],
     });
   }
 
   public async createPost(createPostDto: CreatePostDto) {
     const tags = await this.adminTagService.getTagsByIds(createPostDto.tagsIds);
 
+    const image = await this.filesService.findFile(
+      createPostDto.imageId,
+      'IMAGE',
+    );
+
+    const previewImage = await this.filesService.findFile(
+      createPostDto.previewImageId,
+      'PREVIEW',
+    );
+
     delete createPostDto.tagsIds;
 
     const post = await this.adminPostRepository.create({
       ...createPostDto,
       tags,
+      files: [image, previewImage],
     });
 
     return this.adminPostRepository.save(post);
@@ -47,13 +60,13 @@ export default class PostService {
 
     delete updatePost.tags;
 
-    if (!updatePost.image) {
-      delete updatePost.image;
-    }
-
-    if (!updatePost.preview_image) {
-      delete updatePost.preview_image;
-    }
+    // if (!updatePost.image) {
+    //   delete updatePost.image;
+    // }
+    //
+    // if (!updatePost.preview_image) {
+    //   delete updatePost.preview_image;
+    // }
 
     await this.adminPostRepository.update(id, { ...updatePost });
 

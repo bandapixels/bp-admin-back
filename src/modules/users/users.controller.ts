@@ -6,20 +6,20 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 
-import { UserService } from './user.service';
+import { UsersService } from './users.service';
 import { MailService } from '../mail/mail.service';
 import { AuthConfig } from '../config/models/auth.config';
 import { UserLoginDto } from './dto/user.login.dto';
 import { AuthService } from '../auth/auth.service';
 
 @Controller('users')
-export class UserController {
+export class UsersController {
   constructor(
-    private readonly appService: UserService,
+    private readonly appService: UsersService,
     private readonly mailService: MailService,
     private readonly authConfig: AuthConfig,
     private readonly authService: AuthService,
-    private readonly userService: UserService,
+    private readonly userService: UsersService,
   ) {}
 
   @Post('login')
