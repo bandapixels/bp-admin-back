@@ -1,5 +1,6 @@
 import { IsInt, IsString } from 'class-validator';
-import { Tag } from '../../tag/entity/admin.tag.entity';
+import { Tags } from '../../tags/entity/admin.tags.entity';
+import { Files } from '../../files/entity/files.entity';
 
 export class PostDto {
   @IsString()
@@ -17,7 +18,9 @@ export class PostDto {
   @IsString()
   preview_image: string;
 
-  tags: Tag[];
+  tags: Tags[];
+
+  files: Files[];
 
   @IsInt()
   minutes_to_read: number;

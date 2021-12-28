@@ -23,6 +23,13 @@ import { AwsConfig } from './models/aws.config';
     AppConfigService,
     ConfigService,
   ],
-  exports: [AppConfig, AppConfigService, AuthConfig, DbConfig, MailerConfig],
+  exports: [
+    AppConfig,
+    AppConfigService,
+    AuthConfig,
+    DbConfig,
+    MailerConfig,
+    AwsConfig,
+  ],
 })
 export class AppConfigModule {}

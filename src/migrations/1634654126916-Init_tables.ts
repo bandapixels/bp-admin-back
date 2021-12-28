@@ -30,7 +30,7 @@ export class InitTables1634654126916 implements MigrationInterface {
           },
           {
             name: 'role',
-            type: "enum('admin','user')",
+            type: "enum('admin','users')",
             isNullable: false,
           },
           {
