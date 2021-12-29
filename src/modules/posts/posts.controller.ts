@@ -54,7 +54,7 @@ export class PostsController {
     @Param() params: PublishOrDeletePostDto,
     @Query() query: PublishPostQueryDto,
   ) {
-    return query.publish
+    return query.publish.toLowerCase() === 'true'
       ? this.adminPostService.publishPosh(params.id)
       : this.adminPostService.unpublishPost(params.id);
   }
