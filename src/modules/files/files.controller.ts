@@ -26,8 +26,6 @@ import { GetFileContentParamsDto } from './dto/getFileContentParams.dto';
 import { Files } from './entity/files.entity';
 
 @Controller('admin/files')
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(Role.ADMIN)
 export class FilesController {
   constructor(
     private s3Service: S3ManagerService,
@@ -57,6 +55,8 @@ export class FilesController {
     }
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @UseInterceptors(
     FileInterceptor('file', {
       limits: { fileSize: 1024 * 1024 * 5 }, // limit 5mb

@@ -43,11 +43,15 @@ export class PostsController {
     ) as Posts;
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @Post('/')
   public async createPost(@Body() body: CreateOrUpdatePostDto) {
     return this.adminPostService.createPost(body);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @HttpCode(204)
   @Post('/:id/publish')
   public async changePublish(
@@ -59,6 +63,8 @@ export class PostsController {
       : this.adminPostService.unpublishPost(params.id);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @Patch('/:id')
   public async updatePost(
     @Param() params: PublishOrDeletePostDto,
@@ -67,6 +73,8 @@ export class PostsController {
     return this.adminPostService.updatePost(params.id, body);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @HttpCode(204)
   @Delete('/:id')
   public async deletePost(
