@@ -85,12 +85,10 @@ export default class PostService {
     return this.adminPostRepository.save(post);
   }
 
-  public async publishPosh(id): Promise<UpdateResult> {
+  public async publishPosh(id: number): Promise<UpdateResult> {
     return this.adminPostRepository.update(
       {
         id,
-        published: false,
-        publishedAt: null,
       },
       {
         published: true,
@@ -103,8 +101,6 @@ export default class PostService {
     return this.adminPostRepository.update(
       {
         id,
-        published: true,
-        publishedAt: Not(null),
       },
       {
         published: false,

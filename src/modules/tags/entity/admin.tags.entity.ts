@@ -1,11 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany } from 'typeorm';
 import { BaseMysqlModel } from '../../../common/db/base-mysql.model';
+import { Posts } from '../../posts/entity/posts.entity';
 
 @Entity()
 export class Tags extends BaseMysqlModel {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column()
   name: string;
+
+  @ManyToMany(() => Posts, (post) => post.tags)
+  posts: Posts[];
 }

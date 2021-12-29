@@ -63,12 +63,15 @@ export class PostsController {
   public async updatePost(
     @Param() params: PublishOrDeletePostDto,
     @Body() body: CreateOrUpdatePostDto,
-  ): Promise<any> {
+  ): Promise<Posts> {
     return this.adminPostService.updatePost(params.id, body);
   }
 
+  @HttpCode(204)
   @Delete('/:id')
-  public async deletePost(@Param() params: PublishOrDeletePostDto) {
-    return this.adminPostService.deletePost(params.id);
+  public async deletePost(
+    @Param() params: PublishOrDeletePostDto,
+  ): Promise<void> {
+    await this.adminPostService.deletePost(params.id);
   }
 }

@@ -35,9 +35,6 @@ export class Posts extends BaseMysqlModel {
   @Column({ type: 'longtext' })
   body: string;
 
-  @Column({ default: null })
-  url: string;
-
   @Column({ type: 'timestamp', nullable: true, default: null })
   publishedAt: Date | null;
 
@@ -47,16 +44,14 @@ export class Posts extends BaseMysqlModel {
   @Exclude({
     toPlainOnly: true,
   })
-  @ManyToMany(() => Tags, { cascade: true })
+  @ManyToMany(() => Tags, (tag) => tag.posts)
   @JoinTable()
   tags?: Tags[];
 
   @Exclude({
     toPlainOnly: true,
   })
-  @OneToMany(() => Files, (file) => file.post, {
-    cascade: true,
-  })
+  @OneToMany(() => Files, (file) => file.post)
   @JoinColumn()
   files: Files[];
 

@@ -19,6 +19,8 @@ export class Files extends BaseMysqlModel {
   @Column({ type: 'enum', enum: ['IMAGE', 'PREVIEW'], default: 'IMAGE' })
   type: 'IMAGE' | 'PREVIEW';
 
-  @ManyToOne(() => Posts, (post) => post.files)
+  @ManyToOne(() => Posts, (post) => post.files, {
+    onDelete: 'CASCADE',
+  })
   post: Posts;
 }
