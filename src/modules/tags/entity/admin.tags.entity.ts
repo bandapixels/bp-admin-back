@@ -7,6 +7,8 @@ export class Tags extends BaseMysqlModel {
   @Column()
   name: string;
 
-  @ManyToMany(() => Posts, (post) => post.tags)
+  @ManyToMany(() => Posts, (post) => post.tags, {
+    onDelete: 'CASCADE',
+  })
   posts: Posts[];
 }
