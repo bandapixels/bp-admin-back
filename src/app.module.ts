@@ -39,7 +39,7 @@ import { ContactUsModule } from './modules/contact-us/contact-us.module';
           password,
           database,
           entities: [Users, Tags, Posts, Files],
-          synchronize: true,
+          synchronize: false,
           logging: true,
         };
       },
