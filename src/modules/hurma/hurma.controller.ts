@@ -11,14 +11,39 @@ export class HurmaController {
   constructor(private hurmaService: HurmaService) {}
 
   @Get('/vacancies')
-  private async getVacanciesList(): Promise<BandapixelsVacanciesResponse> {
-    return this.hurmaService.getVacanciesList();
+  private async getVacanciesList() {
+    return (await this.hurmaService.getVacanciesList()).result.data.map(
+      (vacancy) => {
+        return {
+          id: vacancy.id,
+          title: vacancy.name,
+          description: vacancy.description,
+          reqSkills: vacancy.demand,
+          plus: vacancy.addition,
+          responsibility: vacancy.responsibility,
+        };
+      },
+    );
   }
 
   @Get('/vacancies/:id')
-  private async getVacancy(
-    @Param('id') id: string,
-  ): Promise<BandapixelsVacancyResponse> {
-    return this.hurmaService.getVacancy(+id);
+  private async getVacancy(@Param('id') vacancyId: string) {
+    const {
+      id,
+      name: title,
+      description,
+      demand: reqSkills,
+      addition: plus,
+      responsibility,
+    } = (await this.hurmaService.getVacancy(+vacancyId)).result;
+
+    return {
+      id,
+      description,
+      title,
+      reqSkills,
+      plus,
+      responsibility,
+    };
   }
 }
