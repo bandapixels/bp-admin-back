@@ -59,20 +59,46 @@ export class Posts extends BaseMysqlModel {
     name: 'imageId',
   })
   imageId(): number | null {
-    return this.files.filter((file) => file?.type === 'IMAGE')[0]?.id || null;
+    return this.files?.filter((file) => file?.type === 'IMAGE')[0]?.id || null;
   }
 
   @Expose({
     name: 'previewImageId',
   })
   previewImageId(): number | null {
-    return this.files.filter((file) => file?.type === 'PREVIEW')[0]?.id || null;
+    return (
+      this.files?.filter((file) => file?.type === 'PREVIEW')[0]?.id || null
+    );
   }
 
   @Expose({
     name: 'tagsIds',
   })
   tagsIds(): number[] {
-    return this.tags.map((tag) => tag.id);
+    return this.tags?.map((tag) => tag.id) || [];
+  }
+
+  @Expose({
+    name: 'url',
+  })
+  url(): string {
+    return `${process.env.API_URL}/api/admin/posts/content/${this.id}`;
+  }
+
+  @Expose({
+    name: 'images',
+  })
+  images(): { previewImage: string; image: string } {
+    const files = this.files;
+
+    const previewImage = files?.filter((file) => file.type === 'PREVIEW')[0];
+    const image = files?.filter((file) => file.type === 'IMAGE')[0];
+
+    const baseUrl = `${process.env.API_URL}/api/admin/files`;
+
+    return {
+      previewImage: `${baseUrl}/${previewImage.id}`,
+      image: `${baseUrl}/${image.id}`,
+    };
   }
 }

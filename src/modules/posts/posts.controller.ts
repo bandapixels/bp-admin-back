@@ -9,6 +9,7 @@ import {
   Controller,
   Query,
   Patch,
+  Render,
 } from '@nestjs/common';
 
 import PostService from './posts.service';
@@ -21,11 +22,11 @@ import { PublishOrDeletePostDto } from './dto/publishOrDeletePost.dto';
 import { PublishPostQueryDto } from './dto/publishPostQuery.dto';
 import { GetPostsListQueryDto } from './dto/getPostsListQuery.dto';
 import { Posts } from './entity/posts.entity';
-import { instanceToPlain } from 'class-transformer';
+import { instanceToPlain } from "class-transformer";
 
 @Controller('admin/posts')
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(Role.ADMIN)
+// @UseGuards(JwtAuthGuard, RolesGuard)
+// @Roles(Role.ADMIN)
 export class PostsController {
   constructor(private readonly adminPostService: PostService) {}
 
@@ -41,6 +42,40 @@ export class PostsController {
     return instanceToPlain(
       await this.adminPostService.getPostById(+id),
     ) as Posts;
+  }
+
+  @Get('/content/:id')
+  @Render('post/index.hbs')
+  public async getPostContent(@Param('id') id: string): Promise<any> {
+    console.log('0000000');
+    console.log('0000000');
+    const post = instanceToPlain(
+      await this.adminPostService.getPostById(id),
+    ) as Posts;
+    console.log('0000000');
+    console.log('0000000');
+
+    console.log('1111111');
+    console.log('1111111');
+    const qwe = await this.adminPostService.getPreviousAndNextPosts(post)
+    console.log('1111111');
+    console.log('1111111');
+
+    console.log('2222222');
+    console.log('2222222');
+    const { previousPost, nextPost } = instanceToPlain(qwe);
+    console.log('2222222');
+    console.log('2222222');
+
+    // console.log(previousPost, nextPost);
+
+    return {
+      API_URL: process.env.API_URL,
+      URL: `${process.env.API_URL}/api/admin/posts/content/${post.id}`,
+      post,
+      nextPost,
+      previousPost,
+    };
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

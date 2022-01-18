@@ -7,9 +7,14 @@ import { AppConfig } from './modules/config/models/app.config';
 import { NestFactory } from '@nestjs/core';
 import { TypeormExceptionFilter } from './common/filters/typeormException.filter';
 import { json } from 'body-parser';
+import * as path from 'path';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.useStaticAssets(path.join(__dirname, '..', '/public'), {
+    prefix: '/public'
+  });
+  // app.setBaseViewsDir(path.join(__dirname, '..', 'views'));
 
   app.use(
     json({

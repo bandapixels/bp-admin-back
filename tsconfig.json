@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+//    "assets": [
+//      { "include": "**/*.hbs", "watchAssets": true },
+//    ],
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,

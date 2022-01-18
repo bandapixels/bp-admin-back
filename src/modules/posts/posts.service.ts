@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Not, Repository, UpdateResult } from 'typeorm';
+import { LessThan, MoreThan, Not, Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Posts } from './entity/posts.entity';
@@ -20,6 +20,7 @@ export default class PostService {
     const totalCount = await this.adminPostRepository.count();
 
     const posts = await this.adminPostRepository.find({
+      select: ['id', 'excerpt', 'createdAt', 'head', 'createdAt'],
       skip: skipNum,
       take: takeNum,
       relations: ['tags', 'files'],
@@ -111,5 +112,35 @@ export default class PostService {
 
   public async deletePost(id) {
     return this.adminPostRepository.delete(id);
+  }
+
+  public async getPreviousAndNextPosts(
+    post: Posts,
+  ): Promise<{ previousPost?: Posts; nextPost?: Posts }> {
+    const previousPost = await this.adminPostRepository.findOne({
+      where: {
+        createdAt: LessThan(post.createdAt),
+      },
+      select: ['id', 'excerpt', 'head', 'createdAt', 'minutes_to_read'],
+      relations: ['files'],
+    });
+
+    const nextPost = await this.adminPostRepository.findOne({
+      where: {
+        createdAt: Not(LessThan(post.createdAt)),
+      },
+      // select: ['id', 'excerpt', 'head', 'createdAt', 'minutes_to_read'],
+      // relations: ['files'],
+    });
+
+    console.log({
+      previousPost,
+      nextPost
+    });
+
+    return {
+      previousPost,
+      nextPost,
+    };
   }
 }

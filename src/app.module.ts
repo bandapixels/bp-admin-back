@@ -18,6 +18,10 @@ import { S3 } from 'aws-sdk';
 import { AwsConfig } from './modules/config/models/aws.config';
 import { Files } from './modules/files/entity/files.entity';
 import { ContactUsModule } from './modules/contact-us/contact-us.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+
+console.log(join(__dirname, '..', 'public'));
 
 @Module({
   imports: [
