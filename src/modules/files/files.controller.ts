@@ -33,12 +33,12 @@ export class FilesController {
   ) {}
 
   @Get('/')
-  private async getFilesList(): Promise<Files[]> {
+  public async getFilesList(): Promise<Files[]> {
     return this.filesService.findFiles();
   }
 
   @Get('/:id')
-  private async getFile(
+  public async getFile(
     @Param() params: GetFileContentParamsDto,
     @Res() res: Response,
   ): Promise<Response> {
@@ -60,7 +60,7 @@ export class FilesController {
   @UseInterceptors(
     FileInterceptor('file', {
       limits: { fileSize: 1024 * 1024 * 5 }, // limit 5mb
-      fileFilter(req, file, cb) {
+      fileFilter(_req, file, cb) {
         if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
           return cb(
             new BadRequestException('only image files are allowed'),
@@ -73,7 +73,7 @@ export class FilesController {
     }),
   )
   @Post('/')
-  private async upload(
+  public async upload(
     @UploadedFile() file: Express.Multer.File,
     @Query() query: UploadFileQueryDto = { type: 'IMAGE' },
   ): Promise<Files> {

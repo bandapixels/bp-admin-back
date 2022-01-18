@@ -1,11 +1,10 @@
-import Faker from 'faker';
 import { define } from 'typeorm-seeding';
 
 import { Role } from '../common/constants/role';
 import { hash } from '../modules/auth/helpers/bcrypt';
 import { Users } from '../modules/users/entity/users.entity';
 
-define(Users, (faker: Faker.FakerStatic, context): Partial<Users> => {
+define(Users, (faker: Faker.FakerStatic, _context): Partial<Users> => {
   const user: Partial<Users> = new Users();
 
   user.email = 'bandapixels@bandapixels.com';

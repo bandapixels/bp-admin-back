@@ -14,7 +14,7 @@ export class ContactUsController {
 
   @HttpCode(204)
   @Post('/contact')
-  private async sendContactEmail(@Body() body: ContactUsDto): Promise<void> {
+  public async sendContactEmail(@Body() body: ContactUsDto): Promise<void> {
     await this.mailService.contactUs(body.sendTo, body);
   }
 }

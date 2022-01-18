@@ -97,8 +97,8 @@ export class Posts extends BaseMysqlModel {
     const baseUrl = `${process.env.API_URL}/api/admin/files`;
 
     return {
-      previewImage: `${baseUrl}/${previewImage.id}`,
-      image: `${baseUrl}/${image.id}`,
+      previewImage: `${baseUrl}/${previewImage?.id}`,
+      image: `${baseUrl}/${image?.id}`,
     };
   }
 }

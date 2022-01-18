@@ -1,6 +1,6 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+// import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
 import { AppConfig } from './modules/config/models/app.config';
@@ -11,10 +11,10 @@ import * as path from 'path';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
   app.useStaticAssets(path.join(__dirname, '..', '/public'), {
-    prefix: '/public'
+    prefix: '/public',
   });
-  // app.setBaseViewsDir(path.join(__dirname, '..', 'views'));
 
   app.use(
     json({
@@ -24,16 +24,16 @@ async function bootstrap(): Promise<void> {
 
   const appConfig = app.get(AppConfig);
 
-  const options = new DocumentBuilder()
-    .setTitle('Nest banda-admin api')
-    .setDescription('Nest API description')
-    .setVersion('1.0')
-    .addTag('nest')
-    .build();
+  // const options = new DocumentBuilder()
+  //   .setTitle('Nest banda-admin api')
+  //   .setDescription('Nest API description')
+  //   .setVersion('1.0')
+  //   .addTag('nest')
+  //   .build();
 
-  const document = SwaggerModule.createDocument(app, options);
+  // const document = SwaggerModule.createDocument(app, options);
 
-  SwaggerModule.setup('api', app, document);
+  // SwaggerModule.setup('api', app, document);
 
   app.enableCors({
     origin: '*', // TODO: replace with client url

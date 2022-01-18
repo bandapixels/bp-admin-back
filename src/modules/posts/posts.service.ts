@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { LessThan, MoreThan, Not, Repository, UpdateResult } from 'typeorm';
+import { LessThan, MoreThan, Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Posts } from './entity/posts.entity';
@@ -127,15 +127,10 @@ export default class PostService {
 
     const nextPost = await this.adminPostRepository.findOne({
       where: {
-        createdAt: Not(LessThan(post.createdAt)),
+        createdAt: MoreThan(post.createdAt),
       },
-      // select: ['id', 'excerpt', 'head', 'createdAt', 'minutes_to_read'],
-      // relations: ['files'],
-    });
-
-    console.log({
-      previousPost,
-      nextPost
+      select: ['id', 'excerpt', 'head', 'createdAt', 'minutes_to_read'],
+      relations: ['files'],
     });
 
     return {
