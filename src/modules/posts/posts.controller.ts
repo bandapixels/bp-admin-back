@@ -25,8 +25,6 @@ import { GetPostsListQueryDto } from './dto/getPostsListQuery.dto';
 import { Posts } from './entity/posts.entity';
 
 @Controller('admin/posts')
-// @UseGuards(JwtAuthGuard, RolesGuard)
-// @Roles(Role.ADMIN)
 export class PostsController {
   constructor(private readonly adminPostService: PostService) {}
 
