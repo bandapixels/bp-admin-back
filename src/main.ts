@@ -1,6 +1,6 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
-// import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
 import { AppConfig } from './modules/config/models/app.config';
@@ -24,16 +24,16 @@ async function bootstrap(): Promise<void> {
 
   const appConfig = app.get(AppConfig);
 
-  // const options = new DocumentBuilder()
-  //   .setTitle('Nest banda-admin api')
-  //   .setDescription('Nest API description')
-  //   .setVersion('1.0')
-  //   .addTag('nest')
-  //   .build();
+  const options = new DocumentBuilder()
+    .setTitle('Nest banda-admin api')
+    .setDescription('Nest API description')
+    .setVersion('1.0')
+    .addTag('nest')
+    .build();
 
-  // const document = SwaggerModule.createDocument(app, options);
+  const document = SwaggerModule.createDocument(app, options);
 
-  // SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api', app, document);
 
   app.enableCors({
     origin: '*', // TODO: replace with client url
