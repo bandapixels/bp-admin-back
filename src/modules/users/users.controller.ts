@@ -7,8 +7,6 @@ import {
 } from '@nestjs/common';
 
 import { UsersService } from './users.service';
-import { MailService } from '../mail/mail.service';
-import { AuthConfig } from '../config/models/auth.config';
 import { UserLoginDto } from './dto/user.login.dto';
 import { AuthService } from '../auth/auth.service';
 

@@ -11,10 +11,18 @@ export class BaseMysqlModel {
   id: number;
 
   @ApiModelProperty({ readOnly: true })
-  @CreateDateColumn({ nullable: false })
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    nullable: false,
+  })
   createdAt: Date;
 
   @ApiModelProperty({ readOnly: true })
-  @UpdateDateColumn({ nullable: false })
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    nullable: false,
+  })
   updatedAt: Date;
 }

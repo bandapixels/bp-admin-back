@@ -1,20 +1,20 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class generateInit1641284781238 implements MigrationInterface {
-  name = 'generateInit1641284781238';
+export class generate1642511732549 implements MigrationInterface {
+  name = 'generate1642511732549';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `CREATE TABLE \`banda\`.\`tags\` (\`id\` int NOT NULL AUTO_INCREMENT, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+      `CREATE TABLE \`banda\`.\`tags\` (\`id\` int NOT NULL AUTO_INCREMENT, \`createdAt\` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP, \`updatedAt\` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0), \`name\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
     );
     await queryRunner.query(
-      `CREATE TABLE \`banda\`.\`posts\` (\`id\` int NOT NULL AUTO_INCREMENT, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`head\` varchar(255) NOT NULL, \`views\` int NOT NULL DEFAULT '0', \`public\` tinyint NOT NULL DEFAULT 0, \`subtitle\` varchar(255) NOT NULL, \`excerpt\` varchar(255) NOT NULL, \`minutes_to_read\` int NOT NULL, \`body\` longtext NOT NULL, \`publishedAt\` timestamp NULL, \`published\` tinyint NOT NULL DEFAULT 0, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+      `CREATE TABLE \`banda\`.\`posts\` (\`id\` int NOT NULL AUTO_INCREMENT, \`createdAt\` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP, \`updatedAt\` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0), \`head\` varchar(255) NOT NULL, \`views\` int NOT NULL DEFAULT '0', \`public\` tinyint NOT NULL DEFAULT 0, \`subtitle\` varchar(255) NOT NULL, \`excerpt\` varchar(255) NOT NULL, \`minutes_to_read\` int NOT NULL, \`body\` longtext NOT NULL, \`publishedAt\` timestamp NULL, \`published\` tinyint NOT NULL DEFAULT 0, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
     );
     await queryRunner.query(
-      `CREATE TABLE \`banda\`.\`files\` (\`id\` int NOT NULL AUTO_INCREMENT, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`s3Path\` varchar(255) NOT NULL, \`fileName\` varchar(255) NOT NULL, \`size\` int NOT NULL, \`mimeType\` varchar(255) NOT NULL, \`type\` enum ('IMAGE', 'PREVIEW') NOT NULL DEFAULT 'IMAGE', \`postId\` int NULL, UNIQUE INDEX \`IDX_a1e60fa67ff151cdd20168d577\` (\`s3Path\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+      `CREATE TABLE \`banda\`.\`files\` (\`id\` int NOT NULL AUTO_INCREMENT, \`createdAt\` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP, \`updatedAt\` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0), \`s3Path\` varchar(255) NOT NULL, \`fileName\` varchar(255) NOT NULL, \`size\` int NOT NULL, \`mimeType\` varchar(255) NOT NULL, \`type\` enum ('IMAGE', 'PREVIEW') NOT NULL DEFAULT 'IMAGE', \`postId\` int NULL, UNIQUE INDEX \`IDX_a1e60fa67ff151cdd20168d577\` (\`s3Path\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
     );
     await queryRunner.query(
-      `CREATE TABLE \`banda\`.\`users\` (\`id\` int NOT NULL AUTO_INCREMENT, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`name\` varchar(255) NOT NULL, \`email\` varchar(255) NOT NULL, \`password\` varchar(255) NOT NULL, \`role\` enum ('USER', 'ADMIN') NOT NULL DEFAULT 'ADMIN', UNIQUE INDEX \`IDX_97672ac88f789774dd47f7c8be\` (\`email\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+      `CREATE TABLE \`banda\`.\`users\` (\`id\` int NOT NULL AUTO_INCREMENT, \`createdAt\` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP, \`updatedAt\` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0), \`name\` varchar(255) NOT NULL, \`email\` varchar(255) NOT NULL, \`password\` varchar(255) NOT NULL, \`role\` enum ('USER', 'ADMIN') NOT NULL DEFAULT 'ADMIN', UNIQUE INDEX \`IDX_97672ac88f789774dd47f7c8be\` (\`email\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
     );
     await queryRunner.query(
       `CREATE TABLE \`banda\`.\`posts_tags_tags\` (\`postsId\` int NOT NULL, \`tagsId\` int NOT NULL, INDEX \`IDX_cf364c7e6905b285c4b55a0034\` (\`postsId\`), INDEX \`IDX_ce163a967812183a51b044f740\` (\`tagsId\`), PRIMARY KEY (\`postsId\`, \`tagsId\`)) ENGINE=InnoDB`,
