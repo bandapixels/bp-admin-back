@@ -13,7 +13,7 @@ async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.useStaticAssets(path.join(__dirname, '..', '/public'), {
-    prefix: '/public',
+    prefix: '/api/public',
   });
 
   app.use(
