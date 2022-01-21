@@ -41,6 +41,12 @@ export class Posts extends BaseMysqlModel {
   @Column({ type: 'boolean', default: false })
   published: boolean;
 
+  @Column({
+    unique: true,
+    nullable: false,
+  })
+  slug: string;
+
   @Exclude({
     toPlainOnly: true,
   })
@@ -82,7 +88,7 @@ export class Posts extends BaseMysqlModel {
     name: 'url',
   })
   url(): string {
-    return `${process.env.API_URL}/api/admin/posts/content/${this.id}`;
+    return `${process.env.API_URL}/api/admin/posts/content/${this.slug}`;
   }
 
   @Expose({

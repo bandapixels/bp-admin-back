@@ -42,20 +42,21 @@ export class PostsController {
     ) as Posts;
   }
 
-  @Get('/content/:id')
+  @Get('/content/:slug')
   @Render('post/index.hbs')
-  public async getPostContent(@Param('id') id: string): Promise<any> {
+  public async getPostContent(
+    @Param('slug') slug: string,
+  ): Promise<Record<string, any>> {
     const post = instanceToPlain(
-      await this.adminPostService.getPostById(id),
+      await this.adminPostService.getPostBySlug(slug),
     ) as Posts;
 
-    const qwe = await this.adminPostService.getPreviousAndNextPosts(post);
-
-    const { previousPost, nextPost } = instanceToPlain(qwe);
+    const { previousPost, nextPost } = instanceToPlain(
+      await this.adminPostService.getPreviousAndNextPosts(post),
+    );
 
     return {
       API_URL: process.env.API_URL,
-      URL: `${process.env.API_URL}/api/admin/posts/content/${post.id}`,
       post,
       nextPost,
       previousPost,
