@@ -32,6 +32,15 @@ export class S3ManagerService {
       .promise();
   }
 
+  async deleteFile(key: string) {
+    return this.s3
+      .deleteObject({
+        Key: key,
+        Bucket: this.awsConfig.s3Bucket,
+      })
+      .promise();
+  }
+
   getObject(key: string) {
     return this.s3
       .getObject({

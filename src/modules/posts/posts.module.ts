@@ -8,14 +8,17 @@ import { Posts } from './entity/posts.entity';
 import { FilesService } from '../files/files.service';
 import { FilesModule } from '../files/files.module';
 import { Files } from '../files/entity/files.entity';
+import { S3ManagerService } from '../s3-manager/s3-manager.service';
+import { AppConfigModule } from '../config/app.config.module';
 
 @Module({
   imports: [
-    AdminTagsModule,
     FilesModule,
+    AdminTagsModule,
+    AppConfigModule,
     TypeOrmModule.forFeature([Posts, Files]),
   ],
   controllers: [PostsController],
-  providers: [PostService, FilesService],
+  providers: [PostService, FilesService, S3ManagerService],
 })
 export default class PostsModule {}
