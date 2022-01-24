@@ -37,7 +37,7 @@ export default class AdminTagsService {
     });
   }
 
-  async getTagsByIds(ids) {
+  async getTagsByIds(ids: number[]) {
     return this.adminTagRepository.findByIds(ids);
   }
 

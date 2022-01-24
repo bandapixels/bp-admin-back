@@ -103,12 +103,13 @@ export class PostsController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
+  @HttpCode(204)
   @Patch('/:id')
   public async updatePost(
     @Param() params: PublishOrDeletePostDto,
     @Body() body: CreateOrUpdatePostDto,
-  ): Promise<Posts> {
-    return this.adminPostService.updatePost(params.id, body);
+  ): Promise<void> {
+    await this.adminPostService.updatePost(params.id, body);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

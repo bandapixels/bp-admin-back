@@ -114,9 +114,18 @@ export default class PostService {
   public async updatePost(id: number, updatePost: CreateOrUpdatePostDto) {
     const slug = await this.generateSlugForPost(updatePost.head);
 
+    const files = await this.filesService.findFiles([
+      updatePost.previewImageId,
+      updatePost.imageId,
+    ]);
+
+    const tags = await this.adminTagService.getTagsByIds(updatePost.tagsIds);
+
     const post = await this.adminPostRepository.create({
       id,
       slug,
+      files,
+      tags,
       ...updatePost,
     });
 
