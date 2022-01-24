@@ -12,7 +12,6 @@ import { DbConfig } from './modules/config/models/db.config';
 import { UsersModule } from './modules/users/users.module';
 import { HurmaModule } from './modules/hurma/hurma.module';
 import { FilesModule } from './modules/files/files.module';
-import { S3ManagerModule } from './modules/s3-manager/s3-manager.module';
 import { AwsSdkModule } from 'nest-aws-sdk';
 import { S3 } from 'aws-sdk';
 import { AwsConfig } from './modules/config/models/aws.config';
@@ -70,7 +69,6 @@ import { ContactUsModule } from './modules/contact-us/contact-us.module';
     MailModule,
     HurmaModule,
     FilesModule,
-    S3ManagerModule,
     ContactUsModule,
   ],
 })

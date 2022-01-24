@@ -31,11 +31,23 @@ export class PostsController {
   @Get('/')
   public async getPostsList(
     @Query() query: GetPostsListQueryDto,
-  ): Promise<{ posts: Posts[]; totalCount: number }> {
-    return this.adminPostService.getAllPosts(query.skip, query.take);
+  ): Promise<Posts[]> {
+    const posts = await this.adminPostService.getAllPosts(
+      query.skip,
+      query.take,
+    );
+
+    return instanceToPlain(posts, {
+      groups: ['single'],
+    }) as Posts[];
   }
 
-  @Get('/:id')
+  @Get('/count')
+  public async getPostsCount(): Promise<any> {
+    return { totalCount: await this.adminPostService.countPosts() };
+  }
+
+  @Get('/info/:id')
   public async getPost(@Param('id') id: string): Promise<Posts> {
     return instanceToPlain(
       await this.adminPostService.getPostById(+id),
@@ -49,10 +61,16 @@ export class PostsController {
   ): Promise<Record<string, any>> {
     const post = instanceToPlain(
       await this.adminPostService.getPostBySlug(slug),
+      {
+        groups: ['full'],
+      },
     ) as Posts;
 
     const { previousPost, nextPost } = instanceToPlain(
       await this.adminPostService.getPreviousAndNextPosts(post),
+      {
+        groups: ['full'],
+      },
     );
 
     return {

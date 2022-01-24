@@ -91,20 +91,43 @@ export class Posts extends BaseMysqlModel {
     return `${process.env.API_URL}/api/admin/posts/content/${this.slug}`;
   }
 
-  @Expose({
-    name: 'images',
-  })
-  images(): { previewImage: string; image: string } {
+  private getFileUrl(fileType: 'IMAGE' | 'PREVIEW') {
     const files = this.files;
 
-    const previewImage = files?.filter((file) => file.type === 'PREVIEW')[0];
-    const image = files?.filter((file) => file.type === 'IMAGE')[0];
+    const fileWithType = files?.filter((file) => file.type === fileType)[0];
 
     const baseUrl = `${process.env.API_URL}/api/admin/files`;
 
+    return `${baseUrl}/${fileWithType?.id}`;
+  }
+
+  @Expose({
+    name: 'images',
+    groups: ['full'],
+  })
+  images(): { previewImage: string; image: string } {
+    const previewImage = this.getFileUrl('PREVIEW');
+    const image = this.getFileUrl('IMAGE');
+
     return {
-      previewImage: `${baseUrl}/${previewImage?.id}`,
-      image: `${baseUrl}/${image?.id}`,
+      previewImage,
+      image,
     };
+  }
+
+  @Expose({
+    name: 'image',
+    groups: ['single'],
+  })
+  image(): string {
+    return this.getFileUrl('IMAGE');
+  }
+
+  @Expose({
+    name: 'preview_image',
+    groups: ['single'],
+  })
+  preview_image(): string {
+    return this.getFileUrl('PREVIEW');
   }
 }
