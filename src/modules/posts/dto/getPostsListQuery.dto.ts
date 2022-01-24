@@ -4,9 +4,9 @@ import { IsInt } from 'class-validator';
 export class GetPostsListQueryDto {
   @Transform(({ value }) => +value)
   @IsInt()
-  public skip: number;
+  public skip = 0;
 
   @Transform(({ value }) => +value)
   @IsInt()
-  public take: number;
+  public take = 10;
 }

@@ -1,6 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, LessThan, MoreThan, Repository, UpdateResult } from 'typeorm';
+import {
+  ILike,
+  LessThan,
+  MoreThan,
+  Repository,
+  UpdateResult,
+  FindManyOptions,
+} from 'typeorm';
 
 import AdminTagsService from '../tags/admin.tags.service';
 import { Posts } from './entity/posts.entity';
@@ -51,9 +58,7 @@ export default class PostService {
   }
 
   public async getAllPosts(skipNum, takeNum) {
-    const totalCount = await this.adminPostRepository.count();
-
-    const posts = await this.adminPostRepository
+    return this.adminPostRepository
       .createQueryBuilder('posts')
       .select([
         'posts.id',
@@ -68,12 +73,8 @@ export default class PostService {
       .leftJoin('posts.files', 'files')
       .skip(skipNum)
       .take(takeNum)
+      .orderBy('posts.id', 'DESC')
       .getMany();
-
-    return {
-      posts,
-      totalCount,
-    };
   }
 
   public async createPost(createPostDto: CreateOrUpdatePostDto) {
@@ -185,5 +186,9 @@ export default class PostService {
       previousPost,
       nextPost,
     };
+  }
+
+  public async countPosts(opts?: FindManyOptions<Posts>): Promise<number> {
+    return this.adminPostRepository.count(opts);
   }
 }
