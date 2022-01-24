@@ -16,7 +16,7 @@ export class BaseMysqlModel {
     default: () => 'CURRENT_TIMESTAMP',
     nullable: false,
   })
-  createdAt: Date;
+  created_at: Date; // I have to use snake case cause the old backend used it :-(
 
   @ApiModelProperty({ readOnly: true })
   @UpdateDateColumn({
@@ -24,5 +24,5 @@ export class BaseMysqlModel {
     default: () => 'CURRENT_TIMESTAMP',
     nullable: false,
   })
-  updatedAt: Date;
+  updated_at: Date; // same
 }
