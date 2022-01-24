@@ -63,9 +63,8 @@ export default class PostService {
       .select([
         'posts.id',
         'posts.excerpt',
-        'posts.createdAt',
         'posts.head',
-        'posts.createdAt',
+        'posts.created_at',
         'posts.slug',
         'files.id',
         'files.type',
@@ -168,17 +167,31 @@ export default class PostService {
   ): Promise<{ previousPost?: Posts; nextPost?: Posts }> {
     const previousPost = await this.adminPostRepository.findOne({
       where: {
-        createdAt: LessThan(post.createdAt),
+        created_at: LessThan(post.created_at),
       },
-      select: ['id', 'excerpt', 'head', 'createdAt', 'minutes_to_read', 'slug'],
+      select: [
+        'id',
+        'excerpt',
+        'head',
+        'created_at',
+        'minutes_to_read',
+        'slug',
+      ],
       relations: ['files'],
     });
 
     const nextPost = await this.adminPostRepository.findOne({
       where: {
-        createdAt: MoreThan(post.createdAt),
+        created_at: MoreThan(post.created_at),
       },
-      select: ['id', 'excerpt', 'head', 'createdAt', 'minutes_to_read', 'slug'],
+      select: [
+        'id',
+        'excerpt',
+        'head',
+        'created_at',
+        'minutes_to_read',
+        'slug',
+      ],
       relations: ['files'],
     });
 
