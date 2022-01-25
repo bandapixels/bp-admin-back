@@ -1,34 +1,17 @@
-import { MailerService } from '@nestjs-modules/mailer';
+import { SentMessageInfo } from 'nodemailer';
 import { Injectable } from '@nestjs/common';
+import { MailerService } from '@nestjs-modules/mailer';
+
 import { ContactUsDto } from '../contact-us/dto/contactUs.dto';
 
 @Injectable()
 export class MailService {
   constructor(private mailerService: MailerService) {}
-
-  async sendUserConfirmation(user) {
-    await this.mailerService.sendMail({
-      to: user.email,
-      subject: 'Welcome to Nice App! Confirm your Email',
-      template: './confirmation',
-      context: {
-        name: user.name,
-      },
-    });
-  }
-
-  async contactUs(
-    to: string,
-    { email, name, company, projectType, task, skype, budget }: ContactUsDto,
-  ): Promise<any> {
-    const text = `Name - ${name}, email - ${email}, company name - ${company}, project type - ${projectType}, task - ${task}, budget - ${budget}${
-      skype ? `, skype - ${skype}` : ''
-    }`;
-
+  async contactUs(contactUs: ContactUsDto): Promise<SentMessageInfo> {
     return this.mailerService.sendMail({
-      to,
+      to: contactUs.email,
       subject: 'Discuss the project',
-      text,
+      text: contactUs.body,
     });
   }
 }

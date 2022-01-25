@@ -66,13 +66,20 @@ export class PostsController {
       },
     ) as Posts;
 
-    const { previousPost, nextPost } = instanceToPlain(
-      await this.adminPostService.getPreviousAndNextPosts(post),
-      {
-        groups: ['full'],
-      },
-    );
+    let previousPost = null;
+    let nextPost = null;
 
+    if (post.published) {
+      const { previousPost: previous, nextPost: next } = instanceToPlain(
+        await this.adminPostService.getPreviousAndNextPosts(post),
+        {
+          groups: ['full'],
+        },
+      );
+
+      previousPost = previous;
+      nextPost = next;
+    }
     return {
       API_URL: process.env.API_URL,
       post,

@@ -1,9 +1,6 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-//    "assets": [
-//      { "include": "**/*.hbs", "watchAssets": true },
-//    ],
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -16,7 +13,7 @@
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,

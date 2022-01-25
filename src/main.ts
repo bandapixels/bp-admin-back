@@ -45,7 +45,9 @@ async function bootstrap(): Promise<void> {
 
   app.useGlobalFilters(new TypeormExceptionFilter());
 
-  app.setGlobalPrefix('/api');
+  app.setGlobalPrefix('/api', {
+    exclude: ['contact'],
+  });
 
   await app.listen(appConfig.port);
 }

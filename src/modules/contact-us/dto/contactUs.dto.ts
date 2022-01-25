@@ -1,29 +1,11 @@
-import { IsEmail, IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsString, Length } from 'class-validator';
 
 export class ContactUsDto {
+  @Length(1, 2048)
   @IsString()
-  name: string;
-
-  @IsString()
-  company: string;
+  body: string;
 
   @IsString()
   @IsEmail()
   email: string;
-
-  @IsOptional()
-  @IsString()
-  skype: string;
-
-  @IsString()
-  task: string;
-
-  @IsString()
-  projectType: string;
-
-  @IsString()
-  budget: string;
-
-  @IsEmail()
-  sendTo: string;
 }

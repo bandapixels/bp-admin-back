@@ -54,15 +54,15 @@ export class AdminTagsController {
   @Roles(Role.ADMIN)
   @HttpCode(204)
   @Patch('/:id')
-  public async editTag(@Body() tag: TagDto, @Param('id') tagId) {
-    return this.adminTagService.updateTag(tag, tagId);
+  public async editTag(@Body() tag: TagDto, @Param('id') tagId: string) {
+    return this.adminTagService.updateTag(tag, +tagId);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @HttpCode(204)
   @Delete('/:id')
-  public async deleteTag(@Param('id') tagId) {
-    return this.adminTagService.delete(tagId);
+  public async deleteTag(@Param('id') tagId: string) {
+    return this.adminTagService.delete(+tagId);
   }
 }

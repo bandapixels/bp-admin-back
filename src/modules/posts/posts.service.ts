@@ -57,7 +57,7 @@ export default class PostService {
     return slug;
   }
 
-  public async getAllPosts(skipNum, takeNum) {
+  public async getAllPosts(skipNum: number, takeNum: number) {
     return this.adminPostRepository
       .createQueryBuilder('posts')
       .select([
@@ -66,6 +66,8 @@ export default class PostService {
         'posts.head',
         'posts.created_at',
         'posts.slug',
+        'posts.published',
+        'posts.publishedAt',
         'files.id',
         'files.type',
       ])
@@ -156,7 +158,7 @@ export default class PostService {
     );
   }
 
-  public async deletePost(id) {
+  public async deletePost(id: number) {
     const postsFiles = await this.adminFilesRepository.find({
       where: {
         post: id,
@@ -176,7 +178,8 @@ export default class PostService {
   ): Promise<{ previousPost?: Posts; nextPost?: Posts }> {
     const previousPost = await this.adminPostRepository.findOne({
       where: {
-        created_at: LessThan(post.created_at),
+        published: true,
+        publishedAt: LessThan(post.publishedAt),
       },
       select: [
         'id',
@@ -191,7 +194,8 @@ export default class PostService {
 
     const nextPost = await this.adminPostRepository.findOne({
       where: {
-        created_at: MoreThan(post.created_at),
+        published: true,
+        publishedAt: MoreThan(post.publishedAt),
       },
       select: [
         'id',

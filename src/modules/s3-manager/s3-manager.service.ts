@@ -6,8 +6,6 @@ import { AwsConfig } from '../config/models/aws.config';
 
 @Injectable()
 export class S3ManagerService {
-  private;
-
   constructor(
     private awsConfig: AwsConfig,
     @InjectAwsService(S3) private readonly s3: S3,
