@@ -77,10 +77,10 @@ export default class PostService {
       .leftJoin('posts.tags', 'tags')
       .skip(params.skip)
       .take(params.take)
-      .where('posts.published = :published', {
-        published: params.published,
+      .where(params.all ? '1=1' : 'posts.published = :published', {
+        published: true,
       })
-      .orderBy(params.published ? 'posts.publishedAt' : 'posts.id', 'DESC')
+      .orderBy(params.all ? 'posts.id' : 'posts.publishedAt', 'DESC')
       .getMany();
   }
 

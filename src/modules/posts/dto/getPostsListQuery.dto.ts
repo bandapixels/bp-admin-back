@@ -10,7 +10,7 @@ export class GetPostsListQueryDto {
   @IsInt()
   public take = 10;
 
-  @Transform(({ value }) => value)
+  @Transform(({ value }) => value === 'true')
   @IsBoolean()
-  public published = true;
+  public all = false;
 }
