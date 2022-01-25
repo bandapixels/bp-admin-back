@@ -14,8 +14,14 @@ export class HurmaController {
           id: vacancy.id,
           title: vacancy.name,
           description: vacancy.description,
-          reqSkills: vacancy.demand,
-          plus: vacancy.addition,
+          reqSkills: vacancy.demand
+            .split('\r\n')
+            .map((str) => str.replace(/^- /, ''))
+            .join('\r\n'),
+          plus: vacancy.addition
+            .split('\r\n')
+            .map((str) => str.replace(/^- /, ''))
+            .join('\r\n'),
           responsibility: vacancy.responsibility,
         };
       },
