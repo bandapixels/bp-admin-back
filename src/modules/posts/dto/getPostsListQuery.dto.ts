@@ -12,5 +12,5 @@ export class GetPostsListQueryDto {
 
   @Transform(({ value }) => value)
   @IsBoolean()
-  public all = true;
+  public published = true;
 }
