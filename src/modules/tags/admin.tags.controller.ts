@@ -34,7 +34,7 @@ export class AdminTagsController {
 
   @Get('/:id')
   public async findOneTag(@Param('id') id: string): Promise<Tags> {
-    const tag = await this.adminTagService.getTagsById(id);
+    const tag = await this.adminTagService.getTagsById(+id);
 
     if (!tag) {
       throw new NotFoundException();

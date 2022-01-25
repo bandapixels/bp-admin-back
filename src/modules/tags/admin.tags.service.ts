@@ -31,7 +31,7 @@ export default class AdminTagsService {
     return this.adminTagRepository.find();
   }
 
-  async getTagsById(id) {
+  async getTagsById(id: number) {
     return this.adminTagRepository.findOne(id, {
       select: ['id', 'name'],
     });
