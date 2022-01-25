@@ -16,6 +16,7 @@ import { FilesService } from '../files/files.service';
 import { CreateOrUpdatePostDto } from './dto/createOrUpdatePost.dto';
 import { Files } from '../files/entity/files.entity';
 import { S3ManagerService } from '../s3-manager/s3-manager.service';
+import { GetPostsListQueryDto } from './dto/getPostsListQuery.dto';
 
 @Injectable()
 export default class PostService {
@@ -57,7 +58,7 @@ export default class PostService {
     return slug;
   }
 
-  public async getAllPosts(skipNum: number, takeNum: number) {
+  public async getAllPosts(params: GetPostsListQueryDto): Promise<Posts[]> {
     return this.adminPostRepository
       .createQueryBuilder('posts')
       .select([
@@ -70,11 +71,16 @@ export default class PostService {
         'posts.publishedAt',
         'files.id',
         'files.type',
+        'tags.name',
       ])
       .leftJoin('posts.files', 'files')
-      .skip(skipNum)
-      .take(takeNum)
-      .orderBy('posts.id', 'DESC')
+      .leftJoin('posts.tags', 'tags')
+      .skip(params.skip)
+      .take(params.take)
+      .where('posts.published = :all', {
+        all: params.all,
+      })
+      .orderBy(params.all ? 'posts.publishedAt' : 'posts.id', 'DESC')
       .getMany();
   }
 

@@ -47,9 +47,6 @@ export class Posts extends BaseMysqlModel {
   })
   slug: string;
 
-  @Exclude({
-    toPlainOnly: true,
-  })
   @ManyToMany(() => Tags, (tag) => tag.posts)
   @JoinTable()
   tags?: Tags[];

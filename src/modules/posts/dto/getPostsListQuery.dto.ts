@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsInt } from 'class-validator';
+import { IsBoolean, IsInt } from 'class-validator';
 
 export class GetPostsListQueryDto {
   @Transform(({ value }) => +value)
@@ -9,4 +9,8 @@ export class GetPostsListQueryDto {
   @Transform(({ value }) => +value)
   @IsInt()
   public take = 10;
+
+  @Transform(({ value }) => value)
+  @IsBoolean()
+  public all = true;
 }

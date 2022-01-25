@@ -41,7 +41,7 @@ async function bootstrap(): Promise<void> {
     preflightContinue: false,
   });
 
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
   app.useGlobalFilters(new TypeormExceptionFilter());
 

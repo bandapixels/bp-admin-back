@@ -32,10 +32,7 @@ export class PostsController {
   public async getPostsList(
     @Query() query: GetPostsListQueryDto,
   ): Promise<Posts[]> {
-    const posts = await this.adminPostService.getAllPosts(
-      query.skip,
-      query.take,
-    );
+    const posts = await this.adminPostService.getAllPosts(query);
 
     return instanceToPlain(posts, {
       groups: ['single'],
@@ -43,7 +40,7 @@ export class PostsController {
   }
 
   @Get('/count')
-  public async getPostsCount(): Promise<any> {
+  public async getPostsCount(): Promise<{ totalCount: number }> {
     return { totalCount: await this.adminPostService.countPosts() };
   }
 
@@ -58,7 +55,7 @@ export class PostsController {
   @Render('post/index.hbs')
   public async getPostContent(
     @Param('slug') slug: string,
-  ): Promise<Record<string, any>> {
+  ): Promise<Record<string, unknown>> {
     const post = instanceToPlain(
       await this.adminPostService.getPostBySlug(slug),
       {
@@ -102,10 +99,10 @@ export class PostsController {
   public async changePublish(
     @Param() params: PublishOrDeletePostDto,
     @Query() query: PublishPostQueryDto,
-  ) {
-    return query.publish.toLowerCase() === 'true'
-      ? this.adminPostService.publishPosh(params.id)
-      : this.adminPostService.unpublishPost(params.id);
+  ): Promise<void> {
+    query.publish.toLowerCase() === 'true'
+      ? await this.adminPostService.publishPosh(params.id)
+      : await this.adminPostService.unpublishPost(params.id);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
