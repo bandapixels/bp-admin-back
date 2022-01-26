@@ -2,9 +2,12 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { Module } from '@nestjs/common';
 
 import { MailService } from './mail.service';
+import { AppConfigModule } from '../config/app.config.module';
+import { MailerConfig } from '../config/models/mailer.config';
 
 @Module({
   imports: [
+    AppConfigModule,
     MailerModule.forRoot({
       transport: {
         service: 'gmail',
@@ -15,7 +18,7 @@ import { MailService } from './mail.service';
       },
     }),
   ],
-  providers: [MailService],
+  providers: [MailService, MailerConfig],
   exports: [MailService],
 })
 export class MailModule {}
