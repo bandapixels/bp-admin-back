@@ -27,7 +27,7 @@ export class MailService {
     return this.mailerService.sendMail({
       to: this.mailerConfig.bandaTestEmail,
       subject: 'Join our team',
-      text: `${body.body} \n Email: ${body.email}`,
+      text: `${body.body} \n\nEmail: ${body.email}`,
       attachments: [
         {
           filename: attachment.originalname,
