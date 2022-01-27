@@ -23,10 +23,14 @@ import { PublishOrDeletePostDto } from './dto/publishOrDeletePost.dto';
 import { PublishPostQueryDto } from './dto/publishPostQuery.dto';
 import { GetPostsListQueryDto } from './dto/getPostsListQuery.dto';
 import { Posts } from './entity/posts.entity';
+import { AppConfig } from '../config/models/app.config';
 
 @Controller('admin/posts')
 export class PostsController {
-  constructor(private readonly adminPostService: PostService) {}
+  constructor(
+    private readonly adminPostService: PostService,
+    private readonly appConfig: AppConfig,
+  ) {}
 
   @Get('/')
   public async getPostsList(
@@ -78,7 +82,9 @@ export class PostsController {
       nextPost = next;
     }
     return {
-      API_URL: process.env.API_URL,
+      API_URL: this.appConfig.apiUrl,
+      CLIENT_URL: this.appConfig.clientUrl,
+      slug: post.slug,
       post,
       nextPost,
       previousPost,
