@@ -42,8 +42,8 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
           cd /home/ubuntu/bp-admin-back &&
           git checkout dev &&
-          git fetch --all &&
-          git reset --hard origin/dev &&
-          git pull origin dev &&
-          npm run start:stage '
+          sudo git fetch --all &&
+          sudo git reset --hard origin/dev &&
+          sudo git pull origin dev &&
+          sudo npm run start:stage '
 
