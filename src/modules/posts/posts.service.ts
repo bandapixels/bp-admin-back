@@ -120,7 +120,17 @@ export default class PostService {
   }
 
   public async updatePost(id: number, updatePost: CreateOrUpdatePostDto) {
-    const slug = await this.generateSlugForPost(updatePost.head);
+    const postToUpdate = await this.adminPostRepository.findOne({
+      where: {
+        id,
+      },
+      select: ['head', 'slug'],
+    });
+
+    const slug =
+      postToUpdate.head === updatePost.head
+        ? postToUpdate.slug
+        : await this.generateSlugForPost(updatePost.head);
 
     const files = await this.filesService.findFiles([
       updatePost.previewImageId,
