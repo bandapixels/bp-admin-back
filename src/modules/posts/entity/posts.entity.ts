@@ -85,7 +85,7 @@ export class Posts extends BaseMysqlModel {
     name: 'url',
   })
   url(): string {
-    return `${process.env.API_URL}/api/admin/posts/content/${this.slug}`;
+    return `${process.env.CLIENT_URL}/blog/${this.slug}`;
   }
 
   private getFileUrl(fileType: 'IMAGE' | 'PREVIEW') {

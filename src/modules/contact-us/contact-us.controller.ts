@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { MailService } from '../mail/mail.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ContactUsDto } from './dto/contactUs.dto';
 
 @Controller('contact')
 export class ContactUsController {
@@ -32,11 +33,9 @@ export class ContactUsController {
   @HttpCode(204)
   @Post('/')
   public async sendContactEmail(
-    @Body() body: any,
+    @Body() body: ContactUsDto,
     @UploadedFile() file?: Express.Multer.File,
   ): Promise<void> {
-    console.log(body);
-
     file
       ? await this.mailService.joinOurTeam(body, file)
       : await this.mailService.contactUs(body);
