@@ -1,46 +1,75 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from 'src/auth/Models/users.module';
-import { UserController } from 'src/auth/Controllers/user.controller';
-import { UserService } from 'src/auth/Service/User/user.service';
-import { User } from 'src/auth/entity/User';
-import * as dotenv from 'dotenv';
-import { Tag } from 'src/admin/tag/entity/admin.tag.entity';
-import AdminTagModule from 'src/admin/tag/admin.tag.module';
-dotenv.config({});
-import AdminPostModule from 'src/admin/post/admin.post.module';
-import { MulterModule } from '@nestjs/platform-express';
-import {APP_GUARD} from "@nestjs/core";
-import {RolesGuard} from "src/auth/guards/roles.guard";
-import {Post} from "src/admin/post/entity/admin.post.entity";
+import { Users } from './modules/users/entity/users.entity';
+import { Tags } from './modules/tags/entity/admin.tags.entity';
+import AdminTagsModule from './modules/tags/admin.tags.module';
+import PostsModule from './modules/posts/posts.module';
+import { Posts } from './modules/posts/entity/posts.entity';
+import { MailModule } from './modules/mail/mail.module';
+import { AppConfigModule } from './modules/config/app.config.module';
+import { ConfigModule } from '@nestjs/config';
+import { DbConfig } from './modules/config/models/db.config';
+import { UsersModule } from './modules/users/users.module';
+import { HurmaModule } from './modules/hurma/hurma.module';
+import { FilesModule } from './modules/files/files.module';
+import { AwsSdkModule } from 'nest-aws-sdk';
+import { S3 } from 'aws-sdk';
+import { AwsConfig } from './modules/config/models/aws.config';
+import { Files } from './modules/files/entity/files.entity';
+import { ContactUsModule } from './modules/contact-us/contact-us.module';
 
 @Module({
   imports: [
-    forwardRef(() => UsersModule),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DATABASE,
-      entities: [User, Tag, Post],
-      synchronize: true,
-    }),
-    AdminTagModule,
-    AdminPostModule,
+    // CONFIG
+    AppConfigModule,
+    ConfigModule.forRoot({ isGlobal: true }),
 
-    MulterModule.register({
-      dest: './uploads',
+    // TYPEORM
+    TypeOrmModule.forRootAsync({
+      imports: [AppConfigModule, PostsModule, AdminTagsModule],
+      inject: [DbConfig],
+      useFactory: async (dbConfig: DbConfig) => {
+        const { database, password, username, port, host } = dbConfig;
+        return {
+          type: 'mysql',
+          host,
+          port,
+          username,
+          password,
+          database,
+          entities: [Users, Tags, Posts, Files],
+          synchronize: false,
+          logging: ['error'],
+        };
+      },
     }),
-  ],
-  controllers: [UserController],
-  providers: [
-    UserService,
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    },
+
+    // AWS
+    AwsSdkModule.forRootAsync({
+      defaultServiceOptions: {
+        imports: [AppConfigModule],
+        inject: [AwsConfig],
+        useFactory: (awsConfig: AwsConfig) => {
+          return {
+            region: awsConfig.s3Region,
+            credentials: {
+              accessKeyId: awsConfig.accessKey,
+              secretAccessKey: awsConfig.secretKey,
+            },
+          };
+        },
+      },
+      services: [S3],
+    }),
+
+    // MODULES
+    AdminTagsModule,
+    PostsModule,
+    UsersModule,
+    MailModule,
+    HurmaModule,
+    FilesModule,
+    ContactUsModule,
   ],
 })
 export class AppModule {}
